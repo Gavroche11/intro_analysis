@@ -12,6 +12,8 @@
 \newtheorem{lem}[thm]{Lemma}
 \newtheorem{prop}[thm]{Proposition}
 \newtheorem{defn}[thm]{Definition}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{obs}[thm]{Observation}
 \newtheorem*{rem}{Remark}
 \newtheorem*{ex}{Example}
 
@@ -36,7 +38,7 @@
 
 원래 다른 사이트에서 올리던 글을, 사정이 생겨 여기서 계속 이어 올리게 되었습니다.
 
-1년 동안 공부한 해석개론의 내용을 [\ref{ref1}]과 [\ref{ref2}]의 내용을 중심으로 복습하는 김에, {\LaTeX} 연습도 좀 하고, (정말 낮은 확률로) 여기에 관심 있는 독자가 존재한다면 재미있는 내용을 전달하기 위해서 쓰는 글입니다. 저도 일개 학부생이니 오류나 오타가 있을 수 있으며, 같은 대상을 지칭하는 영어와 한국어 용어도 혼용하고 있고, 한번에 쓰는 글이 아니므로 서술 방식과 문체도 글 내부에서 상당히 다를 수 있습니다.
+1년 동안 공부한 해석개론의 내용을 [\ref{ref1}]\과 [\ref{ref2}]의 내용을 중심으로 복습하는 김에, {\LaTeX} 연습도 좀 하고, (정말 낮은 확률로) 여기에 관심 있는 독자가 존재한다면 재미있는 내용을 전달하기 위해서 쓰는 글입니다. 저도 일개 학부생이니 오류나 오타가 있을 수 있으며, 같은 대상을 지칭하는 영어와 한국어 용어도 혼용하고 있고, 한번에 쓰는 글이 아니므로 서술 방식과 문체도 글 내부에서 상당히 다를 수 있습니다.
 
 \section{Completeness of \(\RR\)}
 
@@ -179,7 +181,7 @@
 		\(\RR\)이나 \(\QQ\)에 일상적인 의미의 \(>\)를 주면 ordered field가 됩니다.
 	\end{ex}
 
-	\begin{defn}
+	\begin{defn} \label{bdd in R}
 		Ordered field \(F\)의 부분집합 \(S \subseteq F\)가 \textbf{bounded above(위로 유계)}라는 것은 \(\beta \in F\)가 존재하여 [\(x \le \beta\) for all \(x \in S\)]라는 것이다. 이때 \(\beta\)를 \textbf{upper bound(상계) of \(S\)}라고 한다. 부등호 방향을 반대로 하여 \textbf{bounded below(하계)}와 \textbf{lower bound(하계)}도 정의한다. \(S\)가 bounded above and bounde below이면 \(S\)는 \textbf{bounded(유계)}라고 한다.
 	\end{defn}
 	
@@ -246,9 +248,220 @@ Ordered field \(F\)의 bounded above subset \(S \subseteq F\)의 supremum은 항
 
 \newpage
 
-\section{Sequence}
+\section{Sequence} \label{sec sequence}
 
-\section{Euclidean Space}
+\subsection{Metric Space}
+
+수열의 수렴을 이야기하기 위해 거리의 개념을 도입하려고 합니다.
+
+	\begin{defn} \label{metric}
+		집합 \(X\)와 함수 \(d: X \times X \rightarrow \RR\)가 주어졌을 때 임의의 \(x, y, z \in X\)에 대해 다음이 성립하면 \((X, d)\) 또는 간단하게 \(X\)가 \textbf{metric space(거리공간)}라고 하고 \(d\)를 \textbf{metric on \(X\)}라고 한다.
+		\begin{enumerate} [label=(M\arabic*), leftmargin=2\parindent]
+			\item
+			\(d(x, y) = 0\) if and only if \(x = y\).
+			\item
+			\(d(x, y) = d(y, x)\).
+			\item
+			\(d(x, z) \le d(x, y) + d(y, z)\)
+		\end{enumerate}
+	\end{defn}
+
+	\begin{prop}
+		Metric space \(X\)에서 \(d(x, y) \ge 0\) for all \(x, y \in X\).
+	\end{prop}
+	\begin{proof}
+		\(0 = d(x, x) \le d(x, y) + d(y, x) = 2d(x, y)\).
+	\end{proof}
+
+	\begin{ex}
+		\quad
+		\begin{enumerate} [label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(\RR\) 또는 \(\CC\)에서 \(d(x, y) = \abs{x - y}\)로 정의하면 \(d\)는 (M1)-(M3)을 만족하므로 \((\RR, d), (\CC, d)\)는 metric space.
+			\item
+			평면이나 공간에서 우리가 일상적으로 생각하는 `거리'는 (M1)-(M3)을 만족하므로\footnote{} 평면과 공간은 metric space.
+			\item
+			아무 집합 \(X\)에서 \(x, y \in X\)에 대해 \(d(x, y)\)를 \(x = y\)일 때 0, \(x \neq y\)일 때 1로 정의하면 (M1)-(M3)을 만족하므로 \((X, d)\)는 metric space.
+		\end{enumerate}
+	\end{ex}
+
+\subsection{Convergence of a Sequence}
+
+	\begin{defn} \label{converge}
+		집합 \(X\)에 대하여 \(\NN\)(또는 \(\ZZ\))에서 \(X\)로 가는 함수를 \textbf{sequence(수열) in \(X\)}라고 하고 \((x_n)\)과 같이 쓴다.\\
+		\(X\)가 metric space일 때 \(X\) 안의 sequence \((x_n)\)이 \(x \in X\)로 \textbf{converge(수렴)}한다는 것은 임의의 양수 \(\eps > 0\)에 대해 다음을 만족시키는 \(N \in \NN\)이 존재하는 것이다.
+		\begin{gather*}
+			n \ge N \Longrightarrow d(x_n, x) < \eps
+		\end{gather*}
+		이때 \(\lim_{n \rightarrow \infty}x_n = x, \lim_n x_n = x, x_n \rightarrow x\)와 같이 쓴다.
+	\end{defn}
+
+	\begin{prop}
+		Metric space \(X\) 안의 sequence \((x_n)\)이 \(x \in X\)로 수렴하고 \(x' \in X\)로 수렴하면 \(x = x'\).
+	\end{prop}
+	\begin{proof}
+		\(x \neq x'\)라고 가정하면 metric의 정의에 의해 \(d(x, x') > 0\)이다. \(r = d(x, x') / 2\)라고 하자. 극한의 정의에 의해 다음을 만족하는 \(N_1, N_2\)가 존재한다.
+		\begin{gather*}
+			n \ge N_1 \Longrightarrow d(x_n, x) < r\\
+			n \ge N_2 \Longrightarrow d(x_n, x') < r
+		\end{gather*}
+		\(N = \max\{N_1, N_2\}\)라고 하면 \(d(x, x') \le d(x, x_N) + d(x, x_N') < 2r = d(x, x')\)이므로 모순.
+	\end{proof}
+
+	\begin{rem}
+		이 명제는 Section \ref{cpt}의 각주에서 다시 한 번 언급될 것입니다.
+	\end{rem}
+
+	\begin{defn} \label{bdd}
+		Metric space \(X\)의 부분집합 \(S \subseteq X\)가 \textbf{bounded(유계)}라는 것은 어떤 양수 \(M > 0\)이 존재하여 [\(d(x, y) < M\) for all \(x, y \in S\)]라는 것이다.\\
+		Sequence \((x_n)\) in \(X\)가 \textbf{bounded}라는 것은 \(X\)의 부분집합 \(\{x_n\}_{n \in \NN}\)이 bounded라는 것이다.
+	\end{defn}
+	
+	\begin{rem}
+		\(X = \RR\)일 때 Definition \ref{bdd in R}에서의 bounded의 정의와 Definition \ref{bdd}의 정의는 동치입니다(증명 생략).
+	\end{rem}
+
+	\begin{prop} \label{conv bdd}
+		Metric space \(X\) 안의 sequence \((x_n)\)이 수렴하면 \((x_n)\)은 유계이다.
+	\end{prop}
+	\begin{proof}
+		\(x_n \rightarrow x\)라고 하면 극한의 정의에 의해 \(n \ge N \Rightarrow d(x_n, x) < 1\) for some \(N\)이다. 이때 \(\{x_n\}_{n < N}\)은 유한집합이므로 유계이고, \(\{x_n\}_{n \ge N}\)의 아무 점 2개를 잡아도 두 점 사이의 거리는 2보다 작으므로 유계이다. 유계 부분집합 2개의 합집합은 유계이므로 \(\{x_n\}_{n \in \NN}\)도 유계이다.
+	\end{proof}
+
+이제부터 Section \ref{sec sequence}\가 끝날 때까지 metric space \(X\)를 \(d(x, y) = \abs{x - y}\)가 주어진 \(\RR\)로 한정하고 이 안의 실수열만 생각합니다.
+
+다음 성질을 증명하는 것은 연습문제로 남깁니다.
+
+	\begin{prop}
+		실수열 \((x_n\)과 \((y_n)\)이 각각 \(x, y \in \RR\)로 수렴할 때 다음이 성립한다.
+		\begin{enumerate} [label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(x_n + y_n \rightarrow x + y\).
+			\item
+			\(cx_n \rightarrow cx\) for \(c \in \RR\).
+			\item
+			\(x_ny_n \rightarrow xy\).
+			\item
+			\(x_n/y_n \rightarrow x/y\), if \(y_n \neq 0\) for all \(n\) and \(y \neq 0\).
+		\end{enumerate}
+	\end{prop}
+
+\subsection{Monotonic Sequence}
+
+Definition \ref{converge}\를 보면, 어떤 수열 \((x_n)\)의 수렴을 보이기 위해서 \textbf{수렴할 것으로 예상되는 점 \(x\)를 먼저 찾아야} 합니다. 그런데 그 \(x\)를 찾는 것이 쉽지 않을 때가 많습니다. 그래서 우리는 어디로 수렴하는지 모르는 상태에서 수열의 수렴을 판정할 수 있는 많은 방법들을 개발해야 하는데, 단조수열은 그 중 첫 번째입니다.
+
+	\begin{defn}
+		실수열 \((x_n)\)이 \textbf{monotonically increasing=nondecreasing sequence(단조증가수열)}이라는 것은 \(x_n \le x_{n+1}\) for all \(n\)이라는 것이다. 마찬가지 방법으로 \textbf{monotonically decreasing=nonincreasing sequence(단조감소수열)}도 정의한다. Monotonically increasing or monotonically decreasing sequence를 \textbf{monotonic sequence(단조수열)}이라고 한다.
+	\end{defn}
+
+다음은 단조수열이 \(\RR\)에서 수렴할 필요충분조건입니다.
+
+	\begin{thm} [Monotone Convergence Theorem, 단조수렴정리]
+		실수열 \((x_n)\)이 단조수열일 때, \((x_n)\) is convergent if and only if \((x_n)\) is bounded.
+	\end{thm}
+	\begin{proof}
+		($\Rightarrow$) 방향은 Proposition \ref{conv bdd}에 의해 성립하므로 그 역만 보이면 된다. 일반성을 잃지 않고 \((x_n)\)이 유계 단조증가수열이라고 가정하자. 그러면 \(S = \{x_n\}_{n \in \NN}\)은 nonempty bounded above subset of \(\RR\)이므로, \textbf{\(\RR\)의 완비성에 의해} \(S\)의 supremum \(x \in \RR\)가 존재한다. 주장: \(x_n \rightarrow x\).\\
+		임의의 \(\eps > 0\)에 대해 \(x - \eps\)은 \(S\)의 upper bound가 아니므로, \(x_N > x - \eps\)인 \(N\)이 존재한다. \((x_n)\)은 단조증가수열이므로 \(n \ge N\)에 대해 \(x - \eps < x_N \le x_n \le x\). 따라서 \((x_n)\)은 \(x\)로 수렴한다.
+	\end{proof}
+	\begin{rem}
+		\(\RR\)의 완비성의 핵심적인 결과들 중 하나입니다. 이 정리는 complete가 아닌 field, 예를 들면 \(\QQ\)에서 성립하지 않습니다.
+	\end{rem}
+
+\subsection{Upper Limit and Lower Limit} \label{sec limsup}
+
+	\begin{ex}
+		실수열 \((x_n)\)을 다음과 같이 정의합니다.
+		\begin{gather*}
+			x_n = 
+			\begin{cases}
+				\frac{1}{n}, & \text{if } n \text{ is odd}\\
+				-n, & \text{if } n \text{ is even}
+			\end{cases}
+		\end{gather*}
+		\((x_n)\)이 수렴하지 않는 것은 명백합니다. 홀수항만 취해서 보면 이 수열의 `일부분'은 0으로 수렴하는 단조감소수열입니다. 이 0에 어떤 의미를 부여하려고 하는 것이 Section \ref{sec limsup}의 목표입니다.
+	\end{ex}
+
+먼저 표기법 하나.
+
+	\begin{notn}
+		실수열 \((x_n)\)에 대하여, 임의의 \(M > 0\)에 대해 적당한 \(N \in \NN\)이 존재하여 \(n \ge N \Rightarrow x_n > M\)을 만족시키면 \(\lim_n x_n = \infty\)로 쓴다. 마찬가지 방법으로 \(\lim_n x_n = -\infty\)로 쓴다.\\
+		Nonempty \(S \subseteq \RR\)가 위로 유계가 아닐 때 \(\sup S = \infty\), 아래로 유계가 아닐 때 \(\inf S = -\infty\)로 쓴다.\\
+		\(x_n \rightarrow \alpha\) for \(\alpha \in \RR \cup \{\pm \infty\}\)라는 것은 \((x_n)\)이 \(\alpha \in \RR\)로 수렴하거나, \(\lim_n x_n = \infty\) 또는 \(\lim_n x_n = -\infty\)라는 것이다. (즉, 진동하지 않는다는 의미.)
+	\end{notn}
+
+	\begin{obs} \label{obs sup}
+		Nonempty subset \(A, B \subseteq \RR\)에 대하여 \(A \subseteq B\)이면 \(\sup A \le \sup B\)이고 \(\inf A \ge \inf B\). \(\sup\)이나 \(\inf\)의 값이 \(\pm\infty\)인 경우에도 성립한다.
+	\end{obs}
+	\begin{proof}
+		당연하다.
+	\end{proof}
+
+	\begin{defn} \label{def limsup}
+		실수열 \((x_n)\)의 \textbf{upper limit(상극한)}을 다음과 같이 정의하고, 그 값을 \(\limsup_n x_n \in \RR \cup \{\pm \infty\}\)으로 쓴다.
+		\begin{enumerate} [label=(\alph*), leftmargin=2\parindent]
+			\item
+			\((x_n)\)이 위로 유계가 아니면 \(\limsup_n x_n = \infty\)로 정의.
+			\item
+			\((x_n)\)이 위로 유계이면 각 자연수 \(n\)에 대하여 집합 \(S_n = \{x_k\}_{k \ge n}\)을 생각한다. 이때 각 \(S_n\)은 위로 유계이므로 supremum이 유한한 실수로 존재한다. 이 값을 \(y_n\)으로 정의하자. 즉 \(y_n = \sup S_n\). Observation \ref{obs sup}에 의해 \((y_n)\)은 단조감소수열이다. 이때 \(\limsup_n x_n = \lim_n y_n \in \RR \cup \{-\infty\}\)로 정의한다. (\((y_n)\)이 아래로 유계이면 \(\lim_n y_n\)은 유한한 실수이고, 그렇지 않으면 \(-\infty\)이다.)
+		\end{enumerate}
+		마찬가지 방법으로 \textbf{lower limit(하극한)}을 정의하고 그 값을 \(\liminf_n x_n \in \RR \cup \{\pm \infty\}\)으로 쓴다.
+	\end{defn}
+
+도대체 이게 무슨 소리인가? 필자도 이 개념을 이해하는 데 상당히 많은 시간이 걸렸습니다. 다음 정리는 이 정의를 좀 더 구체적으로 설명해 줍니다.
+
+	\begin{thm} \label{thm limsup}
+		실수열 \((x_n)\)과 \(\alpha \in \RR\)에 대하여 \(\limsup_n x_n = \alpha\)일 필요충분조건은 다음 (a), (b)가 성립하는 것이다.
+		\begin{enumerate} [label=(\alph*), leftmargin=2\parindent]
+			\item
+			임의의 \(\eps > 0\)에 대해 적당한 \(N \in \NN\)이 존재하여 \(n \ge N \Rightarrow x_n < \alpha + \eps\).
+			\item
+			임의의 \(\eps > 0\)에 대해 \(x_n > \alpha - \eps\)를 만족하는 \(n\)이 무수히 많이 존재한다.
+		\end{enumerate}
+	\end{thm}
+	\begin{proof}
+		($\Leftarrow$): 먼저 \(\limsup_n x_n = \alpha\)라고 가정하고 \(\eps > 0\)이 주어졌다고 하자. Definition \ref{def limsup}에서와 같이 단조감소수열 \((y_n)\)을 정의하면 \(\lim_n y_n = \alpha\)이므로 \(y_N < \alpha + \eps\)인 \(N\)이 존재한다. 이때 \(n \ge N\)이면 \(x_n \le y_N < \alpha + \eps\)이므로 (a)가 성립한다. 이제 (b)를 부정하여 \(x_n > \alpha + \eps\)을 만족하는 \(n\)이 유한 개만 존재한다고 가정하자. 그러면 충분히 큰 자연수 \(K\)가 존재하여 \(n \ge K \Rightarrow x_n \le \alpha - \eps\), 즉 \(y_K \le \alpha - \eps\)이다. 그런데 \((y_n)\)은 단조감소수열이므로 \(\alpha \le y_K = \alpha - \eps\)이고 따라서 모순이다.\\
+		($\Rightarrow$): 이제 (a)와 (b)를 가정하고 \(\eps > 0\)이 주어졌다고 하자. (a)에 의해 \((x_n)\)은 위로 유계이므로 Definition \ref{def limsup}에서와 같이 \((y_n)\)이 잘 정의되고, \(\lim_n y_n \le \alpha + \eps\)이다. 한편 (b)에 의해, 모든 \(n\)에 대해 [\(x_n > \alpha - \eps\) for some \(m > n\)]이므로 \(y_n \ge \alpha - \eps\)이다. 따라서 \((y_n)\)은 유계 단조수열이므로 수렴하고 \(\alpha- \eps \le \lim_n y_n \le \alpha + \eps\)이다. 그런데 \(\eps > 0\)은 임의의 양수이므로 \(\limsup_n x_n = \lim_n y_n = \alpha\)이다.
+	\end{proof}
+
+하극한에 대해 마찬가지의 정리를 state하고 증명하는 것은 연습문제로 남깁니다.
+
+상극한과 하극한이 유용한 한 가지 이유는 다음 따름정리 때문입니다.
+
+	\begin{cor}
+		실수열 \((x_n)\)과 \(\alpha \in \RR\)에 대하여 \(\lim_n x_n = \alpha\) if and only if \(\limsup_n x_n = \liminf_n x_n = \alpha\).
+	\end{cor}
+	\begin{proof}
+		Theorem \ref{thm limsup}\과 그 하극한 version에 의해 자명.
+	\end{proof}
+
+	\begin{cor}
+		\(n = 0, 1, \ldots\)에서 정의된 실수열 \((s_n)\)에 대하여
+		\begin{gather*}
+			\sigma_n = \frac{1}{n}\sum_{k=0}^{n-1}s_k
+		\end{gather*}
+		로 정의하자. \((s_n)\)이 \(s \in \RR\)로 수렴하면 \((\sigma_n)\)도 \(s\)로 수렴한다.
+	\end{cor}
+	\begin{proof}
+		일반성을 잃지 않고 \(s = 0\)이라고 가정할 수 있다. 양수 \(\eps > 0\)을 고정하고, 다음을 만족시키는 \(N\)을 찾는다.
+		\begin{gather*}
+			n \ge N \Longrightarrow \abs{s_n} < \eps
+		\end{gather*}
+		그러면 \(n > N\)에 대해
+		\begin{align*}
+			\abs{\sigma_n} = \frac{1}{n}\abs{\sum_{k=0}^{n-1}s_k} &\le \frac{1}{n}\abs{\sum_{k=0}^{N}s_k} + \frac{1}{n}\sum_{k=N+1}^{n}\abs{s_k}\\
+			&< \frac{1}{n}\abs{\sum_{k=0}^{N}s_k} + \frac{(n-N)\eps}{n}\\
+			&<  \frac{1}{n}\abs{\sum_{k=0}^{N}s_k} + \eps
+		\end{align*}
+		이다. 이제 양변에 \textbf{상극한}을 취한다. (바로 극한을 못 취하는 이유는 좌변이 수렴하는지를 아직 알지 못하기 때문이다. 상극한은 항상 \(\RR \cup \{\pm \infty\}\) 안에서 존재한다.) \(\abs{\sum_{k=0}^{N}s_k}\)은 \(n\)과 무관한 상수이므로,
+		\begin{gather*}
+			\limsup_n \abs{\sigma_n} \le \limsup_n \left ( \frac{1}{n}\abs{\sum_{k=0}^{N}s_k} + \eps \right )= \lim_n \left ( \frac{1}{n}\abs{\sum_{k=0}^{N}s_k} + \eps \right )= \eps
+		\end{gather*}
+		이다. 따라서 \(0 \le \liminf_n \abs{\sigma_n} \le \limsup_n \abs{\sigma_n} \le \eps\)인데, \(\eps > 0\)은 임의의 양수였으므로 \(\liminf_n \abs{\sigma_n} = \limsup_n \abs{\sigma_n} = 0\)이고 \(\lim_n \abs{\sigma_n} = \lim_n \sigma_n = 0\)이다.
+	\end{proof}
+
+
+
+\section{Euclidean Space (작성 예정)}
 
 \section{Open Set and Closed Set}
 
@@ -256,13 +469,13 @@ Ordered field \(F\)의 bounded above subset \(S \subseteq F\)의 supremum은 항
 
 \section{Series}
 
-\section{Compactness}
+\section{Compactness} \label{cpt}
 
 \section{Connectedness}
 
 \section{Continuity}
 
-
+\section{Differentiation}
 
 
 \begin{thebibliography}{99}
@@ -270,11 +483,6 @@ Ordered field \(F\)의 bounded above subset \(S \subseteq F\)의 supremum은 항
 	\bibitem{Cd94}\label{ref1} 김성기, 김도한, 계승혁. \emph{해석개론}. 서울대학교출판문화원. 2011.
 	\bibitem{Cd94}\label{ref2} W. Rudin. \emph{Principles of Mathematical Analysis}. McGraw-Hill. 1976.
 	\bibitem{Cd94} 이인석. \emph{선형대수와 군}. 서울대학교출판문화원. 2015.
-	\bibitem{Cd94} J. R. Munkres, \emph{Topology}. Prentice Hall. 2000.
-	
-	
-	아래는 이 글의 한 부분에서만 인용한 것.
-	\bibitem{Cd94} \url{https://en.wikipedia.org/wiki/L%27H%C3%B4pital%27s_rule}
 		
 \end{thebibliography}
 \end{document}
