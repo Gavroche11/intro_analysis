@@ -26,6 +26,7 @@
 
 \newcommand{\abs}[1]{\left\vert#1\right\vert}
 \newcommand{\norm}[1]{\left\vert\left\vert#1\right\vert\right\vert}
+\newcommand{\inner}[2]{\langle #1, #2\rangle}
 
 \title{해석개론 이야기}
 \author{포만한 수학하는원태인}
@@ -76,11 +77,11 @@
 		Field \(F\)에 대하여 다음이 성립한다(\(x, y, z \in F\)).
 		\begin{enumerate} [label=(\alph*), leftmargin=2\parindent]
 			\item
-			\(x + y = x + z\)이면 \(y = z\). (\(x, y, z \in F\))
+			\(x + y = x + z\)이면 \(y = z\).
 			\item
 			\(y \in F\)가 [\(x + y = y + x = x\) for \(x \in F\)]를 만족하면 \(y = 0\).\footnote{사실 이것이 없으면 (F3)은 non-sense.}
 			\item
-			\(x + y = y + x = 0\)이면 \(y = -x\). (\(x, y \in F\))
+			\(x + y = y + x = 0\)이면 \(y = -x\).
 			\item
 			For \(x \in F\), \(-(-x) = x\).
 		\end{enumerate}
@@ -250,7 +251,7 @@ Ordered field \(F\)의 bounded above subset \(S \subseteq F\)의 supremum은 항
 
 \section{Sequence} \label{sec sequence}
 
-\subsection{Metric Space}
+\subsection{Metric Space} \label{sec metric space}
 
 수열의 수렴을 이야기하기 위해 거리의 개념을 도입하려고 합니다.
 
@@ -279,7 +280,7 @@ Ordered field \(F\)의 bounded above subset \(S \subseteq F\)의 supremum은 항
 			\item
 			\(\RR\) 또는 \(\CC\)에서 \(d(x, y) = \abs{x - y}\)로 정의하면 \(d\)는 (M1)-(M3)을 만족하므로 \((\RR, d), (\CC, d)\)는 metric space.
 			\item
-			평면이나 공간에서 우리가 일상적으로 생각하는 `거리'는 (M1)-(M3)을 만족하므로\footnote{} 평면과 공간은 metric space.
+			평면이나 공간에서 우리가 일상적으로 생각하는 `거리'는 (M1)-(M3)을 만족하므로\footnote{Definition \ref{def euc space} 참조.} 평면과 공간은 metric space.
 			\item
 			아무 집합 \(X\)에서 \(x, y \in X\)에 대해 \(d(x, y)\)를 \(x = y\)일 때 0, \(x \neq y\)일 때 1로 정의하면 (M1)-(M3)을 만족하므로 \((X, d)\)는 metric space.
 		\end{enumerate}
@@ -296,9 +297,9 @@ Ordered field \(F\)의 bounded above subset \(S \subseteq F\)의 supremum은 항
 		이때 \(\lim_{n \rightarrow \infty}x_n = x, \lim_n x_n = x, x_n \rightarrow x\)와 같이 쓴다.
 	\end{defn}
 
-	\begin{prop}
+	\begin{thm} \label{thm metric limit unq}
 		Metric space \(X\) 안의 sequence \((x_n)\)이 \(x \in X\)로 수렴하고 \(x' \in X\)로 수렴하면 \(x = x'\).
-	\end{prop}
+	\end{thm}
 	\begin{proof}
 		\(x \neq x'\)라고 가정하면 metric의 정의에 의해 \(d(x, x') > 0\)이다. \(r = d(x, x') / 2\)라고 하자. 극한의 정의에 의해 다음을 만족하는 \(N_1, N_2\)가 존재한다.
 		\begin{gather*}
@@ -307,10 +308,6 @@ Ordered field \(F\)의 bounded above subset \(S \subseteq F\)의 supremum은 항
 		\end{gather*}
 		\(N = \max\{N_1, N_2\}\)라고 하면 \(d(x, x') \le d(x, x_N) + d(x, x_N') < 2r = d(x, x')\)이므로 모순.
 	\end{proof}
-
-	\begin{rem}
-		이 명제는 Section \ref{cpt}의 각주에서 다시 한 번 언급될 것입니다.
-	\end{rem}
 
 	\begin{defn} \label{bdd}
 		Metric space \(X\)의 부분집합 \(S \subseteq X\)가 \textbf{bounded(유계)}라는 것은 어떤 양수 \(M > 0\)이 존재하여 [\(d(x, y) < M\) for all \(x, y \in S\)]라는 것이다.\\
@@ -459,23 +456,1309 @@ Definition \ref{converge}\를 보면, 어떤 수열 \((x_n)\)의 수렴을 보�
 		이다. 따라서 \(0 \le \liminf_n \abs{\sigma_n} \le \limsup_n \abs{\sigma_n} \le \eps\)인데, \(\eps > 0\)은 임의의 양수였으므로 \(\liminf_n \abs{\sigma_n} = \limsup_n \abs{\sigma_n} = 0\)이고 \(\lim_n \abs{\sigma_n} = \lim_n \sigma_n = 0\)이다.
 	\end{proof}
 
+\newpage
+
+\section{Euclidean Space} \label{sec euc}
+\subsection{Vector Space}
+
+	\begin{defn}
+		Field \(F\)에 대하여 집합 \(V\)에 덧셈과 \(F\)에 의한 스칼라곱이 정의되어 있을 때, 다음 (V1)-(V8)을 만족하면 \(V\)를 \textbf{\(F\)-vector space}라고 하고 V의 원소를 \textbf{vector}라고 한다.
+		\begin{enumerate}[label=(V\arabic*), leftmargin=2\parindent]
+			\item
+			\((u+v)+w=u+(v+w)\) for \(u, v, w \in V\).
+			\item
+			\(0 \in V\)가 존재하여 [\(v+0=0+v=v\) for \(v \in V\)].
+			\item
+			\(v \in V\)에 대하여 \(-v \in V\)가 존재하여 \(v+(-v)=(-v)+v=0\).
+			\item
+			\(v+w=w+v\) for \(v, w \in V\).
+			\item
+			\(1v = v\) for \(v \in V\).
+			\item
+			\((ab)v = a(bv)\) for \(a, b \in F, v \in V\).
+			\item
+			\((a+b)v=av+bv\) for \(a, b \in F, v \in V\).
+			\item
+			\(a(v+w) = av + aw\) for \(a \in F, v, w \in V\).
+		\end{enumerate}
+	\end{defn}
+
+다음 성질들을 증명하는 것은 연습문제로 남깁니다.
+
+	\begin{prop}
+		\(F\)-vector space \(V\)에 대하여 다음이 성립한다\(u, v, w \in V\).
+		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(u + v = u + w\)이면 \(v = w\).
+			\item
+			\(w \in V\)가 [\(v + w = w + v = v\) for \(v \in V\)]를 만족하면 \(w = 0\).\footnote{사실 이것이 없으면 (V3)은 non-sense.}
+			\item
+			\(v + w = w + v = v\)이면 \(w = -v\).
+			\item
+			For \(v \in V\), \(-(-v) = v\).
+		\end{enumerate}
+	\end{prop}
+
+	\begin{prop}
+		\(F\)-vector space \(V\)에 대하여 다음이 성립한다\(a \in F, v, w \in V\).
+		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(0v = v\).
+			\item
+			\(av = 0\)이면 \(a = 0\) or \(v = 0\).
+			\item
+			\((-1)v = -v\).
+			\item
+			\((-a)v = a(-v) = -(av)\)이고 \((-a)(-v) = av\).
+		\end{enumerate}
+	\end{prop}
+
+당분간 다룰 vector space는 다음의 형태입니다.
+
+	\begin{prop}
+		Field \(F\)에 대하여 집합
+		\begin{gather*}
+			F^n = \{(x_1, \ldots, x_n): x_i \in F, i = 1, \ldots, n\}
+		\end{gather*}
+		에 덧셈과 스칼라곱을 다음과 같이 정의하면 \((c \in F, (x_1, \ldots, x_n), (y_1, \ldots, y_n) \in F^n)\)
+		\begin{gather*}
+			(x_1, \ldots, x_n) + (y_1, \ldots, y_n) = (x_1 + y_1, \ldots, x_n + y_n), \quad c(x_1, \ldots, x_n) = (cx_1, \ldots, cx_n)
+		\end{gather*}
+		\(F^n\)은 \(F\)-vector space이다.
+	\end{prop}
+	\begin{proof}
+		시간이 남으면 한번 해 보자.
+	\end{proof}
 
 
-\section{Euclidean Space (작성 예정)}
+특히 \(F=\RR\)일 때, \(\RR^2\)와 \(\RR^3\)을 각각 \textbf{평면}, \textbf{공간}이라고 불렀습니다. \(\RR^n\) 공간은 우리의 `마음의 고향'이고, 해석개론의 주된 관심사 중 하나입니다. 우리의 목적은, metric space의 구조를 \(\mathbb{R}^n\)에 주는 것입니다.
 
-\section{Open Set and Closed Set}
+\subsection{Inner Product Space}
+고등학교 때 배웠던 \(\mathbb{R}^2\)와 \(\mathbb{R}^3\)에서의 내적을 임의의 \(\RR\)- 또는 \(\CC\)- vector space로 일반화합니다. Section \ref{sec euc}\이 끝날 때까지 아무 말이 없으면 \(V\)는 \(F\)-vector space이고 \(F\)는 \(\RR\) 또는 \(\CC\).
+
+	\begin{defn}
+		함수 \(\inner{\cdot}{\cdot}: V \times V \rightarrow F\)가 모든 \(u, v, w \in V, c \in F\)에 대해 (IP1)-(IP3)를 만족할 때, \(\inner{\cdot}{\cdot}\)를 \textbf{inner product on \(V\)}라고 하고, \((V, \inner{\cdot}{\cdot})\) 또는 간단하게 \(V\)를 \textbf{inner product space}라고 한다.
+		\begin{enumerate}[label=(IP\arabic*), leftmargin=2\parindent]
+			\item
+			\(\inner{\cdot}{\cdot}\)는 첫 번째 성분에 대해 linear.\\
+			즉, \(\inner{u+v}{w} = \inner{u}{w}+ \inner{v}{w}\)이고 \(\inner{cv}{w} = c\inner{v}{w}\).
+			\item
+			\(\inner{v}{w} = \overline{\inner{w}{v}}\)
+			\item
+			\(v \neq 0\)이면 \(\inner{v}{v} \in \mathbb{R}\)이고 \(\inner{v}{v} > 0\).
+		\end{enumerate}
+	\end{defn}
+
+\(F=\RR\)이면, \(\inner{v}{w} = \inner{w}{v}\)이고(symmetric) \(\inner{\cdot}{\cdot}\)는 첫 번째와 두 번째 성분에 대해 각각 linear입니다(bilinear).\footnote {fancy하게 말해서 \(\inner{\cdot}{\cdot}\)는 \textbf{symmetric bilinear form}.}
+
+	\begin{prop}
+		\(x = (x_1, \ldots, x_n), y = (y_1, \ldots, y_n) \in \RR^n\)에 대하여
+		\begin{gather*}
+			\inner{x}{y} = x \cdot y = \sum_{i=1}^n x_i y_i
+		\end{gather*}
+		로 정의하면 \(\inner{\cdot}{\cdot}\)은 inner product이다. 이러한 inner product를 \textbf{dot product} on \(\RR^n\)이라고 한다.
+	\end{prop}
+	\begin{proof}
+		시간이 남으면 한번 해 보자.
+	\end{proof}
+
+	\begin{ex}
+		\(V\)의 inner product는 여러 가지 방법으로 줄 수 있습니다. 예를 들어 \(\RR^2\)에서
+		\begin{gather*}
+			\inner{(x_1, x_2)}{(y_1, y_2)} = 3x_1 y_1 + 2x_2 y_2
+		\end{gather*}
+		로 정의하면 \(\inner{\cdot}{\cdot}\)은 inner product on \(\RR^2\)가 됩니다.
+	\end{ex}
+
+고등학교 때 dot product에 대해 배운 다음 정리는 일반적인 inner product에 대해 성립합니다. 증명은 orthogonality의 개념을 공부한 이후로 미루겠습니다.
+
+	\begin{thm}[Cauchy-Schwarz inequality]
+		Inner product space \(V\)의 원소 \(v, w\)에 대하여 다음 부등식이 성립한다.
+		\begin{gather*}
+			\abs{\inner{v}{w}}^2 \le \inner{v}{v}\inner{w}{w}
+		\end{gather*}
+	\end{thm}
+
+\subsection{Normed Vector Space}
+이제 우리의 목표에 거의 근접했습니다. 다음은 vector space의 원소의 `크기'에 대한 정의입니다.
+
+	\begin{defn}
+		함수 \(\norm{\cdot}: V \rightarrow \mathbb{R}\)가 모든 \(v, w \in V, c \in F\)에 대해 (N1)-(N3)을 만족할 때, \(\norm{\cdot}\)를 \textbf{norm on \(V\)}라고 하고, \((V, \norm{\cdot})\) 또는 \(V\)를 \textbf{normed vector space}라고 한다.
+		\begin{enumerate}[label=(N\arabic*), leftmargin=2\parindent]
+			\item
+			\(\norm{v+w} \le \norm{v}{w}\)
+			\item
+			\(\norm{cv} = \abs{c}\norm{v}\)
+			\item
+			\(\norm{v}=0\)이면 \(v=0\).
+		\end{enumerate}
+	\end{defn}
+	
+	\begin{prop}
+		Normed vector space \(V\)에서 \(\norm{v} \ge 0\) for all \(v \in V\).
+	\end{prop}
+	\begin{proof}
+		\(0 = \norm{v + (-v)} \le \norm{v} + \norm{-v} = 2\norm{v}\).
+	\end{proof}
+
+
+Norm이 주어지면 자동으로 metric이 주어집니다. 왜냐하면, 두 vector 사이의 거리는 두 vector의 차의 norm으로 정의할 수 있기 때문입니다.
+
+	\begin{prop}
+		Normed vector space \(V\)에 대해, \(d:V\times V \rightarrow \mathbb{R}\)을 \(d(v, w)=\norm{v-w}\)로 정의하면 \(d\)는 metric. 즉, normed vector space에 자연스러운 방식으로 metric을 정의할 수 있다.
+	\end{prop}
+	\begin{proof}
+		(M1)-(M3) 모두 norm의 정의로부터 당연하다.
+	\end{proof}
+
+한편 inner product가 주어지면 자동으로 norm이 주어지는데, 이는 우리가 dot product로부터 vector의 길이를 정의하던 방법을 일반화한 것입니다.
+
+	\begin{prop}
+		Inner product space \(V\)에 대해, \(\norm{\cdot}: V \rightarrow \mathbb{R}\)을 \(\norm{v} = \sqrt{\inner{v}{v}}\)로 정의하면 \(\norm{\cdot}\)는 norm. 즉, inner product space에 자연스러운 방식으로 norm을 정의할 수 있다.
+	\end{prop}
+
+	\begin{proof}
+		(N2)와 (N3)은 당연하다. (N1)은 복소수의 성질과 Cauchy-Schwarz inequality를 이용.
+		\begin{align*}
+			\norm{v+w}^2 = \inner{v+w}{v+w} &= \inner{v}{v} + \inner{v}{w} + \inner{w}{v} + \inner{w}{w}\\
+			&= \norm{v}^2 + \norm{w}^2 + \inner{v}{w} + \overline{\inner{v}{w}}\\
+			&= \norm{v}^2 + \norm{w}^2 + 2\mathrm{Re}(\inner{v}{w})\\
+			&\le \norm{v}^2 + \norm{w}^2 + 2\abs{\inner{v}{w}}\\
+			&\le \norm{v}^2 + \norm{w}^2 + 2\norm{v}\norm{w}\\
+			&= (\norm{v} + \norm{w})^2
+		\end{align*}
+		(\(\mathrm{Re}(z)\)는 \(z \in \CC\)의 real part. Imaginary part는 \(\mathrm{Im}(z)\).)
+	\end{proof}
+
+	\begin{ex}
+		Inner product으로부터 유도되지 않는 norm을 정의할 수 있습니다. 예를 들어 \(\RR^n\)에서
+		\begin{align*}
+			&\norm{(x_1, \ldots, x_n)}_p = \left(\abs{x_1}^p + \ldots + \abs{x_n}^p\right)^{1/p} \quad (p > 1, p \neq 2)\\
+			&\norm{(x_1, \ldots, x_n)}_\infty = \max \{\abs{x_1}, \ldots, \abs{x_n}\}
+		\end{align*}
+		으로 정의하면 \(\norm{\cdot}_p, \norm{\cdot}_\infty\)는 각각 norm on \(\RR^n\)이지만 \(\norm{v}_p = \sqrt{\inner{v}{v}}\) for \(v \in \RR^n\)이거나 \(\norm{v}_\infty = \sqrt{\inner{v}{v}}\) for \(v \in \RR^n\)인 inner product \(\inner{\cdot}{\cdot}\)이 존재하지 않습니다.
+	\end{ex}
+
+
+	\begin{prop}[Parallelogram law]
+		Normed vector space \(V\)에 대해 다음은 동치.
+		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+			\item
+			Inner product \(\inner{\cdot}{\cdot}\) on V가 존재하여 \(\norm{v} = \sqrt{\inner{v}{v}}\) for \(v \in V\).
+			\item
+			\(\norm{v+w}^2 + \norm{v-w}^2 = 2\norm{v}^2 + 2\norm{w}^2 \quad (v, w \in V)\).
+		\end{enumerate}
+	\end{prop}
+
+	\begin{proof}
+		(a)\(\Rightarrow\)(b)는 당연하다. (b)\(\Rightarrow\)(a)를 보이기 위해,
+		\begin{gather*}
+			\inner{v}{w} = \frac{1}{4}(\norm{v+w}^2 - \norm{v-w}^2)
+		\end{gather*}
+		로 정의하고, 이것이 우리가 원하는 inner product임을 보이면 된다.
+	\end{proof}
+
+따라서 다음과 같이 생각할 수 있겠습니다. (각 화살표의 역은 성립하지 않습니다.)
+
+	\begin{center}
+		Inner Product Space \(\Rightarrow\) Normed Vector Space \(\Rightarrow\) Metric Space
+	\end{center}
+
+이제 마지막으로, 앞으로 우리가 여러 가지 재밌는 일들을 벌일 Euclidean space를 소개하는 것으로 이 Section을 마무리하겠습니다.
+
+	\begin{defn} \label{def euc space}
+		Dot product가 주어진 inner product space \(\RR^n\)을 \textbf{Euclidean space}라고 한다. 따라서 Euclidean space는 normed vector space이고 metric space이며, Euclidean space의 dot product에 의해 유도되는 자연스러운 norm을 \textbf{Euclidean norm}이라고 한다.
+	\end{defn}
+
+
+\section{Open Set and Closed Set} 
+
+\subsection{Metric Space Case} \label{sec metric open}
+
+
+이제 \(\mathbb{R}\)에서 열린구간과 닫힌구간의 개념을 metric space로 확장하려 합니다. 
+
+	\begin{defn} \label{def metric top}
+		Metric space \(X\)와 \(p \in X, E \subseteq X\)에 대하여,
+		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+			\item
+			양수 \(r\)에 대하여 집합 \(N_r (p) = \{q \in X : d(p, q) < r\}\)를 \textbf{\(r\)-neighborhood(근방) of \(p\)}라고 한다. \(r\)은 \textbf{radius of \(N_r (p)\)}.
+			\item
+			\(E\)가 \textbf{open in \(X\)(\(X\)의 열린집합)}라는 것은 각 \(p \in E\)에 대해 적당한 양수 \(r_p > 0\)이 존재하여 다음을 만족하는 것이다.
+			\begin{gather*}
+				E = \bigcup_{p \in E} N_{r_p}(p)
+			\end{gather*}
+			\item
+			\(p\)를 포함하는 open set of \(X\)를 \textbf{(open) neighborhood of \(p\)}라고 한다.
+			\item
+			\(E\)가 \textbf{closed in \(X\)(\(X\)의 닫힌집합)}라는 것은 \(X \backslash E\)가 open in \(X\)라는 것이다.
+		\end{enumerate}
+		
+	\end{defn}
+
+Section \ref{sec metric open}\이 끝날 때까지 \(X\)는 metric space.
+
+다음은 open set의 (더 유용한) 새로운 정의입니다.
+
+	\begin{defn}
+		\(p \in X, E \subseteq X\)에 대하여, \(p\)가 \textbf{interior point(내점) of \(E\)}라는 것은 적당한 양수 \(r > 0\)이 존재하여 \(N_r (p) \subseteq E\)인 것이다. \(E\)의 모든 interior point들의 집합을 \textbf{interior(내부) of \(E\)}라고 하고 \(\text{int}E\)로 쓴다.
+	\end{defn}
+
+	\begin{thm}
+		\(U \subseteq X\) is open if and only if \(\text{int}U = U\).
+	\end{thm}
+	\begin{proof}
+		\(U \subseteq X\)가 open이라고 가정하면 각 \(p \in U\)에 대해 \(r_p > 0\)가 존재하여 \(U = \bigcup_{p \in U} N_{r_p}(p)\)이다. 따라서 \(N_{r_p}(p) \in U\)이므로 \(p \in \text{int}U\)이고 \(\text{int}U \subseteq U\). 이 증명을 반대로 읽으면 역이 증명된다.
+	\end{proof}
+
+	\begin{prop}
+		\(N_r (p)\)는 open in \(X\).
+	\end{prop}
+	\begin{proof}
+		\(q \in N_r (p)\)를 택하고, \(r'=d(p, q) < r\)이라고 하면 \(N_{r - r'} (q) \subseteq N_r (p)\)이므로(왜 그런가?) \(N_r (p)\)는 open.
+	\end{proof}
+
+	\begin{prop} \label{prop metric haus}
+		\(X\)의 서로 다른 두 원소 \(p, q\)에 대하여, \(p, q\) 각각의 적당한 neighborhood \(U, V\)가 존재하여 \(U \cap V = \emptyset\)이다.
+	\end{prop}
+	
+	\begin{proof}
+		Metric의 정의에 의해 \(d(p, q) > 0\)이다. \(r = d(p, q) / 2\)로 놓고, \(U = N_r (p), V = N_r(q)\)로 놓으면 triangular inequality에 의해 \(U \cap V = \emptyset\).
+	\end{proof}
+
+	\begin{prop} \label{prop metric open ax}
+		\(X\)에서 다음이 성립한다.
+		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(\emptyset\)과 \(X\)는 open in \(X\).
+			\item
+			\(X\)의 open set들의 union(무한 개 포함)은 open in \(X\).
+			\item
+			\(X\)의 open set들의 \textbf{finite} intersection은 open in \(X\).
+			\item
+			\(\emptyset\)과 \(X\)는 closed in \(X\).
+			\item
+			\(X\)의 closed set들의 intersection(무한 개 포함)은 closed in \(X\).
+			\item
+			\(X\)의 closed set들의 \textbf{finite} union은 closed in \(X\).
+		\end{enumerate}
+	\end{prop}
+
+	\begin{proof}
+		(a)는 당연. (b)를 보이기 위해, \(\{U_i\}_{i \in I}\)가 \(X\)의 open set들의 모임이라고 하고 \(p \in \cup_{i\in I} U_i\)를 택한다. 그러면 어떤 \(i \in I\)에 대하여 \(p \in U_i\)이고 open set의 정의에 의해 \(\exists\) neighborhood \(N\) of \(p \in X\) s.t. \(N \subseteq U_i\). 그러면 \(N \subseteq \cup_{i\in I} U_i\)이므로 \(\cup_{i\in I} U_i\)는 open. (c)를 보이기 위해, \(U_1, ..., U_n\)이 \(X\)의 open set이라고 하고 \(p \in \cap_{i=1}^n U_i\)라고 하자. 그러면 각 \(i=1, ..., n\)에 대해 양수 \(r_i\)가 존재하여 \(N_{r_i} (p) \subseteq U_i\)이다. \(r = \mathrm{max}\{r_1, ..., r_n\}>0\)으로 놓으면 \(N_r (p) \subseteq \cap_{i=1}^n U_i\)이므로 \(\cap_{i=1}^n U_i\)는 open. (d)-(f)는 closed set의 정의와 (a)-(c)에 의해 성립.
+	\end{proof}
+
+	\begin{rem}
+		(c)와 (f)에서 finite 조건은 필수적입니다. 예를 들어 각 \(n=1, 2, ...\)에 대해 \(U_n = (-1, 1/n)\)으로 정의하면 \(\cap_{n \in \NN} U_n = (-1, 0]\)으로 open in \(\mathbb{R}\)이 아닙니다. 또 \(F_n = [-1, 1-1/n]\)으로 정의하면 \(\cup_{n \in \NN} F_n = [-1, 1)\)로 closed in \(\mathbb{R}\)이 아닙니다.
+	\end{rem}
+
+
+어떤 집합이 closed인지 정의에 의해 확인하려면 그 집합의 여집합이 open인지를 확인해야 하는데, 이는 불편할 때가 많습니다. 그래서 \(X\)의 부분집합의 closedness를 결정하는 특징을 알아보려고 합니다. \(\RR\)의 닫힌구간 \(I\) 안의 수렴하는 수열은 그 극한이 \(I\) 안에 존재한다는 점에 주목합시다.
+
+	\begin{defn}
+		\(E \subseteq X, p \in X\)에 대하여,
+		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(p\)가 \textbf{limit point(극한점) of \(E\)}라는 것은, 임의의 양수 \(\eps > 0\)에 대하여 \((N_\eps (p) \backslash \{p\}) \cap E \neq \emptyset\)이라는 것이다. \(E\)의 모든 limit point들의 집합을 \textbf{derive set of \(E\)}라고 하고 \(E'\)로 쓴다.
+			\item
+			\(p\)가 \textbf{isolated point(고립점) of \(E\)}라는 것은 \(p \in E \backslash E'\)라는 것이다.
+			\item
+			집합 \(\overline{E} = E \cup E'\)를 \textbf{closure(폐포) of \(E\)}라고 한다.
+			\item
+			\(E\)가 \textbf{dense(조밀) in \(X\)}하다는 것은 \(\overline{E} = X\)라는 것이다.
+		\end{enumerate}
+	\end{defn}
+
+	\begin{prop}
+		\(E \subseteq X, p \in X\)에 대하여,
+		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(p\)가 isolated point of \(E\)일 필요충분조건은 다음을 만족하는 \(\eps > 0\)이 존재하는 것이다.
+			\begin{gather*}
+				N_\eps(p) \cap E = \{p\}
+			\end{gather*}
+			\item
+			\(p \in \overline{E}\)일 필요충분조건은 임의의 양수 \(\eps > 0\)에 대해 다음이 성립하는 것이다.
+			\begin{gather*}
+				N_\eps (p) \cap E \neq \emptyset
+			\end{gather*}
+		\end{enumerate}
+	\end{prop}
+	\begin{proof}
+		정의에 의해 당연.
+	\end{proof}
+
+	\begin{prop}
+		\(p \in X\)가 \(E \subseteq X\)의 limit point이면 임의의 \(\eps > 0\)에 대해 \(N_\eps (p) \cap E\)는 infinite.
+	\end{prop}
+	\begin{proof}
+		\(N_\eps (p) \cap E\)가 finite이라고 가정하고 모순을 보이면 된다.
+	\end{proof}
+
+	\begin{ex}
+		대표적인 예시들입니다.
+		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(X\)의 유한 부분집합의 limit point는 존재하지 않습니다. 즉 유한 부분집합은 모든 원소가 isolated point.
+			\item
+			\begin{gather*}
+				S = \{\frac{1}{n} \in \RR\}_{n \in \NN}
+			\end{gather*}
+			로 정의하면, \(S'=\{0\}\).
+			\item
+			\(\QQ' = \RR\). 따라서 \(\overline{\QQ} = \RR\)이므로 \(\QQ\)는 dense in \(\RR\).
+		\end{enumerate}
+	\end{ex}
+
+Limit point와 관련된 개념들과 sequence는 밀접한 관련이 있습니다.
+
+	\begin{prop} \label{prop limpt seq}
+		\(E \subseteq X, p \in X\)에 대하여 다음이 성립한다.
+		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(p \in E'\) if and only if there exists a sequence in \(E \backslash \{p\}\) converging to p.
+			\item
+			\(p \in \overline{E}\) if and only if there exists a sequence in \(E\) converging to p.
+		\end{enumerate}
+	\end{prop}
+
+	\begin{proof}
+		(a): 먼저 임의의 \(p \in E'\)에 대해, 각 \(n = 1, 2, ...\)에 대해 \((N_{1/n} (p) \backslash {p}) \cap E \neq \emptyset\)이므로 \(d(x_n, p) < 1/n\)인 \(x_n \in E \backslash \{p\}\)가 존재한다. 이제 \((x_n)\)이 \(p\)로 수렴함은 쉽게 알 수 있다. 역으로 \(p\)로 수렴하는 \(E \backslash \{p\}\) 안의 sequence \((x_n)\)을 생각하면, 임의의 양수 \(\eps > 0\)에 대해 \(x_N \in (N_\eps (p) \backslash {p}) \cap E\) for some \(N\)이므로 \(p \in E'\).\\
+		(b): \(p \in \overline{E}\)이면 \(p \in E\)이거나 \(p \in E'\)이다. 첫 번째 경우는 \(E\) 안에서 모든 항이 \(p\)인 sequence를 잡으면 되고, 두 번째 경우는 (a)에 의해서 성립. 역으로 \(p\)로 수렴하는 \(E\) 안의 sequence \((x_n)\)을 생각하면, 임의의 양수 \(\eps > 0\)에 대해 \(x_N \in N_\eps (p) \cap E\) for some \(N\)이므로 \(p \in \overline{E}\).
+	\end{proof}
+
+이제 closed set의 필요충분조건을 소개할 준비가 되었습니다.
+
+	\begin{thm}
+		\(F \subseteq X\)에 대하여 다음은 동치.
+		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(F\) is closed in \(X\).
+			\item
+			\(F' \subseteq F\).
+			\item
+			\(\overline{F} = F\).
+			\item
+			If a sequence \((x_n)\) in \(F\) converges to some \(p \in X\), then \(p \in F\).
+		\end{enumerate}
+	\end{thm}
+
+	\begin{proof}
+		(a)\(\Leftrightarrow\)(b):
+		\begin{align*}
+			F \text{ is closed in } X & \Leftrightarrow X \backslash F \text{ is open in } X\\
+			& \Leftrightarrow \forall x \in X \backslash F, \: \exists \epsilon > 0 \text{ s.t. } N_\epsilon (x) \subseteq X \backslash F\\
+			& \Leftrightarrow \forall x \in X \backslash F, \: x \notin F'\\
+			& \Leftrightarrow F' \subseteq F
+		\end{align*}
+		(b)\(\Leftrightarrow\)(c): \(\overline{F}\)의 정의에 의해.\\
+		(c)\(\Leftrightarrow\)(d): Proposition \ref{prop limpt seq}.
+	\end{proof}
+
+	\begin{thm}
+		\(E \subseteq X\)에 대하여 \(E'\)와 \(\overline{E}\)는 closed in \(X\). 또 \(E \subseteq F \subseteq X\)이고 \(F\)가 closed in \(X\)이면 \(\overline{E} \subseteq F\). 즉, \(\overline{E}\)는 \(E\)를 포함하는 가장 작은 closed set.
+	\end{thm}
+
+	\begin{proof}
+		\(E'\)가 closed in \(X\)임을 보이기 위해 \((E')' \subseteq E'\)임을 보이면 된다. \(E' = \emptyset\)이면 당연하므로 \(E' \neq \emptyset\)라 가정하자. 임의의 \(x \in (E')', \eps > 0\)에 대해 \(d(x, y) < \eps\)인 \(y \in E'\)가 존재한다. \(\eps' = \min\{d(x, y), \eps - d(x, y)\} > 0\)으로 두면, \(0 < d(y, z) < \eps'\)을 만족하는 \(z \in E\)가 존재한다. 이제
+		\begin{gather*}
+			0 < \abs{d(x, y) - d(y, z)} \le  d(x, z) \le d(x, y) + d(y, z) \le d(x, y) + (\eps - d(x, y)) = \eps
+		\end{gather*}
+		이므로 \(x \in E'\).\\
+		한편 \(x \in X \backslash \overline{E}\)일 필요충분조건은 다음을 만족하는 \(\eps > 0\)이 존재하는 것이다.
+		\begin{gather*}
+			N_\eps (x) \cap E = \emptyset
+		\end{gather*}
+		따라서 \(N_\eps (x)\)는 \(E\)의 점을 포함하지 않는다. 또 \(N_\eps (x)\)가 \(E'\)의 점도 포함하지 않음을 알 수 있다(왜 그런가?). 따라서 \( N_\eps (x) \in X \backslash \overline{E}\) 이므로 \(X \backslash \overline{E}\)는 open.\\
+		Derive set의 정의에 의해 \(E \subseteq F\)이면 \(E' \subseteq F'\)이다. 그런데 \(F' \subseteq F\)이므로 \(E' \subseteq F\)이고 따라서 \(\overline{E} \subseteq F\).
+	\end{proof}
+
+전체 집합을 무엇으로 생각하는지에 따라 open과 closed 여부가 달라질 수 있습니다. 특히 \(X\)의 부분집합 안에서 open과 closed를 생각하는 것이 편리할 때가 많습니다.
+
+	\begin{defn}
+		\(E \subseteq Y \subseteq X\)일 때, \(E\)가 \textbf{open in \(Y\)}라는 것은 어떤 open set \(U\) of \(X\)가 존재하여 \(E = U \cap Y\)인 것이다. \textbf{closed in \(Y\)}도 마찬가지로 정의한다.
+	\end{defn}
+
+\subsection{Topological Space Case} \label{sec top}
+
+이 부분을 쓸지 말지 굉장히 고민했는데, 계속해서 관련된 내용이 나와서 모든 것을 밝히고 가는 것이 좋겠다고 생각했습니다. 이 글 전체에서 이 이상의 추상화는 없을 것입니다.
+
+	\begin{defn}
+		집합 \(X\)의 부분집합들의 collection \(\mathcal{T}\)가 다음 조건을 만족하면 \(\mathcal{T}\)는 \textbf{topology(위상) of \(X\)}라고 하고, \((X, \mathcal{T})\) 또는 간단하게 \(X\)를 \textbf{topological space(위상공간)}라고 한다.
+		\begin{enumerate}[label=(TP\arabic*), leftmargin=2\parindent]
+			\item
+			\(\emptyset \in \mathcal{T}, X \in \mathcal{T}\)
+			\item
+			\(\mathcal{T}\)의 원소들의 union(무한 개 포함)은 \(\mathcal{T}\)의 원소이다.
+			\item
+			\(\mathcal{T}\)의 원소들의 finite intersection은 \(\mathcal{T}\)의 원소이다.
+		\end{enumerate}
+		이때 각 \(U \in \mathcal{T}\)에 대해 \(U\) \textbf{open set of \(X\)}이라고 하고, \(p\)를 포함하는 open set of \(X\)를 \textbf{(open) neighborhood of \(X\)}라고 한다. \(U \in \mathcal{T}\)에 대해 \(X \backslash U\)를 \textbf{closed set of \(X\)}라고 한다.
+	\end{defn}
+
+	\begin{thm}
+		Metric space \(X\)에서 Definition \ref{def metric top}\과 같이 정의된 모든 open set들의 collection을 \(\mathcal{T}\)라고 하면 \(\mathcal{T}\) is a topology of \(X\). 즉 metric space에 자연스럽게 topological space의 구조를 줄 수 있다.
+	\end{thm}
+	\begin{proof}
+		Proposition \ref{prop metric open ax}의 실체는 바로 이 정리였다.
+	\end{proof}
+
+Section \ref{sec top}\이 끝날 때까지 \(X\)는 아무 말이 없으면 topological space.
+
+Topological space에서 limit point와 convergence의 개념을 정의할 수 있습니다.
+
+	\begin{defn}
+		\(E \subseteq X, p \in X\)에 대하여,
+		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(p\)가 \textbf{limit point(극한점) of \(E\)}라는 것은, 임의의 open neighborhood \(U\) of \(p\)에 대하여 \((U \backslash \{p\}) \cap E \neq \emptyset\)이라는 것이다. \(E\)의 모든 limit point들의 집합을 \textbf{derive set of \(E\)}라고 하고 \(E'\)로 쓴다.
+			\item
+			\(p\)가 \textbf{isolated point(고립점) of \(E\)}라는 것은 \(p \in E \backslash E'\)라는 것이다.
+			\item
+			집합 \(\overline{E} = E \cup E'\)를 \textbf{closure(폐포) of \(E\)}라고 한다.
+			\item
+			\(E\)가 \textbf{dense(조밀) in \(X\)}하다는 것은 \(\overline{E} = X\)라는 것이다.
+		\end{enumerate}
+	\end{defn}
+
+	\begin{defn}
+		Sequence \((x_n)\)이 \(x \in X\)로 수렴한다는 것은 임의의 open neighborhood \(U\) of \(x\)에 대해 \(N \in \NN\)이 존재하여 \(n \ge N \Longrightarrow x_n \in U\)라는 것이다.
+	\end{defn}
+
+	\begin{prop}
+		Metric space에서 정의된 limit point, isolated point, closure, denseness, convergence의 정의는 위 정의의 특수한 경우이다.
+	\end{prop}
+	\begin{proof}
+		연습문제로 남김.
+	\end{proof}
+
+우리는 지금 수준에서는 다음 성질을 만족하는 topological space에 관심이 있습니다.
+
+	\begin{defn}
+		\(X\)가 \textbf{Hausdorff}라는 것은, \(X\)의 서로 다른 두 원소 \(p, q\)에 대하여 \(p, q\) 각각의 적당한 neighborhood \(U, V\)가 존재하여 \(U \cap V = \emptyset\)를 만족하는 것이다.
+	\end{defn}
+
+	\begin{thm}
+		Metric space is Hausdorff.
+	\end{thm}
+	\begin{proof}
+		Proposition \ref{prop metric haus}에 의해.
+	\end{proof}
+	
+	\begin{thm}
+		Hausdorff space \(X\) 안의 sequence \((x_n)\)이 \(x \in X\)로 수렴하고 \(x' \in X\)로 수렴하면 \(x = x'\).
+	\end{thm}
+	\begin{proof}
+		\(x, x'\)의 disjoint한 각각의 open neighborhood \(U, V\)를 찾고\ldots 그 이후는 Theorem \ref{thm metric limit unq}의 증명과 거의 같다. 
+	\end{proof}
+
+Hausdorff space는 Section \ref{sec cpt}의 compactness에서 한번 더 언급될 것입니다.
+
+\newpage
 
 \section{Completeness of Euclidean Spaces}
+\subsection{Bolzano-Weierstrass Theorem}
 
-\section{Series}
+앞 Section에서 limit point의 개념을 정의하였는데, \(X\)의 유한 부분집합은 limit point를 가지지 않음을 알고 있습니다.이제 \(X=\RR^n\)인 경우로 한정하여, 그렇다면 \(\RR^n\)의 무한집합 중 어떤 집합이 limit point를 가질지에 대해 논의하려고 하는데, 결론은 `\(\RR^n\)의 bounded infinite subset은 limit point를 가진다'라는 것입니다.
 
-\section{Compactness} \label{cpt}
+\(\RR^n\)에 대해 이야기하기 전에 먼저 \(\RR\)의 중요한 성질 중 하나를 언급하겠습니다. 이는 \(\RR\)의 단조수렴정리에 의해 obvious합니다.
 
-\section{Connectedness}
+	\begin{thm}[Nested Intervals Theorem: 축소구간정리]
+		각 \(n \in \NN\)에 대하여 \(I_n = [a_n, b_n] \subset \RR\)이 유계닫힌구간이고 \(I_{n+1} \subseteq I_n\)이라고 하자. 즉, \(a_n \le a_{n+1}, b_n \ge b_{n+1}\). (이러한 \((I_n)\)을 \textbf{nested interval}이라고 한다.) 그러면 \(\cap_n I_n\)은 nonempty.
+	\end{thm}
+	\begin{proof}
+		실수열 \((a_n)\)을 생각하자. 각 \(n \in \mathbb{N}\)에 대해 \(a_n \le b_1\)이므로 \((a_n)\)은 유계이고, 가정에 의해 \(a_n\)은 단조증가수열이다. 따라서 단조수렴정리에 의해 \((a_n)\)은 어떤 \(\alpha \in \RR\)로 수렴한다. 주장: \(\alpha \in \cap_n I_n\)\\
+		이를 보이기 위하여 for all \(n \in \NN\), \(\alpha \le b_n\)임을 보이면 된다. 어떤 \(N\)에 대하여 \(\alpha > b_N\)이라고 가정하자. 그런데 for all \(n \in \NN\), \(a_n \le b_N\)이므로 \(\alpha \le b_N\)이다. 따라서 모순이고, \(\alpha \le b_n\) for all \(n \in \NN\)이다.
+	\end{proof}
+
+	\begin{rem}
+		\(I_n\)이 닫힌구간인 것이 중요합니다. \(I_n = (0, \frac{1}{n})\)이면 \(\cap_n I_n = \emptyset \).
+	\end{rem}
+
+\(\RR\)에서의 축소구간정리를 \(\RR^N\)\footnote{\(n\)이 아니라 \(N\)을 쓰는 이유는 sequence에 \(n\)을 쓰기 위해서.}으로 자연스럽게 확장할 수 있습니다. \(k = 1, ..., N\)에 대하여 \(I^k \subset \RR\)가 유계닫힌구간일 때, \(B = I^1 \times ... \times I^N \subset \RR^N\)을 \textbf{\(N\)-cell}이라고 합니다. 평면에서는 직사각형, 공간에서는 직육면체의 개념을 일반화한 것입니다.
+
+	\begin{cor} \label{cor Ncell}
+		\(k = 1, ..., N, n \in \NN\)에 대하여 \(I_n^k \subset \RR\)가 유계닫힌구간, \(B_n = I_n^1 \times ... \times I_n^N \subset \RR^N\)이라고 하자. 각 \(n \in \NN\)에 대하여 \(B_{n+1} \subseteq B_n\)이면 \(\cap_n B_n\)은 nonempty.
+	\end{cor}
+	\begin{proof}
+		\(B_{n+1} \subseteq B_n\)이므로 각 \(k = 1, ..., N\)에 대하여 \(I_{n+1}^k \subseteq I_n^k\)이다. 따라서 축소구간정리에 의해 \(\exists \alpha^k \in \cap_n I_n^k\). 이제 \((\alpha^1, ..., \alpha^N) \in \cap_n B_n\)임은 당연하다.
+	\end{proof}
+
+이제 Bolzano-Weierstrass Theorem을 증명할 준비가 되었습니다.
+
+	\begin{thm}[Bolzano-Weierstrass Theorem]
+		\(A \subset \RR^N\)가 bounded and infinite이면 \(A\)는 limit point를 가진다.
+	\end{thm}
+	\begin{proof}
+		\(A\)가 유계이므로 \(A\)를 포함하는 \(N\)-cell \(B_1\)을 잡을 수 있다. 이제 각 \(n \in \NN\)에 대하여 \(N\)-cell \(B_n\)을 다음 성질을 만족하도록 귀납적으로 정의하려고 한다.
+		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(B_{n+1} \subseteq B_n\)
+			\item
+			\(B_n \cap A\) is infinite.
+		\end{enumerate}
+		위 조건을 만족하는 \(B_1, ..., B_m\)이 주어졌다고 하자. \(B_m = I_m^1 \times ... \times I_m^N\)로 쓰고, 각 \(I_m^k\)를 이등분한다. 그러면 \(2^N\)개의 \(B_m\)의 sub-\(N\)-cell을 얻는데, 이중 적어도 1개는 \(A\)의 점을 무수히 많이 포함하고 있다(왜 그런가?). 따라서 이 \(N\)-cell을 \(B_{m+1}\)으로 정의하면 된다.\\
+		이제 Corollary \ref{cor Ncell}에 의해 \(\exists x \in \cap_n B_n\)이다. 주장: \(x\) is a limit point of \(A\).
+		\(B_n\)의 \textbf{diameter}를 \(\mathrm{diam}B_n = \sup \{\norm{x-y}: x, y \in B_n\}\)으로 정의하면, \(\lim_n \mathrm{diam}B_n = 0\)인 것은 쉽게 알 수 있다. 따라서 임의의 양수 \(\eps > 0\)에 대해 \(\mathrm{diam}B_n < \eps / 2\)인 \(n\)이 존재한다. 이제 for all \(y \in B_n\), \(\norm{x-y} \le \eps / 2 < \eps\)이므로 \(B_n \subseteq N_\eps (x)\)이다. 그런데 \(B_n\)이 \(A\)의 점을 무한히 많이 포함하고 있으므로, \(N_\eps (x)\)도 마찬가지이다. 따라서 \(x\)는 limit point of \(A\).
+	\end{proof}
+
+Bolzano-Weierstrass Theorem의 direct result를 설명하기 위해 다음 정의가 필요합니다.
+
+	\begin{defn}
+		함수 \(n: \NN \rightarrow \NN\)이 각 \(k \in \NN\)에 대해 \(n(k) < n(k+1)\)을 만족한다고 하자. Sequence \(n \mapsto x_n\)에 대하여 \(k \mapsto x_{n(k)}\)를 \textbf{subsequence(부분수열) of \((x_n)\)}이라고 한다.
+	\end{defn}
+
+예를 들어 \(x_n = 2n\)으로 정의된 실수열 \((x_n)\)와 \(n(k) = 2k\)에 대하여 \(x_{n(k)} = 4k\)는 \((x_n)\)의 subsequence입니다.
+
+Limit point와 convergent sequence는 밀접한 관계가 있음을 확인한 바 있는데, 마찬가지로 Bolzano-Weierstrass Theorem에 의해서 다음 따름정리를 얻게 됩니다.
+
+	\begin{cor} \label{cor bdd conv}
+		\(\RR^N\)의 bounded sequence는 convergent subsequence를 가진다.
+	\end{cor}
+	\begin{proof}
+		\((x_n)\)이 \(\RR^N\)의 bounded sequence라고 하자. \(A = \{x_n: n \in \NN \}\)이 finite이면, 어떤 \(x \in A\)에 대하여 \(x_n = x\)인 \(n\)이 무수히 많이 존재한다. 따라서 이 \(n\)들을 모아서 subsequence를 만들면 이 수열은 상수수열이므로 당연히 수렴한다. 이제 \(A\)가 infinite이라고 가정하자. Bolzano-Weierstrass Theorem에 의해 \(A\)의 limit point \(x\)가 존재한다. 이제 \(x\)로 수렴하는 subsequence \((x_{n(k)})\)를 \(\norm{x_{n(k)} - x} < 1/k\)를 만족하도록 귀납적으로 정의하려고 한다.\\
+		먼저 \(N_1 (x) \cap A\)는 nonempty이므로 여기에 속하는 \(x_{n(1)}\)을 잡을 수 있다. 다음으로 위 성질을 만족하는 \(x_{n(1)}, ..., x_{n(m)} \: (n(1) < ... < n(m))\)이 정해졌다고 가정하자. \(N_{1/(m+1)} (x) \cap A\)은 infinite이므로 \(n(m) < n(m+1)\)이면서 \(x_{n(m+1)} \in N_{1/(m+1)} (x) \cap A\)인 \(n(m+1)\)을 잡을 수 있다. 이제 이 subsequence가 \(x\)로 수렴하는 것은 쉽게 알 수 있다.
+	\end{proof}
+
+\subsection{Cauchy Sequence}
+
+해석학에서 정말 중요한 개념인 Cauchy sequence를 정의하려고 합니다. 앞에서 단조수렴정리를 소개할 때, 어떤 sequence가 수렴할 것으로 예상되는 점조차 알지 못하는 경우에 수렴성을 보일 수 있는 방법을 계속 찾게 될 것이라고 말씀드렸습니다. Cauchy sequence가 그 대표적인 방법입니다.
+
+	\begin{defn}
+		Metric space \(X\)의 sequence \(x_n\)이 Cauchy sequence라는 것은, 임의의 양수 \(\eps > 0\)에 대하여 적당한 \(N \in \NN\)이 존재하여 다음을 만족하는 것이다.
+		\begin{gather*}
+			n, m \ge N \Longrightarrow d(x_n, x_m) < \eps
+		\end{gather*} 인 것이다.
+	\end{defn}
+
+	\begin{ex}
+		\(x_n = 1/n\)은 Cauchy sequence. 양수 \(\eps > 0\)이 주어졌다고 하고 \(1/N < \eps\)인 \(N\)을 잡는다. 이때 \(n, m \ge N\)이면 \(|1/n - 1/m| \le 1/N < \eps\)이므로, \((x_n)\)은 Cauchy sequence.
+	\end{ex}
+
+수렴하는 수열과 밀접한 관계가 있는데, 실제로 모든 수렴하는 수열은 Cauchy입니다.
+
+	\begin{prop}
+		A convergent sequence in a metric space \(X\) is Cauchy.
+	\end{prop}
+	\begin{proof}
+		\((x_n)\)이 \(x \in X\)로 수렴한다고 하자. 양수 \(\eps > 0\)에 대하여,
+		\begin{gather*}
+			n \ge N \Longrightarrow d(x_n, x) < \frac{\eps}{2}
+		\end{gather*}
+		\(N\)을 잡을 수 있다. 이제
+		\begin{gather*}
+			n, m \ge N \Longrightarrow d(x_n, x_m) \le d(x_n, x) + d(x_m, x) < \eps.
+		\end{gather*}
+	\end{proof}
+
+Cauchy sequence는 다음 성질들을 가집니다.
+
+	\begin{prop} \label{cauchy bdd}
+		A Cauchy sequence in a metric space \(X\) is bounded.
+	\end{prop}
+	\begin{proof}
+		\((x_n)\)이 Cauchy sequence in \(X\)라고 하고, \(n, m \ge N \Rightarrow d(x_n, x_m) < 1\)인 \(N\)을 잡을 수 있다. 따라서 \(\{x_n: n \ge N\}\)은 유계이고, \(\{x_n: n < N\}\)은 finite이므로 유계. 따라서 \((x_n)\)은 bounded.
+	\end{proof}
+
+	\begin{prop} \label{cauchy subs}
+		Metric space \(X\)의 Cauchy sequence \((x_n)\)이 \(x \in X\)로 수렴하는 subsequence를 가지면 \((x_n)\)도 \(x\)로 수렴.
+	\end{prop}
+	\begin{proof}
+		\(\eps > 0\)이 주어졌다고 하자. \((x_n)\)은 Cauchy이므로
+		\begin{gather*}
+			n, m \ge N \Longrightarrow d(x_n, x_m) < \frac{\eps}{2}
+		\end{gather*}
+		인 \(N\)이 존재한다. 또 \((x_{n(k)})\)가 \(x \in X\)로 수렴하는, \((x_n)\)의 convergent subsequence라고 하면
+		\begin{gather*}
+			k \ge K \Longrightarrow d(x_{n(k)}, x) < \frac{\eps}{2}, \quad n(K) \ge N
+		\end{gather*}
+		인 \(K\)를 잡을 수 있다. 따라서
+		\begin{gather*}
+			n \ge n(K) \Longrightarrow d(x_n, x) \le d(x_n, x_{n(K)}) + d(x_{n(K)}, x) < \frac{\eps}{2} + \frac{\eps}{2} = \eps.
+		\end{gather*}
+	\end{proof}
+
+위의 두 Proposition에 의해, \(X = \RR^N\)인 경우에 Cauchy sequence와 convergent sequence가 동치임을 알 수 있습니다. 모든 Cauchy sequence가 수렴하는 metric space를 \textbf{complete metric space}라고 합니다. 즉 Euclidean space는 complete metric space.
+
+	\begin{thm}[Completeness of a Euclidean Space]
+		\(\RR^N\)의 sequence \((x_n)\)에 대하여, \((x_n)\) is convergent if and only if \((x_n)\) is Cauchy.
+	\end{thm}
+	\begin{proof}
+		\((\Rightarrow)\) 방향은 이미 보였다(아무 metric space에서 성립). 이제 \((x_n)\)이 Cauchy라고 가정하면, Proposition \ref{cauchy bdd}에 의해 \((x_n)\)은 bounded이다. 따라서 Corollary \ref{cor bdd conv}에 의해 \((x_n)\)은 convergent subsequence를 가진다. 따라서 Proposition \ref{cauchy subs}에 의해 \((x_n)\)은 convergent.
+	\end{proof}
+
+위 증명에서 Corollary \ref{cor bdd conv}를 이용하였음에 유의하기 바랍니다. 이것이 다른 metric space와 Euclidean space를 구분짓는 한 가지 성질입니다.
+
+\newpage
+
+\section{Series} \label{sec series}
+
+Section \ref{sec series}에서는 해석학의 또 다른 중요한 주제인 series(급수)의 수렴판정을 공부하려고 합니다. 이 글이 끝날 때까지 모든 sequence는 아무 말이 없으면 (usual한 metric이 주어진) \(\CC\) 안에 있는 것으로 생각합니다. \(\CC = \RR^2\)로 `자연스럽게' identify할 수 있기 때문에, \(\CC\)는 complete metric space.
+
+\subsection{Cauchy Criterion}
+
+	\begin{defn}
+		Sequence \((x_n)\)에 대하여 \((s_n)\)을 \(s_n = \sum_{k=1}^n x_k\)으로 정의하고 \(\sum_{n=1}^\infty x_n\) 또는 \(\sum_n x_n\)을 \textbf{series(급수)}라고 하고 \((s_n)\)을 \textbf{partial sum(부분합) of series}라고 한다. 만약 \((s_n)\)이 \(s\)로 converge하면 \textbf{series \(\sum_n x_n\)이 converge(수렴)}한다고 하고 \(\sum_n x_n = s\)로 쓴다. 만약 \((s_n)\)이 diverge하면 \textbf{series \(\sum_n x_n\)이 diverge(발산)}한다고 한다.
+	\end{defn}
+
+	\begin{prop}
+		급수 \(\sum_n x_n\)과 \(\sum_n y_n\)이 각각 \(x, y \in \CC\)로 수렴할 때 다음이 성립한다.
+		\begin{enumerate} [label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(\sum_n (x_n + y_n) = x + y\).
+			\item
+			\(c \in \CC\)에 대하여 \(\sum_n cx_n = cx\).
+		\end{enumerate}
+	\end{prop}
+	\begin{proof}
+		각 급수의 partial sum을 생각하면 끝.
+	\end{proof}
+
+\(\CC\)에서 Cauchy sequence와 convergent sequence는 동치이므로, 다음 판정법을 얻습니다.
+
+	\begin{thm}[Cauchy criterion]
+		\(\sum_n x_n\) converges if and only if for every \(\eps > 0\), there exists \(N \in \NN\) s.t.
+		\begin{align*}
+			m \ge n \ge N \Longrightarrow \left | \sum_{k=n}^{m}x_n \right | < \eps.
+		\end{align*}
+	\end{thm}
+	\begin{proof}
+		\
+		\(\sum_n x_n\) converges if and only if \((s_n)\) converges if and only if \((s_n)\) is Cauchy.
+	\end{proof}
+
+특히 위 정리에서 \(m=n\)으로 잡으면, \( \left | x_n \right | < \epsilon\)이므로 다음 따름정리를 얻습니다.
+
+	\begin{cor}
+		If \(\sum _n x_n\) converges, then \(\lim _n x_n = 0\).
+	\end{cor}
+
+역은 성립하지 않습니다(반례: \(x_n = 1/n\)).
+
+\subsection{Alternating Series Test}
+
+항들이 특정한 형태를 가지는 series는 쉽게 그 수렴을 알 수 있습니다. Real sequence의 각 항의 부호가 +와 -가 반복되고(alternating) 그 절댓값이 0으로 수렴할 때 series는 수렴합니다.
+
+	\begin{lem} \label{alt}
+		Real-valued nonnegative sequence \((x_n)\)이 단조감소하면, 임의의 \(m > n\)에 대하여
+		\begin{align*}
+			\abs{\sum_{k=n}^{m} (-1)^{k-1} x_k} \le x_n.
+		\end{align*}
+	\end{lem}
+	\begin{proof}
+		\begin{align*}
+			\abs{\sum_{k=n}^{m} (-1)^{k-1} x_k} = x_n - x_{n+1} + ... + (-1)^{m-n} x_m
+		\end{align*}
+		이다. \(m-n\)이 짝수이면, 각 \(k\)에 대해 \(x_k - x_{k+1} \ge 0\)이므로
+		\begin{align*}
+			x_n - x_{n+1} + ... + x_m &= x_n -((x_{n+1} - x_{n+2}) + ... + (x_{m-1} - x_m))\\
+			& \le x_n.
+		\end{align*}
+		\(m-n\)이 홀수이면 \(m-n+1\)은 짝수이므로
+		\begin{align*}
+			x_n - x_{n+1} + ... - x_m &\le x_n - x_{n+1} + ... - x_m + x_{m+1}\\
+			& \le x_n.
+		\end{align*}
+	\end{proof}
+
+	\begin{thm}[Alternating Series Test: 교대급수판정법]
+		Real nonnegative sequence \((x_n)\)이 단조감소할 때, \(\lim_n x_n = 0\)이면 \(\sum_n (-1)^{n-1} x_n\)은 수렴한다.
+	\end{thm}
+	\begin{proof}
+		주어진 series의 partial sum \((s_n)\)이 Cauchy sequence인 것을 보이는 것과 동치이다. 임의의 양수 \(\eps > 0\)에 대해 \(n \ge N \Longrightarrow x_n < \eps\)인 \(N\)이 존재한다. 이제 \(m > n \ge N\)이면 Lemma \ref{alt}에 의해
+		\begin{align*}
+			\abs{s_m - s_n} &= \abs{\sum_{k=n+1}^m (-1)^{k-1} x_k}\\
+			& \le x_{n+1} < \eps.
+		\end{align*}
+	\end{proof}
+
+	\begin{ex}
+		\(\sum_n (-1)^{n-1}/n\), \(\sum_{n=2}^\infty (-1)^{n-1}/(\log n)\) 등은 모두 수렴합니다.
+	\end{ex}
+
+
+\subsection{Comparison Test}
+
+급수의 comparison test(비교판정법)는 대단히 직관적입니다.
+
+
+	\begin{thm}[Comparison Test: 비교판정법]
+		\((c_n)\)은 real nonnegative sequence. 각 \(n \in \NN\)에 대하여 \(\abs{a_n} \le c_n\)이고 \(\sum _n c_n\)이 수렴하면 \(\sum _n a_n\)도 수렴.
+	\end{thm}
+	\begin{proof}
+		Cauchy criterion에 의해, 임의의 양수 \(\eps > 0\)에 대하여 \(N \in \NN\)이 존재하여
+		\begin{align*}
+			m \ge n \ge N \Rightarrow \abs{\sum_{k=n}^m c_k} < \eps
+		\end{align*}
+		이다. 따라서
+		\begin{align*}
+			\abs{\sum_{k=n}^m a_k} \le  \sum_{k=n}^m \abs{a_k} \le \sum_{k=n}^m c_k < \eps
+		\end{align*}
+		이므로, Cauchy criterion에 의해 \(\sum _n a_n\)도 수렴.
+	\end{proof}
+
+급수나 수열의 수렴 판정을 할 때 유한 개의 항들은 전혀 영향을 미치지 않습니다. 따라서 위 정리의 `각 \(n \in \NN\)에 대하여'를 `\(n \ge N\)에 대하여'로 바꾸어도 상관이 없습니다.
+
+위 정리의 역은 성립하지 않습니다. 예를 들어 \(x_n = (-1)^n / n\)에 대하여 \(\sum_n x_n\)은 alternating series test에 의하여 수렴하지만 \(\sum_n \abs{x_n} = \sum_n 1/n\)은 발산합니다. 따라서 다음 정의를 생각하는 것이 자연스럽습니다.
+
+	\begin{defn}
+		Series \(\sum_n x_n\)이 \textbf{absolutely converge(절대수렴)}한다는 것은 \(\sum_n \abs{x_n}\)이 수렴한다는 것이다. \(\sum_n x_n\)이 \textbf{conditionally converge(조건수렴)}한다는 것은 \(\sum_n x_n\)은 수렴하지만 \(\sum_n \abs{x_n}\)은 발산한다는 것이다.
+	\end{defn}
+
+즉 convergent series는 absolutely convergent이거나 conditionally convergent입니다. 특히 real nonnegative series의 경우에 absolutely convergent와 convergent는 동치입니다.
+
+\subsection{Rearrangement}
+
+유한 개의 실수의 덧셈의 순서는 바꾸어도 그 결과가 같은데, 무한 개의 덧셈의 순서를 바꾸어도 결과가 같겠는가, 즉 항들의 순서를 바꾼 series의 성질에 대해 논의할 것입니다.
+
+	\begin{defn}
+		\(r: \NN \rightarrow \NN\)이 bijection이라고 하자. Sequence \((x_n)\)에 대하여 \(\sum_n x_{r(n)}\)을 \textbf{rearrangement(재배열급수) of \(\sum_n x_n\)}이라고 한다.
+	\end{defn}
+
+이 subsection에서는 \(\sum_n x_n = \sum_n x_{r(n)}\)일 충분조건 2개를 소개합니다. 첫 번째 충분조건은 \((x_n)\)이 real nonnegative sequence인 것입니다.
+
+	\begin{thm}
+		\((x_n)\)이 real nonnegative sequence라고 하자. \(\sum_n x_n = s\) for some \(s \in \RR\)이면 임의의 rearrangement에 대하여 \(\sum_n x_{r(n)} = s\)이다. 또 \(\sum_n x_n\)이 발산하면 \(\sum_n x_{r(n)}\)도 발산한다.
+	\end{thm}
+	\begin{proof}
+		각 \(n\)에 대하여 \(m(n) = \max \{r(1), ..., r(n)\}\)으로 정의하면, \(\sum_{k=1}^n x_{r(k)} \le \sum_{k=1}^{m(n)} x_k \le s\)이다(여기서 각 항이 nonnegative임을 사용했다). 따라서 각 항이 nonnegative인 series \(\sum_n x_{r(n)}\)의 partial sum이 bounded이므로, \(\sum_n x_{r(n)}\)은 수렴하고 그 극한 \(t = \sum_n x_{r(n)} \le s\)이다. 그런데 \(r^{-1}:\NN \rightarrow \NN\)도 bijection이므로 같은 논리에 의해 \(s \le t\)이다. 따라서 \(s = t\). \(\sum_n x_n\)이 발산할 때 \(\sum_n x_{r(n)}\)도 발산하는 것은 이제 쉽게 알 수 있다.
+	\end{proof}
+
+또 하나의 충분조건은 \(\sum_n x_n\)이 absolutely convergent인 것입니다. index를 조작하는 방법이 조금 까다로우니 유의해서 보시기 바랍니다.
+
+	\begin{thm}
+		\(\sum_n x_n\)이 absolutely convergent이고 \(\sum_n x_n = s\)라고 하자. 그러면 임의의 rearrangement에 대해 \(\sum_n x_{r(n)} = s\)이다. 
+	\end{thm}
+	\begin{proof}
+		\(\sum_n x_n\)과 \(\sum_n x_{r(n)}\)의 partial sum을 각각 \((s_n), \: (s'_n)\)이라고 하자. 양수 \(\eps > 0\)이 주어졌다고 하고, Cauchy criterion에 의해
+		\begin{align*}
+			m \ge n \ge N \Rightarrow \sum_{k=n}^{m} \abs{x_k} < \frac{\eps}{2}
+		\end{align*}
+		인 \(N\)을 잡는다. 또 \(K \in \NN\)을
+		\begin{align*}
+			\{1, 2, ..., N\} \subseteq \{r(1), r(2), ..., r(K)\}
+		\end{align*}
+		을 만족하도록 잡을 수 있고, \(M = \max\{r(1), ..., r(K)\}\)라고 하자. 이때 \(M \ge K \ge N\)임은 쉽게 알 수 있다. 이제 \(n > K\)에 대하여,
+		\begin{align*}
+			\abs{s'_n - s_n} &= \abs{\sum_{k=1}^{n} x_{r(k)} - \sum_{k=1}^n x_k}\\
+			&= \abs{( \sum_{i=1}^N x_i + \sum_{\substack{1 \le k \le n \\ r(k) > N}} x_{r(k)}) - (\sum_{i=1}^N x_i + \sum_{i=N+1}^n x_i)}\\
+			&= \abs{\sum_{\substack{1 \le k \le n \\ r(k) > N}} x_{r(k)} - \sum_{i=N+1}^n x_i}\\
+			& \le \sum_{\substack{1 \le k \le n \\ r(k) > N}} \abs{x_{r(k)}} + \sum_{i=N+1}^n \abs{x_i}\\
+			& \le \sum_{i=N+1}^M \abs{x_i} + \sum_{i=N+1}^n \abs{x_i} < \frac{\eps}{2} + \frac{\eps}{2} = \eps
+		\end{align*}
+		이므로
+		\begin{align*}
+			\limsup_n \abs{s'_n - s_n} \le \eps
+		\end{align*}
+		이다. \(\eps > 0\)은 임의의 양수였으므로 \(\lim_n \abs{s'_n - s_n} = 0\)이고, 따라서
+		\begin{align*}
+			\lim_n s'_n = \lim_n s_n = s.
+		\end{align*}
+	\end{proof}
+
+그렇다면 \(\sum_n x_n\)이 conditinally convergent일 때는 어떻게 될까요? 아쉽게도 이때는 rearrangement series가 수렴하는 것조차 보장할 수 없으며, 수렴한다 해도 그 극한이 같다고 할 수 없습니다. 대신 real series의 경우에 상당히 흥미로운 결과가 도출되는데, `양/음의 무한대로 발산하거나 임의의 실수로 수렴하는 rearrangement를 항상 잡을 수 있다'는 것입니다.
+
+이를 위해서는 상극한과 하극한의 새로운 정의를 소개하는 것이 도움이 됩니다. 이는 앞에서 배운 정의와 동치입니다. 약간 흐름에서 벗어난 내용이기 때문에 정리의 statement만 봐도 될 것 같습니다.
+
+	\begin{lem}
+		Metric space \(X\)의 sequence \((x_n)\)에 대하여
+		\begin{center}
+			\(x \in X\)로 수렴하는 \((x_n)\)의 subsequence가 존재한다
+		\end{center}
+		를 만족하는 모든 \(x \in X\)의 집합을 \(E\)라고 하면, \(E\)는 closed subset of \(X\).
+	\end{lem}
+	\begin{proof}
+		Derive set \(E' = \emptyset\)이면 증명 끝. \(E'\)가 nonempty라고 가정하고, \(E\)의 임의의 limit point \(p\)가 \(E\)의 원소임을 보이면 된다.\\
+		먼저 \(x_{n(1)} \neq p\)인 \(n(1)\)을 택한다. (만약 이러한 \(n(1)\)이 없으면 \(E = \{p\}\)이므로 증명이 끝난다.) \(\delta = d(p, x_{n(1)})\)라고 하고, \(d(p, x_{n(k)}) \le 2^{k-1} \delta\)를 만족하도록 \(n(k)\)를 귀납적으로 정하려고 한다. \\
+		\(n(1) < ... < n(k)\)가 위의 성질을 만족하도록 정해졌다고 가정하자. \(p\)는 \(E\)의 limit point이므로, \(d(p, q) < 2^{-k-1} \delta\)인 \(q \in E\)가 존재한다. \(E\)의 정의에 의해, \(n(k+1) > n(k)\)이고 \(d(q, x_{n(k+1)}) < 2^{-k-1}\delta\)인 \(n(k+1)\)을 찾을 수 있다. 이제 \(d(p, x_{n(k+1)}) \le d(p, q) + d(q, x_{n(k+1)}) < 2^{-k} \delta\)이므로 우리가 원하는 \(n(k+1)\)을 찾았다.\\
+		이제 subsequence \((x_{n(k)})\)가 \(p\)로 수렴하는 것은 쉽게 알 수 있다. 따라서 \(p \in E\).
+	\end{proof}
+
+양의 무한대나 음의 무한대로 발산하는 경우에 \(x_n \rightarrow \infty\), \(x_n \rightarrow -\infty\) 같은 표기를 자연스럽게 쓰기로 하겠습니다.
+
+	\begin{thm}[New Definition of Upper and Lower Limits] \label{limsup}
+		Real sequence \((x_n)\)에 대하여
+		\begin{center}
+			\(x_{n(k)} \rightarrow x\)인 subsequence \((x_{n(k)})\)가 존재한다
+		\end{center}
+		를 만족하는 모든 \(x \in \RR \cup \{\pm \infty\}\)의 집합을 \(E\)라고 하면,
+		\begin{align*}
+			\limsup_n x_n = \sup E, \quad \liminf_n x_n = \inf E
+		\end{align*}
+		이다. 특히 \(x_n\)이 bounded이면 Lemma 2.11.에 의해 \(E\)는 closed bounded subset of \(\RR\)이므로 maximum과 minimum이 존재한다. 따라서
+		\begin{align*}
+			\limsup_n x_n = \max E, \quad \liminf_n x_n = \min E.
+		\end{align*}
+	\end{thm}
+	\begin{proof}
+		(언제나 그랬듯이) \(\limsup\)에 대해서만 증명하면 된다.\\
+		먼저 \(\limsup_n x_n = \infty\)이면 \((x_n)\)은 not bounded above이므로, 각 \(k\)에 대해 \(x_{n(k)} > k\)인 \(n(1) < n(2) < ...\)을 잡을 수 있다. 이때 \(\lim_n x_{n(k)} = \infty\)이므로 \(\sup E = \infty\). 또 \(\limsup_n x_n = -\infty\)이면 \(\liminf_n x_n = -\infty\)이므로 \(\lim_n x_n = -\infty\)이다. 따라서 \(E = \{-\infty\}\)이므로(왜 그런가?) \(\sup E = -\infty\).\\
+		이제 \(\limsup_n x_n = x\)가 finite real number라고 하자. Theorem \ref{thm limsup}\을 생각해 보면, 각 \(k\)에 대하여 \(\abs{x_n - x} < \frac{1}{k}\)인 \(n\)이 무한히 많이 존재한다. 따라서 \(\abs{x_{n(k)} - x} < \frac{1}{k}\)인 \(n(1) < n(2) < ...\)를 잡을 수 있다. 이제 \(x_{n(k)} \rightarrow x\)이므로 \(x \in E\)이다. 따라서 \(\sup E \ge x\).\\
+		\(y > x\)인 \(y \in E\)가 존재한다고 가정하자. 그러면 \(x_{n'(k)} \rightarrow y\)인 subsequence \((x_{n'(k)})\)가 존재한다. 즉 \(\abs{x_n - x} > \frac{y-x}{2}\)인 \(n\)이 무한히 많이 존재하는데, 이는 상극한의 조건에 모순이다. 따라서 \(x = \sup E\)이다.
+	\end{proof}
+
+이제 우리의 결론을 state할 준비가 되었습니다.
+
+	\begin{thm}
+		\(\sum_n x_n\)이 conditionally convergent real series라고 하자.
+		\begin{align*}
+			-\infty \le \alpha \le \beta \le \infty
+		\end{align*}
+		인 \(\alpha, \beta\)에 대하여(즉 \(\alpha = -\infty\)나 \(\beta = \infty\) 같은 경우도 포함), 적당한 rearrangement \(\sum_n x_{r(n)}\)이 존재하여 그 partial sum \((s'_n)\)이
+		\begin{align*}
+			\liminf_n s'_n = \alpha, \quad \limsup_n s'_n = \beta
+		\end{align*}
+		를 만족한다.
+	\end{thm}
+	\begin{proof}
+		\begin{align*}
+			p_n = \frac{\abs{x_n} + x_n}{2}, \quad p_n = \frac{\abs{x_n} - x_n}{2}
+		\end{align*}
+		으로 정의하자. 즉 \((p_n)\)은 \((x_n)\)의 음수 항을 모두 0으로 만든 것이고, \((q_n)\)은 \((x_n)\)의 양수 항을 모두 0으로 만든 뒤 음수 항의 부호를 반대로 한 것이다. 이때 \(p_n + q_n = \abs{x_n},\: p_n - q_n = x_n, \: p_n, q_n \ge 0\)이다. \(\sum_n x_n\)이 conditionally converge하기 위해서는 \(\sum_n p_n\)과 \(\sum_n q_n\) 모두 발산해야 한다.\\
+		\((x_n)\)의 0 이상의 항들을 순서대로 나열한 것을 \(P_1, P_2, P_3, ...\)이라고 하고, \((x_n)\)의 음수 항들을 순서대로 나열한 후 부호를 반대로 한 것을 \(Q_1, Q_2, Q_3, ...\)라고 하자(0 이상의 항과 음수 항은 각각 무수히 많이 존재해야 한다. 왜 그런가?). 그러면 \(\sum_n P_n, \sum_n Q_n\)과 \(\sum_n p_n, \sum_n q_n\)은 zero term밖에 차이가 없으므로, \(\sum_n P_n, \sum_n Q_n\)은 모두 발산해야 한다. 그리고 \(\lim_n x_n = 0\)이므로 \(\lim_n P_n = \lim_n Q_n = 0\)이다.\\
+		증가수열 \(m, l: \NN \rightarrow \NN\)에 대하여,
+		\begin{equation}
+			P_1 + ... + P_{m(1)} - Q_1 - ... - Q_{l(1)} + P_{m(1)+1} + ... + P_{m(2)} - Q_{l(1)+1} - ... - Q_{l(2)} + ... \notag
+		\end{equation}
+		은 rearrangement series이다. 이 series가 원하는 조건을 만족하도록 \(m, l\)을 잡으려고 한다.\\
+		먼저
+		\begin{align*}
+			\alpha_n \rightarrow \alpha, \beta_n \rightarrow \beta, \alpha_n < \beta_n, \beta_1 > 0
+		\end{align*}
+		을 만족하는 real sequence \((\alpha_n), (\beta_n)\)을 잡을 수 있다. \(m(1), l(1)\)을
+		\begin{gather*}
+			P_1 + ... + P_{m(1)} > \beta_1\\
+			P_1 + ... + P_{m(1)} - Q_1 - ... - Q_{l(1)} < \alpha_1
+		\end{gather*}
+		을 만족하는 최소의 자연수로 정의한다. 다음으로 \(m(2), l(2)\)를
+		\begin{gather*}
+			P_1 + ... + P_{m(1)} - Q_1 - ... - Q_{l(1)} + P_{m(1) + 1} + ... + P_{m(2)} > \beta_2\\
+			P_1 + ... + P_{m(1)} - Q_1 - ... - Q_{l(1)} + P_{m(1) + 1} + ... + P_{m(2)} - Q_{l(1)+1} - ... - Q_{l(2)} < \alpha_2
+		\end{gather*}
+		을 만족하는 최소의 자연수로 정의한다. \(\sum_n P_n, \sum_n Q_n\)이 발산하기 때문에, 이 과정을 반복하여 \(m(k), l(k)\)를 계속 정의할 수 있다.\\
+		이렇게 만들어진 rearrangement series의 parial sum \((s'_n)\)의 두 subsequence
+		\begin{gather*}
+			x_k = P_1 + ... + P_{m(1)} - ... + P_{m(k-1)+1} + ... + P_{m(k)}\\
+			y_k = P_1 + ... + P_{m(1)} - ... - Q_{l(k-1)+1} - ... - Q_{l(k)}
+		\end{gather*}
+		를 생각하자. 만약 두 sequence가 수렴한다면, upper limit과 lower limit의 새로운 정의(Theorem \ref{limsup})에 의해
+		\begin{align*}
+			\lim_k x_k = \limsup_n s'_n, \quad \lim_k y_k = \liminf_n s'_n
+		\end{align*}
+		인 것은 쉽게 알 수 있다. 따라서 \(\lim_n x_n = \beta, \lim_n y_n = \alpha\)인 것을 보이면 된다. \(m(k)\)와 \(l(k)\)의 정의에 의해,
+		\begin{gather*}
+			x_k - P_{m(k)} \le \beta_k < x_{n(k)}\\
+			y_k + Q_{l(k)} \ge \alpha_k > y_{n(k)}
+		\end{gather*}
+		이다. 즉
+		\begin{gather*}
+			\abs{x_k - \beta_k} \le P_{m(k)}, \quad \abs{y_k - \alpha_k} \le -Q_{l(k)}
+		\end{gather*}
+		이다. 그런데 \(\lim_k P_{m(k)} = \lim_k Q_{l(k)} = 0\)이므로, \(x_k \rightarrow \beta, y_k \rightarrow \alpha\)이다.
+		
+	\end{proof}
+
+위 정리에서 \(\alpha = \beta\)인 경우에는 바로 다음 따름정리를 얻을 수 있습니다.
+
+	\begin{cor}
+		\(\sum_n x_n\)이 conditionally convergent real series라고 하자. \(-\infty \le \alpha \le \infty\)에 대하여(즉 \(\alpha = \pm \infty\)인 경우도 포함), 적당한 rearrangement \(\sum_n x_{r(n)}\)이 존재하여 \(\sum_n x_{r(n)} = \alpha\)이다.
+	\end{cor}
+	\begin{proof}
+		\(\limsup_n s'_n = \liminf_n s'_n = \alpha\)이면 \(\lim_n s'_n = \alpha\).
+	\end{proof}
+
+	\begin{ex}
+		\(\sum_n (-1)^{n-1}\frac{1}{n}\)은 conditionally convergent series입니다. 우선 이 series의 partial sum을 \((s_n)\)이라 하고, \(\lim_n s_n = s\)라고 하겠습니다(나중에 \(s = \log 2\)임을 알게 됩니다). 그리고 다음 rearrangement의 partial sum을 \((s'_n)\)이라 하겠습니다.
+		\begin{align*}
+			1 + \frac{1}{3} - \frac{1}{2} + \frac{1}{5} + \frac{1}{7} - \frac{1}{4} + \frac{1}{9} +\frac{1}{11} - \frac{1}{6} + ...
+		\end{align*}
+		먼저 \(\lim_n s'_{3n}\)이 수렴한다는 것을 보이려고 합니다.
+		\begin{align*}
+			s'_{3n} &= \sum_{k=1}^n (\frac{1}{4k-3} + \frac{1}{4k-1} - \frac{1}{2k})\\
+			&= \sum_{k=1}^n (\frac{1}{4k-3} - \frac{1}{4k-2} + \frac{1}{4k-1} - \frac{1}{4k}) + \sum_{k=1}^{n} (\frac{1}{4k-2} - \frac{1}{4k})\\
+			&= s_{4n} + \frac{1}{2} s_{2n}
+		\end{align*}
+		따라서 \(\lim_n s'_{3n} = \frac{3}{2}s\)로 수렴합니다. 그리고
+		\begin{align*}
+			\abs{s'_{3n+1} - s'_{3n}} < \abs{s'_{3n+2} - s'_{3n}} = \frac{1}{4n+1} + \frac{1}{4n+3}
+		\end{align*}
+		이므로, \(\lim_n s'_{3n+1} = \lim_n s'_{3n+2} = \lim_n s'_{3n} = \frac{3}{2} s\)입니다. 이제 \(\lim_n s'_n = \frac{3}{2}s\)인 것은 극한의 정의에 의해 쉽게 알 수 있습니다.
+	\end{ex}
+
+\subsection{Abel's Test}
+교대급수판정법 일반화하려고 합니다. 먼저 다음이 성립하는 것을 관찰합시다(부분적분과 식의 형태가 비슷함에 주목하기 바랍니다).
+
+\begin{prop}[Summation by Parts]
+	Sequence \((a_n), (b_n)\)에 대하여,
+	\begin{align*}
+		A_n = \sum_{k=1}^{n} a_k, A_0 = 0
+	\end{align*}
+	로 정의하자. 그러면 임의의 \(1 \le m < n\)에 대해
+	\begin{align*}
+		\sum_{k=m+1}^{n} a_k b_k = A_n b_{n+1} - A_m b_{m+1} - \sum_{k=m+1}^n A_k (b_{k+1} - b_k)
+	\end{align*}
+	이다.
+\end{prop}
+\begin{proof}
+	\begin{align*}
+		\sum_{k=1}^n a_k b_k &= \sum_{k=1}^n (A_k - A_{k-1})b_k\\
+		&= \sum_{k=1}^n A_k b_k - \sum_{k=1}^n A_{k-1} b_k\\
+		&= \sum_{k=1}^n A_k b_k - (\sum_{k=1}^n A_{k} b_{k+1} - A_{n} b_{n+1})\\
+		&= A_n b_{n+1} - \sum_{k=1}^n A_k (b_{k+1} - b_k)
+	\end{align*}
+	이므로,
+	\begin{align*}
+		\sum_{k=1}^n a_k b_k - \sum_{k=1}^m a_k b_k
+	\end{align*}
+	를 계산하면 원하는 등식을 얻는다.
+\end{proof}
+
+이를 이용하면 \(\sum_n a_n b_n\)꼴의 series의 수렴을 판정할 때 도움이 됩니다.
+
+\begin{thm}[Abel's Test]
+	Sequence \((a_n), (b_n)\)이 다음을 만족한다고 하자.
+	\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(\sum_n a_n\)의 partial sum은 bounded.
+		\item
+		\((b_n)\)은 real-valued이고 단조감소수열.
+		\item
+		\(\lim_n b_n = 0\)
+	\end{enumerate}
+	그러면 series \(\sum_n a_n b_n\)은 수렴한다.
+\end{thm}
+\begin{proof}
+	Cauchy criterion에 의해, 임의의 양수 \(\eps > 0\)에 대해 
+	\begin{align*}
+		n > m \ge N \Rightarrow \abs{\sum_{k=m+1}^{n} a_k b_k} < \eps
+	\end{align*}
+	인 \(N\)이 존재하는 것을 보이면 된다.\\
+	\(\sum_n a_n\)의 partial sum을 \((A_n)\)이라 하면, 모든 \(n\)에 대해 \(\abs{A_n} \le M\)인 \(M > 0\)이 존재한다. 그리고 \(b_N < \frac{\eps}{3M}\)인 \(N\)을 잡는다. 이제 \(n > m \ge N\)이면,
+	\begin{align*}
+		\abs{\sum_{k=m+1}^{n} a_k b_k} &= \abs{A_n b_{n+1} - A_m b_{m+1} - \sum_{k=m+1}^n A_k (b_{k+1} - b_k)} \\
+		& \le \abs{A_n} b_{n+1} + \abs{A_m} b_{m+1} + \sum_{k=m+1}^n \abs{A_k}\abs{b_{k+1}-b_k}\\
+		& \le  Mb_{n+1} + M b_{m+1} + M \sum_{k=m+1}^n (b_k - b_{k+1})\\
+		& < M \times \frac{\eps}{3M} + M \times \frac{\eps}{3M} + M \times b_{m+1}\\
+		& < \frac{\eps}{M} + \frac{\eps}{M} + \frac{\eps}{M} = \eps
+	\end{align*}
+\end{proof}
+
+\(a_n = (-1)^{n-1}\)로 두면, alternating series test와 동일합니다.
+
+(b)는 `\(\sum_n \abs{b_{n+1} - b_n}\)이 수렴한다'로 약화시킬 수 있습니다.
+
+\subsection{Cauchy Product}
+
+이제 두 급수의 곱을 정의하려고 합니다. (엄밀한 표기는 아니지만) 다음을 관찰합시다. (Index의 편리함을 위해, 0부터 시작하는 급수를 생각합니다.)
+
+\begin{align*}
+	&(a_0 + a_1 + a_2 + \ldots + a_n + \ldots)(b_0 + b_1 + b_2 + \ldots + b_n + \ldots)\\
+	= &\: a_0 b_0 + (a_0 b_1 + a_1 b_0) + (a_0 b_2 + a_1 b_1 + a_2 b_0) + \ldots + \sum_{k=0}^n a_k b_{n-k} + \ldots
+\end{align*}
+
+따라서 급수의 곱을 다음과 같이 정의하는 것은 자연스럽습니다.
+
+\begin{defn}
+	두 급수 \(\sum_n a_n, \sum_n b_n\)에 대하여
+	\begin{gather*}
+		c_n = \sum_{k=0}^{n} a_k b_{n-k}
+	\end{gather*}
+	로 정의하자. 이때 급수 \(\sum_n c_n\)을 두 급수의 \textbf{Cauchy product(코시곱)}라고 한다.
+\end{defn}
+
+이제 우리의 관심사는 Cauchy product가 진정한 급수의 곱인가, 즉 \(\sum_n a_n = A, \sum_n b_n = B\)로 수렴하면
+\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+	\item
+	\(\sum_n c_n\)이 수렴하는가?
+	\item
+	\(\sum_n c_n = AB\)인가?
+\end{enumerate}
+에 대한 답이 긍정적인지입니다. 안타깝게도 항상 그렇지는 않습니다.
+
+\begin{ex}
+	\begin{gather*}
+		a_n = b_n = \frac{(-1)^n}{\sqrt{n+1}}
+	\end{gather*}
+	으로 정의하면 alternating series test에 의해 \(\sum_n a_n, \sum_n b_n\)은 수렴합니다. 그 Cauchy product \(\sum_n c_n\)은
+	\begin{gather*}
+		c_n = (-1)^n \sum_{k=0}^{n} \frac{1}{\sqrt{(k+1)(n-k+1)}}
+	\end{gather*}
+	로 정의되는데, 산술-기하평균 부등식에 의해
+	\begin{align*}
+		\abs{c_n} &= \sum_{k=0}^{n} \frac{1}{\sqrt{(k+1)(n-k+1)}}\\
+		& \ge \sum_{k=0}^{n} \frac{1}{(n+2)/2} = \sum_{k=0}^{n} \frac{2}{n+2} = \frac{2(n+1)}{n+2}
+	\end{align*}
+	이므로 \(c_n \rightarrow 0\)이 아닙니다. 따라서 \(\sum_n c_n\)은 발산.
+\end{ex}
+
+이제 (a)와 (b)의 답이 긍정적이도록 하는 충분조건 하나를 소개하겠습니다. 그것은 \(\sum_n a_n\)과 \(\sum_n b_n\) 중 적어도 하나가 절대수렴하는 것입니다.
+
+\begin{thm}
+	\(\sum_n a_n=A, \sum_n b_n=B\)로 수렴하고, \(\sum_n a_n\)이 절대수렴한다고 하자. 그러면 그 Cauchy product \(\sum_n c_n\)은 수렴하고, \(\sum_n c_n = AB\)이다.
+\end{thm}
+\begin{proof}
+	\(\sum_n a_n, \sum_n b_n, \sum_n c_n\)의 partial sum들을 각각 \((A_n), (B_n), (C_n)\)으로 두자. \(A_n B \rightarrow AB\)임은 명백하므로, \(C_n - A_n B \rightarrow 0\)임을 보이면 된다. [왜 이런 발상이 가능한가? 절대수렴하는 급수가 좀 더 `빠르게' 극한에 가까워진다고 생각할 수 있기 때문이다. 그래서 \(C_n - A B_n\)이 아니라, \(C_n - A_n B\)의 수렴을 보인다(굉장히 수학적이지 않은 문장이다\ldots).]\\
+	\(\beta_n = B_n - B\)로 두고, 다음을 관찰하자.
+	\begin{align*}
+		C_n &= a_0 b_0 + (a_0 b_1 + a_1 b_0) + \ldots (a_0 b_n + a_n b_{n-1} + a_n b_0)\\
+		&= a_0 B_n + a_1 B_{n-1} + \ldots + a_n B_0\\
+		&= a_0 (B + \beta_n) + a_1 (B + \beta_{n-1}) + \ldots + a_n (B + \beta_0)\\
+		&= A_n B + a_0 \beta_n + a_1 \beta_{n-1} + \ldots + a_n \beta_0
+	\end{align*}
+	이제
+	\begin{gather*}
+		\gamma_n = a_0 \beta_n + a_1 \beta_{n-1} + \ldots + a_n \beta_0
+	\end{gather*}
+	로 정의하고, (a)를 이용하기 위해
+	\begin{gather*}
+		M = \sum_n \abs{a_n} < \infty
+	\end{gather*}
+	로 정의하자. 이제 양수 \(\eps > 0\)이 주어졌다고 하고 \(n \ge N \Rightarrow \abs{\beta_n} < \eps\)인 \(N\)을 택한다. \(n > N\)에 대하여
+	\begin{align*}
+		\abs{\gamma_n} &= \abs{\beta_0 a_n + \ldots + \beta_N a_{n-N}} + \abs{\beta_{N+1} a_{n-N-1} + \ldots + \beta_n a_0}\\
+		& \le \abs{\beta_0 a_n + \ldots + \beta_N a_{n-N}} + \eps(\abs{a_{n-N-1}} + \ldots + \abs{a_0})\\
+		& \le \abs{\beta_0 a_n + \ldots + \beta_N a_{n-N}} + M\eps
+	\end{align*}
+	이다. \(N\)을 고정하고 양변에 \(\limsup_n\)을 취하면,
+	\begin{gather*}
+		\limsup_n \abs{\gamma_n} \le M\eps
+	\end{gather*}
+	이다. \(\eps > 0\)이 임의의 양수였으므로, \(\lim_n \gamma_n = 0\).
+\end{proof}
+\begin{rem}
+	\(\sum_n \abs{a_n} < \infty\)인 성질이 없으면 위 증명이 어디서 깨지는지 생각해보기 바랍니다.
+\end{rem}
+
+또 하나의 궁금증: (a)는 성립하는데 (b)가 성립하지 않는 경우, 즉 \(\sum_n c_n\)이 수렴하는데 그 극한이 \(AB\)는 아닌 경우가 가능할까요? 이러한 경우는 불가능하다는 것이 알려져 있습니다. 즉 (a)가 성립하면 (b)는 항상 성립합니다. 이 경우에 \(\sum_n a_n\)이나 \(\sum_n b_n\) 중 하나의 절대수렴 조건은 요구되지 않습니다.
+
+\begin{thm}[Abel]
+	\(\sum_n a_n = A, \sum_n b_n = B\)로 수렴하고 그 Cauchy product도 \(\sum_n c_n = C\)로 수렴하면 \(AB = C\)이다.
+\end{thm}
+
+한참 후에 power series에 대해 공부하고 나면, 이 정리는 당연해집니다. 증명은 그때로 미루겠습니다.
+
+\subsection{Cauchy Condensation Test}
+
+다음 판정법은 좀 재미있습니다.
+
+\begin{thm}[Cauchy Condensation Test]
+	Real sequence \((a_n)\)이 nonnegative이고 단조감소할 때, 다음은 동치.
+	\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(\sum_{n=1}^\infty a_n\)이 수렴.
+		\item
+		\(\sum_{k=0}^\infty 2^k a_{2^k} = a_1 + 2a_2 + 4a_4 + 8a_8 + \ldots\)가 수렴.
+	\end{enumerate}
+\end{thm}
+\begin{proof}
+	두 급수의 partial sum을 각각
+	\begin{gather*}
+		s_n = a_1 + a_2 + \ldots + a_n\\
+		t_k = a_1 + 2a_2 + \ldots + 2^k a_{2^k}
+	\end{gather*}
+	로 두자. 먼저 \(n \le 2^N - 1\)인 \(N\)을 택하면,
+	\begin{align*}
+		s_n \le s_{2^N - 1} &= a_1 + (a_2 + a_3) + (a_4 + \ldots + a_7) + \ldots  (a_{2^{N-1}} + \ldots + a_{2^N - 1})\\
+		& \le a_1 + 2a_2 + 4a_4 + \ldots + 2^{N-1} a_{2^{N-1}} = t_{N-1}
+	\end{align*}
+	이므로 \((t_k)\)가 bounded이면 \((s_n)\)도 bounded이다. 따라서 (b)\(\Rightarrow\)(a). 한편
+	\begin{align*}
+		t_k &= a_1 + 2a_2 + 4a_4 + \ldots + 2^k a_{2^k}\\
+		&\le 2(a_1 + a_2 + 2a_4 + \ldots 2^{k-1} a_{2^k})\\
+		&\le 2(a_1 + a_2 + (a_3 + a_4) + \ldots + (a_{2^{k-1}+1} + \ldots a_{2^k}))\\
+		&= 2s_{2^k}
+	\end{align*}
+	이므로 \((s_n)\)이 bounded이면 \((t_k)\)도 bounded이다. 따라서 (a)\(\Rightarrow\)(b).
+\end{proof}
+
+의외로 다음 판정법을 가장 쉽게 유도하는 방법이 위의 Cauchy condensation test입니다(이거 증명하려고 적분을 이용하는 건 좀 쥐 잡는 데 소 잡는 칼 쓰는 느낌\ldots 게다가 우리는 아직 적분을 정의하지도 않았습니다).
+
+\begin{cor}[\(p\)-series Test]
+	\(\sum_n 1 / n^p\) converges if and only if \(p > 1\).
+\end{cor}
+\begin{proof}
+	Cauchy condensation test에 의해, \(\sum_n 1 / n^p\) converges if and only if \(\sum_k 2^k / (2^k)^p = \sum_k 1 / (2^k)^{p-1}\) converges if and only if \(p - 1 > 0\).
+\end{proof}
+
+\(\log\)가 들어간 급수도 Cauchy condensation test를 이용하면 편리합니다.
+
+\begin{ex}
+	\(\sum_{n=2}^\infty 1/(n(\log n)^p)\) converges if and only if \(p > 1\).
+\end{ex}
+
+\subsection{Root Test and Ratio Test}
+
+이제 마지막 수렴판정법 2개입니다. 사실상 실전에서 가장 많이 쓰게 되는 것들이 아닐까 생각합니다.
+
+\begin{thm}[Root Test: 근 판정법]
+	\(\sum_n a_n\)에 대하여 \(\alpha = \limsup_n \sqrt[n]{\abs{a_n}}\)으로 정의하자. 이때
+	\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(\alpha < 1\)이면 \(\sum_n a_n\)은 절대수렴한다.
+		\item
+		\(\alpha > 1\)이면 \(\sum_n a_n\)은 발산한다.
+		\item
+		\(\alpha = 1\)이면 \(\sum_n a_n\)의 수렴 여부를 알 수 없다.
+	\end{enumerate}
+\end{thm}
+\begin{proof}
+	\(\alpha < 1\)이면 \(\alpha < \beta < 1\)인 \(\beta\)를 택할 수 있다. 상극한의 정의에 의해, \(n \ge N \Rightarrow \sqrt[n]{\abs{a_n}} < \beta\)인 \(N\)이 존재한다. 따라서 \(n \ge N\)이면 \(\abs{a_n} < \beta^n\)이므로
+	\begin{gather*}
+		\sum_{n=N}^{\infty} \abs{a_n} \le \sum_{n=N}^{\infty} \beta^n < \infty.
+	\end{gather*}
+	\(\alpha > 1\)이면 \(\lim_n \abs{a_n} = 0\)일 수 없으므로 \(\sum_n a_n\)이 발산한다.\\
+	마지막으로 \(a_n = 1/n, b_n = 1/n^2\)을 생각하면 \(\limsup_n \sqrt[n]{\abs{a_n}} = \limsup_n \sqrt[n]{\abs{b_n}} = 1\)이지만(\(\lim_n n^{1/n}=1\)임을 이용하였다) \(\sum_n a_n\)은 발산, \(\sum_n b_n\)은 수렴한다.
+\end{proof}
+
+\begin{thm}[Ratio Test: 비 판정법]
+	\(\sum_n a_n\)에 대하여 다음이 성립한다(단, \(a_n \neq 0\)).
+	\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(\limsup_n \abs{a_{n+1}/a_n} < 1\)이면 \(\sum_n a_n\)은 절대수렴한다.
+		\item
+		\(n \ge n_0 \Rightarrow \abs{a_{n+1}/a_n} \ge 1\) for some \(n_0\)이면 \(\sum_n a_n\)은 발산한다.
+	\end{enumerate}
+\end{thm}
+\begin{proof}
+	\(\alpha = \limsup_n \abs{a_{n+1}/a_n} < 1\)이면 \(\alpha < \beta < 1\)인 \(\beta\)를 택할 수 있다. 상극한의 정의에 의해 \(n \ge N \Rightarrow \abs{a_{n+1}/a_n} < \beta\)인 \(N\)이 존재한다. 따라서 \(n \ge N\)이면 \(\abs{a_n} < \beta^{n-N}\abs{a_N}\)이므로
+	\begin{gather*}
+		\sum_{n=N}^\infty \abs{a_n} \le \sum_{n=N}^\infty \beta^{n-N}\abs{a_N} < \infty.
+	\end{gather*}
+	\(n \ge n_0 \Rightarrow \abs{a_{n+1}/a_n} \ge 1\) for some \(n_0\)이면 \(\lim_n \abs{a_n} = 0\)일 수 없으므로 \(\sum_n a_n\)이 발산한다.
+\end{proof}
+\begin{rem}
+	(b)의 충분조건은 \(\liminf_n \abs{a_{n+1}/a_n} > 1\)인 것입니다. 따라서 \(\limsup_n \abs{a_{n+1}/a_n} < 1\)이거나 \(\liminf_n \abs{a_{n+1}/a_n} > 1\)인 경우에는 상극한과 하극한의 계산만으로 ratio test를 적용할 수 있고, 그렇지 않은 경우에는 \(\abs{a_{n+1}/a_n}\) 자체에 대한 관찰이 필요합니다.
+\end{rem}
+
+다음 정리는 root test와 ratio test의 판정 범위를 비교해 줍니다.
+
+\begin{thm}
+	\((a_n)\)이 sequence of real positive numbers라고 하자. 이때 다음 부등식이 성립한다.
+	\begin{gather*}
+		\liminf_n \frac{a_{n+1}}{a_n} \le \liminf_n \sqrt[n]{a_n} \le \limsup_n \sqrt[n]{a_n} \le \limsup_n \frac{a_{n+1}}{a_n}
+	\end{gather*}
+\end{thm}
+\begin{proof}
+	두 번째 부등호는 당연하다. 세 번째 부등호가 성립하는 것만 보이면, 첫 번째 부등호가 성립하는 것은 비슷하게 보일 수 있다.\\
+	\(\alpha = \limsup_n a_{n+1}/a_n\)으로 정의하자. \(\alpha = \infty\)이면 증명할 것이 없으므로 \(\alpha < \infty\)라고 가정하면, \(\alpha < \beta < \infty\)인 \(\beta\)를 택할 수 있다. 상극한의 정의에 의해 \(n \ge N \Rightarrow a_{n+1}/a_n < \beta\)인 \(N\)이 존재한다. 이제 \(n \ge N\)에 대해
+	\begin{align*}
+		a_n &< \beta^{n-N} a_N\\
+		\sqrt[n]{a_n} &< \beta^{1-\frac{N}{n}} \sqrt[n]{a_N}
+	\end{align*}
+	이므로, 양변에 \(\limsup_n\)을 취하면
+	\begin{align*}
+		\limsup_n \sqrt[n]{a_n} \le \beta
+	\end{align*}
+	이다. 그런데 \(\beta\)는 \(\alpha\)보다 큰 임의의 실수이므로, \(\limsup_n \sqrt[n]{a_n} \le \alpha\).
+\end{proof}
+
+위 정리의 의미를 생각해봅시다. Ratio test에 의해 \(\sum_n a_n\)의 수렴을 보일 수 있으면, 즉 \(\limsup_n a_{n+1}/a_n < 1\)이면 \(\limsup_n \sqrt[n]{a_n} \le \limsup_n a_{n+1}/a_n < 1\)이므로 root test에 의해서도 \(\sum_n a_n\)의 수렴을 보일 수 있습니다. 또 root test로 \(\sum_n a_n\)의 수렴 여부를 결정할 수 없으면, 즉 \(\limsup_n \sqrt[n]{a_n} = 1\)이면 \(\limsup_n a_{n+1}/a_n \ge 1\)이고 \(\liminf_n a_{n+1}/a_n \le 1\)이므로 ratio test에 의해서도 \(\sum_n a_n\)의 수렴 여부를 결정할 수 없습니다.
+\par 다음 예시는 root test에 의해서 수렴 판정이 가능하지만 ratio test에 의해서는 수렴 판정이 불가능한 급수의 존재를 보여줍니다. 즉 root test가 ratio test보다 `강력한' 판정법입니다. 그런데 \(\limsup_n \sqrt[n]{a_n}\)의 값을 구하기가 어려울 때가 많기 때문에 실전에서는 ratio test도 자주 쓰이는 것입니다.
+
+\begin{ex}
+	다음 급수 \(\sum_n a_n\)을 생각합시다.
+	\begin{gather*}
+		\frac{1}{2^1} + \frac{1}{2^0} + \frac{1}{2^3} + \frac{1}{2^2} + \frac{1}{2^5} + \frac{1}{2^4} + \ldots
+	\end{gather*}
+	다음은 쉽게 계산할 수 있습니다.
+	\begin{gather*}
+		\liminf_n \sqrt[n]{a_n} = \limsup_n \sqrt[n]{a_n} = \frac{1}{2}\\
+		\liminf_n \frac{a_{n+1}}{a_n} = \frac{1}{8}, \quad \limsup_n \frac{a_{n+1}}{a_n} = 2
+	\end{gather*}
+	따라서 root test에 의해서는 \(\sum_n a_n\)이 수렴함을 알 수 있지만 ratio test는 정보를 주지 못합니다.
+\end{ex}
+
+\subsection{Application: \(e\)}
+
+Ratio test에 의해 \(\sum_{n=0}^\infty 1/n!\)이 수렴합니다.
+
+\begin{defn}
+	\(e = \sum_{n=0}^\infty 1/n!\).
+\end{defn}
+
+\(n! \ge 2^{n-1}\)임을 이용하면, \(2 < e \le 1 + \sum_{n=1}^\infty 1/2^{n-1} = 3\)임을 알 수 있습니다.
+
+고등학교 미적분에서는 다음 정리를 주어진 사실로 받아들이고 이를 \(e\)의 정의로 사용하였습니다. 이제 우리는 이를 증명할 수 있습니다.
+
+\begin{thm} \label{thm e}
+	\(\lim_n (1 + 1/n)^n = e\).
+\end{thm}
+\begin{proof}
+	\begin{gather*}
+		s_n = \sum_{k=0}^{n} \frac{1}{k!}, \quad t_n = \left(1 + \frac{1}{n}\right)^n
+	\end{gather*}
+	으로 두자. 먼저
+	\begin{align*}
+		t_n &= \sum_{k=0}^{n} \frac{n(n-1)\ldots(n-k+1)}{k!}\left (\frac{1}{n}\right )^k\\
+		&= \sum_{k=0}^{n}\frac{1}{k!}\left(1 - \frac{1}{n}\right)\ldots\left(1 - \frac{k-1}{n}\right) \le \sum_{k=0}^{n}\frac{1}{k!} = s_n
+	\end{align*}
+	이므로 양변에 \(\limsup_n\)을 취하면
+	\begin{align*}
+		\limsup_n t_n \le \limsup_n s_n = \lim_n s_n = e.
+	\end{align*}
+	또 \(n \ge m\)이면,
+	\begin{align*}
+		t_n &= \sum_{k=0}^{n}\frac{1}{k!}\left(1 - \frac{1}{n}\right)\ldots\left(1 - \frac{k-1}{n}\right)\\
+		&\ge \sum_{k=0}^{m}\frac{1}{k!}\left(1 - \frac{1}{n}\right)\ldots\left(1 - \frac{k-1}{n}\right)
+	\end{align*}
+	이다. \(m\)을 고정하고 양변에 \(\liminf_n\)을 취하면,
+	\begin{align*}
+		\liminf_n t_n &\ge \liminf_n \sum_{k=0}^{m}\frac{1}{k!}\left(1 - \frac{1}{n}\right)\ldots\left(1 - \frac{k-1}{n}\right)\\
+		&= \lim_n \sum_{k=0}^{m}\frac{1}{k!}\left(1 - \frac{1}{n}\right)\ldots\left(1 - \frac{k-1}{n}\right) = \sum_{k=0}^{m}\frac{1}{k!}
+	\end{align*}
+	이므로
+	\begin{align*}
+		\liminf_n t_n \ge t_m
+	\end{align*}
+	이다. 그런데 이는 임의의 \(m\)에 대해 성립하므로 양변에 \(\lim_m\)을 취하면
+	\begin{align*}
+		\liminf_n t_n \ge e
+	\end{align*}
+	이다. 따라서 \(\liminf_n t_n \ge e \ge \limsup_n t_n\)이므로, \(\lim_n t_n = e\).
+\end{proof}
+
+다음 사실도 이제서야 증명할 수 있습니다.
+
+\begin{thm}
+	\(e\)는 무리수이다.
+\end{thm}
+\begin{proof}
+	\(s_n\)을 Theorem \ref{thm e}의 증명에서와 같이 정의한다.\\
+	\(e\)가 유리수라고 가정하면 어떤 자연수 \(p, q\)에 대해 \(e = p/q\)로 쓸 수 있다. \(n > m\)일 때 \(n!/m! > m^{n-m}\)인 것을 이용하면,
+	\begin{align*}
+		0 < e - s_q &= \sum_{k=1}^\infty \frac{1}{(q+k)!}\\
+		&< \frac{1}{(q+1)!}\sum_{k=1}^\infty \frac{1}{(q+1)^{k-1}} = \frac{1}{(q+1)!} \frac{1}{q} < \frac{1}{q!q}
+	\end{align*}
+	이다. 따라서
+	\begin{align*}
+		0 < q!e - q!s_q < \frac{1}{q}
+	\end{align*}
+	이다. 그런데
+	\begin{align*}
+		q!e - q!s_q = (q-1)!p - \sum_{k=0}^q \frac{q!}{k!}
+	\end{align*}
+	는 정수이므로 모순이다. 따라서 \(e\)는 무리수이다.
+\end{proof}
+
+\newpage
+
+\section{Compactness and Connectedness} \label{sec cpt}
 
 \section{Continuity}
 
 \section{Differentiation}
+
+\section{Riemann-Stieltjes Integral}
+
+\section{Sequence of Functions}
+
+\section{Function Space}
+
+\section{Functions Defined by Integral}
+
+\section{Fourier Series}
+
+\section{Multivariable Calculus (미정)}
 
 
 \begin{thebibliography}{99}
@@ -483,6 +1766,7 @@ Definition \ref{converge}\를 보면, 어떤 수열 \((x_n)\)의 수렴을 보�
 	\bibitem{Cd94}\label{ref1} 김성기, 김도한, 계승혁. \emph{해석개론}. 서울대학교출판문화원. 2011.
 	\bibitem{Cd94}\label{ref2} W. Rudin. \emph{Principles of Mathematical Analysis}. McGraw-Hill. 1976.
 	\bibitem{Cd94} 이인석. \emph{선형대수와 군}. 서울대학교출판문화원. 2015.
+	\bibitem{Cd94} J. R. Munkres, \emph{Topology}. Prentice Hall. 2000.
 		
 \end{thebibliography}
 \end{document}
