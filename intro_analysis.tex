@@ -330,7 +330,7 @@ Ordered field \(F\)의 bounded above subset \(S \subseteq F\)의 supremum은 항
 다음 성질을 증명하는 것은 연습문제로 남깁니다.
 
 	\begin{prop}
-		실수열 \((x_n\)과 \((y_n)\)이 각각 \(x, y \in \RR\)로 수렴할 때 다음이 성립한다.
+		실수열 \((x_n)\)과 \((y_n)\)이 각각 \(x, y \in \RR\)로 수렴할 때 다음이 성립한다.
 		\begin{enumerate} [label=(\alph*), leftmargin=2\parindent]
 			\item
 			\(x_n + y_n \rightarrow x + y\).
@@ -671,9 +671,7 @@ Norm이 주어지면 자동으로 metric이 주어집니다. 왜냐하면, 두 v
 	\end{defn}
 
 
-\section{Open Set and Closed Set} 
-
-\subsection{Metric Space Case} \label{sec metric open}
+\section{Open Set and Closed Set} \label{sec open}
 
 
 이제 \(\mathbb{R}\)에서 열린구간과 닫힌구간의 개념을 metric space로 확장하려 합니다. 
@@ -696,7 +694,7 @@ Norm이 주어지면 자동으로 metric이 주어집니다. 왜냐하면, 두 v
 		
 	\end{defn}
 
-Section \ref{sec metric open}\이 끝날 때까지 \(X\)는 metric space.
+Section \ref{sec open}\이 끝날 때까지 \(X\)는 metric space.
 
 다음은 open set의 (더 유용한) 새로운 정의입니다.
 
@@ -816,9 +814,9 @@ Limit point와 관련된 개념들과 sequence는 밀접한 관련이 있습니�
 		\(E \subseteq X, p \in X\)에 대하여 다음이 성립한다.
 		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
 			\item
-			\(p \in E'\) if and only if there exists a sequence in \(E \backslash \{p\}\) converging to p.
+			\(p \in E'\) if and only if there exists a sequence in \(E \backslash \{p\}\) converging to \(p\).
 			\item
-			\(p \in \overline{E}\) if and only if there exists a sequence in \(E\) converging to p.
+			\(p \in \overline{E}\) if and only if there exists a sequence in \(E\) converging to \(p\).
 		\end{enumerate}
 	\end{prop}
 
@@ -829,7 +827,7 @@ Limit point와 관련된 개념들과 sequence는 밀접한 관련이 있습니�
 
 이제 closed set의 필요충분조건을 소개할 준비가 되었습니다.
 
-	\begin{thm}
+	\begin{thm} \label{thm closed}
 		\(F \subseteq X\)에 대하여 다음은 동치.
 		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
 			\item
@@ -847,15 +845,15 @@ Limit point와 관련된 개념들과 sequence는 밀접한 관련이 있습니�
 		(a)\(\Leftrightarrow\)(b):
 		\begin{align*}
 			F \text{ is closed in } X & \Leftrightarrow X \backslash F \text{ is open in } X\\
-			& \Leftrightarrow \forall x \in X \backslash F, \: \exists \epsilon > 0 \text{ s.t. } N_\epsilon (x) \subseteq X \backslash F\\
-			& \Leftrightarrow \forall x \in X \backslash F, \: x \notin F'\\
-			& \Leftrightarrow F' \subseteq F
+			& \iff \forall x \in X \backslash F, \: \exists \epsilon > 0 \text{ s.t. } N_\epsilon (x) \subseteq X \backslash F\\
+			& \iff \forall x \in X \backslash F, \: x \notin F'\\
+			& \iff F' \subseteq F
 		\end{align*}
 		(b)\(\Leftrightarrow\)(c): \(\overline{F}\)의 정의에 의해.\\
 		(c)\(\Leftrightarrow\)(d): Proposition \ref{prop limpt seq}.
 	\end{proof}
 
-	\begin{thm}
+	\begin{thm} \label{thm cls}
 		\(E \subseteq X\)에 대하여 \(E'\)와 \(\overline{E}\)는 closed in \(X\). 또 \(E \subseteq F \subseteq X\)이고 \(F\)가 closed in \(X\)이면 \(\overline{E} \subseteq F\). 즉, \(\overline{E}\)는 \(E\)를 포함하는 가장 작은 closed set.
 	\end{thm}
 
@@ -879,80 +877,6 @@ Limit point와 관련된 개념들과 sequence는 밀접한 관련이 있습니�
 		\(E \subseteq Y \subseteq X\)일 때, \(E\)가 \textbf{open in \(Y\)}라는 것은 어떤 open set \(U\) of \(X\)가 존재하여 \(E = U \cap Y\)인 것이다. \textbf{closed in \(Y\)}도 마찬가지로 정의한다.
 	\end{defn}
 
-\subsection{Topological Space Case} \label{sec top}
-
-이 부분을 쓸지 말지 굉장히 고민했는데, 계속해서 관련된 내용이 나와서 모든 것을 밝히고 가는 것이 좋겠다고 생각했습니다. 이 글 전체에서 이 이상의 추상화는 없을 것입니다.
-
-	\begin{defn}
-		집합 \(X\)의 부분집합들의 collection \(\mathcal{T}\)가 다음 조건을 만족하면 \(\mathcal{T}\)는 \textbf{topology(위상) of \(X\)}라고 하고, \((X, \mathcal{T})\) 또는 간단하게 \(X\)를 \textbf{topological space(위상공간)}라고 한다.
-		\begin{enumerate}[label=(TP\arabic*), leftmargin=2\parindent]
-			\item
-			\(\emptyset \in \mathcal{T}, X \in \mathcal{T}\)
-			\item
-			\(\mathcal{T}\)의 원소들의 union(무한 개 포함)은 \(\mathcal{T}\)의 원소이다.
-			\item
-			\(\mathcal{T}\)의 원소들의 finite intersection은 \(\mathcal{T}\)의 원소이다.
-		\end{enumerate}
-		이때 각 \(U \in \mathcal{T}\)에 대해 \(U\) \textbf{open set of \(X\)}이라고 하고, \(p\)를 포함하는 open set of \(X\)를 \textbf{(open) neighborhood of \(X\)}라고 한다. \(U \in \mathcal{T}\)에 대해 \(X \backslash U\)를 \textbf{closed set of \(X\)}라고 한다.
-	\end{defn}
-
-	\begin{thm}
-		Metric space \(X\)에서 Definition \ref{def metric top}\과 같이 정의된 모든 open set들의 collection을 \(\mathcal{T}\)라고 하면 \(\mathcal{T}\) is a topology of \(X\). 즉 metric space에 자연스럽게 topological space의 구조를 줄 수 있다.
-	\end{thm}
-	\begin{proof}
-		Proposition \ref{prop metric open ax}의 실체는 바로 이 정리였다.
-	\end{proof}
-
-Section \ref{sec top}\이 끝날 때까지 \(X\)는 아무 말이 없으면 topological space.
-
-Topological space에서 limit point와 convergence의 개념을 정의할 수 있습니다.
-
-	\begin{defn}
-		\(E \subseteq X, p \in X\)에 대하여,
-		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
-			\item
-			\(p\)가 \textbf{limit point(극한점) of \(E\)}라는 것은, 임의의 open neighborhood \(U\) of \(p\)에 대하여 \((U \backslash \{p\}) \cap E \neq \emptyset\)이라는 것이다. \(E\)의 모든 limit point들의 집합을 \textbf{derive set of \(E\)}라고 하고 \(E'\)로 쓴다.
-			\item
-			\(p\)가 \textbf{isolated point(고립점) of \(E\)}라는 것은 \(p \in E \backslash E'\)라는 것이다.
-			\item
-			집합 \(\overline{E} = E \cup E'\)를 \textbf{closure(폐포) of \(E\)}라고 한다.
-			\item
-			\(E\)가 \textbf{dense(조밀) in \(X\)}하다는 것은 \(\overline{E} = X\)라는 것이다.
-		\end{enumerate}
-	\end{defn}
-
-	\begin{defn}
-		Sequence \((x_n)\)이 \(x \in X\)로 수렴한다는 것은 임의의 open neighborhood \(U\) of \(x\)에 대해 \(N \in \NN\)이 존재하여 \(n \ge N \Longrightarrow x_n \in U\)라는 것이다.
-	\end{defn}
-
-	\begin{prop}
-		Metric space에서 정의된 limit point, isolated point, closure, denseness, convergence의 정의는 위 정의의 특수한 경우이다.
-	\end{prop}
-	\begin{proof}
-		연습문제로 남김.
-	\end{proof}
-
-우리는 지금 수준에서는 다음 성질을 만족하는 topological space에 관심이 있습니다.
-
-	\begin{defn}
-		\(X\)가 \textbf{Hausdorff}라는 것은, \(X\)의 서로 다른 두 원소 \(p, q\)에 대하여 \(p, q\) 각각의 적당한 neighborhood \(U, V\)가 존재하여 \(U \cap V = \emptyset\)를 만족하는 것이다.
-	\end{defn}
-
-	\begin{thm}
-		Metric space is Hausdorff.
-	\end{thm}
-	\begin{proof}
-		Proposition \ref{prop metric haus}에 의해.
-	\end{proof}
-	
-	\begin{thm}
-		Hausdorff space \(X\) 안의 sequence \((x_n)\)이 \(x \in X\)로 수렴하고 \(x' \in X\)로 수렴하면 \(x = x'\).
-	\end{thm}
-	\begin{proof}
-		\(x, x'\)의 disjoint한 각각의 open neighborhood \(U, V\)를 찾고\ldots 그 이후는 Theorem \ref{thm metric limit unq}의 증명과 거의 같다. 
-	\end{proof}
-
-Hausdorff space는 Section \ref{sec cpt}의 compactness에서 한번 더 언급될 것입니다.
 
 \newpage
 
@@ -1742,15 +1666,1193 @@ Ratio test에 의해 \(\sum_{n=0}^\infty 1/n!\)이 수렴합니다.
 
 \newpage
 
-\section{Compactness and Connectedness} \label{sec cpt}
+\section{Compactness} \label{sec cpt}
 
-\section{Continuity}
+Section \ref{sec cpt}\이 끝날 때까지 아무 말이 없으면 \(X\)는 metric space. 우리의 이야기는 지금부터 잠시 일반적인 metric space \(X\)로 돌아갔다가, 다시 우리의 고향 Euclidean space로 되돌아올 예정입니다.
+
+\subsection{Compact Sets in a Metric Space}
+
+	\begin{defn}
+		\quad
+		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(E \subseteq X\)에 대하여 \(X\)의 subset들의 collection \(\{U_i\}_{i \in I}\)가 \textbf{cover(덮개) of \(E\)}라는 것은 \(E \subseteq \bigcup_{i \in I} U_i\)라는 것이다. 각 \(U_i\)가 open set in \(X\)이면 \(\{U_i\}_{i \in I}\)를 \textbf{open cover(열린덮개) of \(E\)}라고 한다.
+			\item
+			\(\{U_i\}_{i \in I}\)가 \(E \subseteq X\)의 cover일 때, index set \(I\)의 subset \(J\)에 대하여 \(\{U_i\}_{i \in J}\)도 \(E\)의 open cover이면 \(\{U_i\}_{i \in J}\)를 \textbf{subcover of \(\{U_i\}_{i \in I}\)}라고 한다.
+			\item
+			\(K \subseteq X\)가 \textbf{compact set(옹골집합\footnote{Compact set의 번역어인데, 아무도 이 말을 쓰지 않습니다.})}라는 것은 \(K\)의 임의의 open cover가 finite subcover를 가진다는 것이다. 즉, \(\{U_i\}_{i \in I}\)가 \(K\)의 open cover이면 유한한 개수의 \(i_1, \ldots, i_n \in I\)가 존재하여 \(K \subseteq \bigcup_{k=1}^n U_{i_k}\)라는 것이다.
+		\end{enumerate}	
+	\end{defn}
+
+
+	\begin{ex}
+		\quad
+		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(X\)의 finite subset \(E=\{x_1, \ldots, x_n\}\)은 compact입니다. \(\{U_i\}_{i \in I}\)가 open cover of \(E\)라고 하면, 각 \(k\)에 대해 \(x_k \in U_{i_k}\)인 \(i_k \in I\)가 존재합니다. 따라서 finite subcover \(\{U_i\}_{i=i_1, \ldots, i_n}\). 앞으로 계속 보게 되겠지만, compact set은 \textbf{finite set의 일반화}입니다.
+			\item
+			\(X\)는 usual한 metric이 주어진 \(\RR\)이고, \(E = \RR\). 그러면 \(\{(-i, i)\}_{i \in \NN}\)은 open cover of \(E\)이다. 이 open cover가 finite subcover \(\{(-i, i)\}_{i = i_1, \ldots i_n}\)를 가진다고 가정합시다. 그런데 \(M = \max \{i_1, \ldots i_n\}\)으로 정의하면 \(M+1 \notin \bigcup_{k=1}^n (-i_k, i_k)\)이므로 모순. 따라서 \(E\) is not compact.
+			\item
+			\(X\)는 (b)에서와 같고, \(E = (0, 1)\). 그러면 \(\{(1/i, 1)\}_{i \in \NN}\)은 open cover of \(E\)입니다. 이 open cover가 finite subcover \(\{(1/i, 1)\}_{i = i_1, \ldots i_n}\)를 가진다고 가정합시다. 그런데 \(M = \max \{i_1, \ldots i_n\}\)으로 정의하면 \(1/(M+1) \notin \bigcup_{k=1}^n (1/i, 1)\)이므로 모순. 따라서 \(E\) is not compact.
+		\end{enumerate}	
+	\end{ex}
+
+Compact set의 좋은 점은, open / closed와 달리 어느 공간을 기준으로 생각하는지에 따라 compact 여부가 달라지지 않는다는 것입니다. 따라서 ``compact space \(X\)''라는 말이 가능합니다(open space나 closed space라는 말은 없습니다).
+
+	\begin{prop}
+		\(K \subseteq Y \subseteq X\)에 대하여, \(K\) is compact relative to  \(X\) if and only if \(K\) is compact relative to \(Y\).
+	\end{prop}
+	\begin{proof}
+		\(K\) is compact relative to \(X\)라고 가정하고, \(\{V_i\}_{i \in I}\)가 open cover of \(K\) in \(Y\)라고 하자. 그러면 \(V_i = U_i \cap Y\) for some open set \(U_i\) relative to \(X\)이고, \(\{U_i\}_{i \in I}\)가 open cover of \(K\) in \(X\)인 것은 당연하다. 이제 가정에 의해 finite subcover \(\{U_i\}_{i=i_1, \ldots, i_n}\)을 찾을 수 있는데, \(K \subseteq Y\)이므로
+		\begin{align*}
+			K = K \cap Y &\subseteq \bigcup_{k=1}^n U_{i_k} \cap Y = \bigcup_{k=1}^n (U_{i_k} \cap Y) = \bigcup_{k=1}^n V_{i_k}
+		\end{align*}
+		이다. 따라서 \(\{V_i\}_{i \in I}\)의 finite subcover \(\{V_i\}_{i=i_1, \ldots, i_n}\)를 찾을 수 있으므로, \(\Rightarrow\) 방향이 증명되었다. 이 증명을 밑에서부터 거꾸로 올라가면 역이 증명된다.
+	\end{proof}
+
+다음은 metric space에서 compact set의 필요조건입니다.
+
+	\begin{thm}
+		Compact subsets of \(X\) are closed.
+	\end{thm}
+	\begin{proof}
+		\(K \subseteq X\)가 compact라고 하고, \(p \in X \backslash K\)를 고정하자. 각 \(q \in K\)에 대하여, \(U_q \cap V_q = \emptyset\)을 만족하는 \(p, q\)의 neighborhood \(U_q, V_q\) in \(X\)가 존재한다. 그러면 \(\{V_q\}_{q \in K}\)는 open cover of \(K\). 가정에 의해 finite subcover \(\{V_q\}_{q=q_1, \ldots, q_n}\)이 존재한다. \(U=\bigcap_{k=1}^n U_{q_k}\)로 정의하면 \(U\)는 \(p\)를 포함하는 open set of \(X\)이고,
+		\begin{align*}
+			U \cap K \subseteq \bigcap_{k=1}^n U_{q_k} \cap \bigcup_{k=1}^n V_{q_k} \subseteq \bigcup_{k=1}^n (U_{q_k} \cap V_{q_k}) = \emptyset
+		\end{align*}
+		이므로 \(U \subseteq X \backslash K\)이다. 따라서 \(K\) is closed.
+	\end{proof}
+	
+	\begin{thm}
+		Compact subsets of a metric space \(X\) are bounded.
+	\end{thm}
+	\begin{proof}
+		\(K \subseteq X\)가 compact라고 하고, \(p \in X\)를 고정하자. \(\{N_r (p)\}_{r \in \NN}\)은 open cover of \(K\)이므로 finite subcover \(\{N_r (p)\}_{r=r_1, \ldots, r_n}\)이 존재한다. \(r = \max \{r_1, \ldots, r_n\}\)으로 정의하면 \(K \subseteq N_r (p)\)이므로, \(K\) is bounded.
+	\end{proof}
+
+주어진 compact set으로부터 다른 compact set을 만들어낼 때 다음이 유용합니다.
+
+	\begin{thm} \label{thm cpt subset}
+		Closed subsets of compact sets are compact.
+	\end{thm}
+	\begin{proof}
+		\(K \subseteq X\)가 compact이고 \(F \subseteq K\)가 closed relative to \(K\)라고 하자. 임의의 open cover \(\{U_i\}_{i \in I}\) of \(F\) relative to \(K\)에 대하여, \(\{U_i\}_{i \in I} \cup (K \backslash F)\)는 open cover of \(K\) relative to \(K\)이다. \(K\)는 compact이므로 finite subcover \(\{U_i\}_{i=i_1, \ldots, i_n} \cup (K \backslash F)\)가 존재한다(일반성을 잃지 않고 \(K \backslash F\)가 이 안에 들어 있다고 말해도 된다). 그런데 \(F \cap (K \backslash F) = \emptyset \)이므로 \(F \subseteq \bigcup_{k=1}^n U_{i_k}\)이어야 한다. 따라서 \(\{U_i\}_{i=i_1, \ldots, i_n}\)는 finite subcover of \(\{U_i\}_{i \in I}\)이므로 \(F\) is compact.
+	\end{proof}
+
+4편의 nested intervals theorem과 같은 이야기를 compact set에 대해서도 할 수 있는데, 이는 compactness의 정의에 의해 당연합니다.
+
+	\begin{defn}
+		집합 \(X\)의 subset들의 collection \(\mathcal{C}\)가 \textbf{finite intersection property}를 가진다는 것은, 임의의 finite subcollection \(\{C_1, \ldots, C_n\}\) of \(\mathcal{C}\)에 대하여 \(\bigcap_{k=1}^n C_k\)가 nonempty라는 것이다.
+	\end{defn}
+
+	\begin{ex}
+		\(\{(0, \frac{1}{n})\}_{n \in \NN}\)은 finite intersection property를 가집니다. 반면 \(\{(n, n+1)\}_{n \in \NN}\)은 finite intersection property를 가지지 않습니다.
+	\end{ex}
+
+	\begin{thm} \label{thm fip}
+		다음은 동치.
+		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(X\) is compact.
+			\item
+			Collection \(\mathcal{C}\) of closed subsets of \(X\)에 대하여, \(\mathcal{C}\)가 finite intersection property를 가지면 \(\bigcap_{C \in \mathcal{C}} C\) is nonempty.
+		\end{enumerate}	
+	\end{thm}
+
+	\begin{proof}
+		\(X\)가 compact라고 하고 \(\mathcal{C}\)가 finite intersection property를 가지는 collection of closed subsets of \(X\)라고 하자. 또 \(\mathcal{A} = \{X \backslash C\}_{C \in \mathcal{C}}\)로 정의하면, \(\mathcal{A}\)는 \(X\)의 open set들의 collection. 이제 \(\bigcap_{C \in \mathcal{C}} C = \emptyset\)이면 \(\mathcal{A}\)는 \(X\)의 open cover이므로 finite subcover \(\{X \backslash C_i\}_{i = 1, \ldots n}\)을 가진다. 그러면 \(\bigcap_{i=1}^n C_i = \emptyset\)이므로 \(\mathcal{C}\)가 finite intersection property를 가진다는 것에 모순이다. 따라서 (a)$\Rightarrow$(b)가 증명되었고, 비슷한 방식으로 역도 증명할 수 있다.
+	\end{proof}
+
+\(\mathcal{C} = \{C_1, C_2, \ldots\}\)이고 \(C_1 \supseteq C_2 \supseteq \ldots, C_i \neq \emptyset\)이면 finite intersection property를 만족합니다. 뒤에서 \(\RR\)의 유계닫힌구간이 compact set임을 증명하게 되는데, 따라서 Theorem \ref{thm fip}의 특수한 경우가 \(\RR\)에서 nested intervals theorem입니다. 
+
+\subsection{Limit Point Compactness and Sequential Compactness} \label{sec lpc}
+
+
+	\begin{defn}
+		\(X\)가 \textbf{limit point compact}라는 것은 \(X\)의 임의의 infinite subset이 \(X\) 안에서 limit point를 가진다는 것이다.
+	\end{defn}
+
+Bolzano-Weierstrass theorem이 떠오릅니다. 실제로 limit point compactness를 Bolzano-Weierstrass property라고 부르기도 합니다.
+
+	\begin{thm}
+		Compact이면 limit point compact.
+	\end{thm}
+	\begin{proof}
+		\(X\)가 compact라고 하자. \(X\)가 limit point compact임을 보이는 것은 다음을 보이는 것과 동치이다.
+		\begin{center}
+			\(A \subseteq X\)가 limit point를 가지지 않으면 \(A\)는 finite이다.
+		\end{center}
+		\(A \subseteq X\)가 limit point를 가지지 않는다고 가정하면 \(A\)는 closed in \(X\)이고, Theorem \ref{thm cpt subset}에 의해 \(A\)는 compact. 한편 각 \(a \in A\)는 isolated point이므로, 적당한 open neighborhood \(U_a\) of \(a\) in \(A\)가 존재하여 \(U_a \cap  A= \{a\}\)이다. 이제 \(\{U_a\}_{a \in A}\)는 open cover of \(A\)이고, \(A\)가 compact이므로 finite subcover \(\{U_{a_1}, \ldots, U_{a_n}\}\)이 존재한다. 그런데 각 \(U_{a_k}\)에 포함되는 \(A\)의 원소는 \(a_k\)뿐이므로, \(A = \{a_1, \ldots, a_n\}\)이다. 즉 \(A\)는 finite.
+	\end{proof}
+
+역은 metric space에서 성립한다는 것을 잠시 후에 증명할 것입니다.
+
+정의 하나 더.
+
+	\begin{defn}
+		\(X\)가 \textbf{sequentially compact}라는 것은 \(X\) 안의 임의의 sequence가 \(X\) 안에서 수렴하는 subsequence를 가진다는 것이다.
+	\end{defn}
+
+Section \ref{sec open}에서 공부했던 개념들과 비슷한 것들이 재등장하고 있습니다.
+
+이제 Section \ref{sec lpc}의 highlight입니다.
+
+	\begin{thm} \label{1.11}
+		\textbf{Metric space} \(X\)에 대하여 다음은 동치.
+		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(X\) is compact.
+			\item
+			\(X\) is limit point compact.
+			\item
+			\(X\) is sequentially compact.
+		\end{enumerate}	
+	\end{thm}
+	\begin{proof}
+		(a)$\Rightarrow$(b)는 이미 보였다.\\
+		(b)$\Rightarrow$(c): \(X\)가 LPC라고 하고, \((x_n)\)이 sequence in \(X\)라고 하자. \(A = \{x_n\}_{n \in \NN}\)이 finite이면, 어떤 \(x \in A\)에 대해 \(x_n = x\)인 \(n\)이 무수히 많이 존재하므로 \(x\)로 수렴하는 subsequence를 찾을 수 있다. 이제 \(A\)가 infinite이라고 가정하자. \(X\)가 LPC이므로 \(A\)는 limit point \(x \in X\)를 가진다. 임의의 \(k\)에 대해 \(N_{1/k} (x)\)는 \(A\)의 점을 무수히 많이 포함하고 있으므로, \(x_{n(k)} \in N_{1/k} (x)\)인 \(n(1) < n(2) < \ldots\)를 찾을 수 있다. 이제 \((x_{n(k)})\)는 \(x \in X\)로 수렴하는 subsequence.\footnote{이런 증명은 전에 한번 한 적이 있습니다. 어디서\ldots?}\\
+		(c)$\Rightarrow$(a): \(X\)가 SC라고 하고 \(\{U_i\}_{i \in I}\)가 open cover of \(X\)라고 하자.
+		\begin{enumerate}[label={Step \arabic*}, leftmargin=3\parindent]
+			\item
+			먼저 다음 성질을 만족하는 \(\delta > 0\)이 존재함을 보이려고 한다.\footnote{이러한 \(\delta > 0\)을 \textbf{Lesbesgue number}라고 합니다.}
+			\begin{center}
+				\(A \subseteq X\)의 diameter \(\sup \{d(x, y) : x, y \in A\} < \delta\)이면 \(A \subseteq U_i\) for some \(U_i\)
+			\end{center}
+			모순을 보이기 위해 다음을 가정하자.
+			\begin{center}
+				각 \(n \in \NN\)에 대해, subset \(C_n \subseteq X\)이 존재하여\\
+				\(\mathrm{diam} C_n < 1/n\) but there exists no \(U_i\) s.t. \(C_n \subseteq U_i\)
+			\end{center}
+			각 \(C_n\)은 nonempty이므로 \(x_n \in C_n\)을 택할 수 있다. 이제 \(X\)가 SC이므로 sequence \((x_n)\)은 어떤 \(a \in X\)로 수렴하는 subsequence \((x_{n(k)})\)를 가진다. 이제 \(a \in U\)인 \(U \in \{U_i\}_{i \in I}\)가 존재한다. \(U\)는 open이므로, 적당한 양수 \(\eps > 0\)에 대하여 \(N_\eps (a) \subseteq A\)이다.\\
+			\(n(k_1) > 2/\eps\)인 \(k_1\)을 잡고, \(k \ge k_2 \Rightarrow d(x_{n(k)}, a) < \eps\)인 \(k_2\)를 잡을 수 있다. \(K = \max\{k_1, k_2\}\)라고 하면 \(\mathrm{diam}C_K < \eps / 2\)이므로 각 \(p \in C_K\)에 대해 \(d(x_{n(K)}, p) \le \eps / 2\). 따라서 \(d(a, p) \le d(a, x_{n(K)}) + d(x_{n(K)}, p) < \eps\)이므로, \(C_K \subseteq N_\eps (a) \subseteq A\)이다. 따라서 모순. 
+			\item
+			다음으로 임의의 \(\eps > 0\)에 대해 유한 개의 \(x_1, \ldots, x_n \in X\)가 존재하여 \(X = \bigcup_{k=1}^n N_\eps (x_k)\)임을 보인다. 만약 그러한 유한 개의 점들이 존재하지 않는다고 가정하자. 그러면 다음과 같이 \((x_n)\)을 구성할 수 있다.\\
+			\(x_1\)은 \(X\)의 아무 점으로 하자. \(N_\eps (x_1)\)은 \(X\) 전체가 될 수 없으므로 \(x_2 \in X \backslash N_\eps (x_1)\)이 존재한다. 계속해서 \(x_1, \ldots, x_k\)가 주어지면, \(x_{k+1} \in X \backslash \bigcup_{i=1}^k N_\eps (x_i)\)를 택한다. 그러면 정의에 의해 \(d(x_{k+1}, x_i) \ge \eps\) for \(i = 1, \ldots, k\)인데, 따라서 \((x_n)\)의 어느 subsequence도 Cauchy sequence가 아니므로 수렴하지 않는다. 이는 \(X\)가 SC인 것에 모순이다.
+			\item
+			마지막으로 \(\{U_i\}_{i \in I}\)가 finite subcover를 가짐을 보인다. Step 1에서 구한 \(\delta > 0\)에 대하여, \(\eps = \delta / 3\)으로 놓는다. 그러면 Step 2에 의하여, 유한 개의 \(x_1, \ldots, x_n\)이 존재하여 \(X = \bigcup_{k=1}^n N_\eps (x_k)\)이다. 각 \(k\)에 대해 \(\mathrm{diam}N_\eps(x_k) \le 2 \delta / 3\)이므로, \(\delta\)의 정의에 의해 \(N_\eps(x_k) \subseteq U_k\) for some \(U_k\). 이제 \(\{U_k\}_{k = 1, \ldots, n}\)은 finite subcover이다. 따라서 \(X\)는 compact.
+		\end{enumerate}
+	\end{proof}
+
+\subsection{Compact Sets in a Euclidean Space} \label{sec hb}
+
+드디어 우리의 고향으로 돌아왔습니다. Section \ref{sec hb}의 목표는 Euclidean space \(\RR^N\)에서 compact set의 필요충분조건을 찾는 것입니다.
+
+임의의 metric space에서 compact이면 closed and bounded임을 알고 있습니다. 그런데 놀랍게도, Euclidean space에서는 그 역이 성립합니다.
+
+	\begin{thm} [Heine-Borel Theorem]
+		\(K \subseteq \RR^N\) is compact if and only if \(K\) is closed and bounded.
+	\end{thm}
+	\begin{proof}
+		($\Leftarrow$) 방향만 보이면 된다. \(K \subseteq \RR^N\)가 closed and bounded라고 하자. \(K\)의 임의의 infinite subset \(A\)에 대하여, \(A\)도 bounded이므로 Bolzano-Weierstrass theorem에 의해 \(A\)는 limit point \(x\)를 가진다. 그런데 가정에 의해 \(K\)는 closed이므로, \(x \in A' \subseteq K' \subseteq K\)이다. 즉 \(K\)는 LPC이고 따라서 \(K\)는 compact이다.
+	\end{proof}
+
+Bolzano-Weierstrass theorem의 강력함을 다시 한 번 음미하기 바랍니다.
+
+지금까지의 내용을 정리하면 다음과 같습니다.
+
+	\begin{cor}
+		\(K \subseteq \RR^N\)에 대하여 다음은 동치.
+		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(K\) is closed and bounded.
+			\item
+			\(K\) is compact.
+			\item
+			Any infinite subset of \(K\) has a limit point in \(K\). i.e., \(K\) is LPC.
+			\item
+			Any sequence in \(K\) has a subseqnece converging to some point in \(K\). i.e., \(K\) is SC.
+		\end{enumerate}	
+	\end{cor}
+
+\newpage
+
+\section{Connectedness} \label{sec conn}
+
+Section \ref{sec conn}\이 끝날 때까지 아무 말이 없으면 \(X\)는 metric space.
+
+Compact set은 어떤 의미에서 finite set의 위상적인 일반화였고, 그것이 \(\RR\)에서는 유계닫힌집합과 동치였습니다. Connected set은 \(\RR\)의 구간을 일반화한 것입니다. `connected'라는 것이 무엇인가를 생각해 보면, 다음 정의에 도달합니다.
+
+	\begin{defn}
+		\(U, V \subset X\)가 nonempty open subsets of \(X\)이고 \(U \cap V = \emptyset, U \cup V = X\)일 때 \((U, V)\)를 \textbf{separation of \(X\)}라고 한다. \(X\)의 separation이 존재하지 않을 때 \(X\)를 \textbf{connected set(연결집합)}이라고 한다.
+	\end{defn}
+
+	\begin{ex}
+		\(\RR \backslash \{0\} \subset \RR\)은 \((-\infty, 0)\cup(0, \infty)\)의 separation을 가지므로 connected set이 아닙니다.
+	\end{ex}
+
+Separation의 또 다른 정의는 다음 정리와 같은데, 이는 위의 정의와 동치입니다.
+
+	\begin{thm} \label{conn def}
+		\((U, V)\) is a separation of \(Y \subseteq X\) if and only if \(U, V\) are both nonempty, \(U \cup V = Y\) and \(U \cap \overline{V} = \emptyset, \overline{U} \cap V = \emptyset\). (여기서 \(\overline{U}\)는 closure of \(U\) in \(X\))
+	\end{thm}
+	\begin{proof}
+		($\Rightarrow$): \((U, V)\)가 \(Y\)의 separation이면, \(U\)는 open subset of \(Y\)이면서 동시에 closed subset of \(Y\)이다(왜 그런가?) Closure of \(U\) in \(Y\)는 \(\overline{U} \cap Y\)인데 \(U\)가 closed in \(Y\)이므로 \(U = \overline{U} \cap Y\)이다. 즉 \(\overline{U} \cap V = \emptyset\). \(U \cap \overline{V} = \emptyset\)도 마찬가지로 보일 수 있다.\\
+		($\Leftarrow$): 가정에 의해 \(U \cap V = \emptyset, \overline{U} \cap Y = U, \overline{V} \cap Y = V\)이다. 즉 \(U, V\)는 closed in \(Y\). 한편 \(U = Y \backslash V\)이므로, \(U, V\)는 open in \(Y\). 따라서 \((U, V)\)는 \(Y\)의 separation이다.
+	\end{proof}
+
+\(\RR\)의 구간과 connected set은 우리가 예상하는 대로 동치입니다.
+
+	\begin{thm}
+		\(I \subseteq \RR\)에 대하여 다음은 동치.
+		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+			\item
+			\(I\)는 구간이다.
+			\item
+			\(a, b \in I, a < c < b \Rightarrow c \in I\)
+			\item
+			\(I\) is connected.
+		\end{enumerate}	
+	\end{thm}
+	\begin{proof}
+		(a)$\Leftrightarrow$(b)는 쉽게 알 수 있다.\\
+		(b)$\Rightarrow$(c): (b)를 가정하고, 모순을 보이기 위해 \(I\)의 separation \(U, V\)가 존재한다고 하자. \(U, V\)는 nonempty이므로, 일반성을 잃지 않고, \(a \in U, b \in V, a < b\)를 택할 수 있다. \(c = \sup (U \cap [a, b])\)라고 정의하면 \(a \le c \le b\)이다. (b)에 의해 \(c \in I\)이므로 \(c \in U\) or \(c \in V\)이다.\\
+		만약 \(c \in U\)이면, \(a \le c < b\)이다. \(U \cap [a, b)\)는 \([a, b)\)의 open set이므로, 양수 \(\delta_1 > 0\)이 존재하여 \(N_{\delta_1}(c) \cap [a, b) \subseteq U \cap [a, b)\)이다. 따라서 \(d_1 \in U \cap [a, b)\)인 \(d_1 \in (c, b)\)가 존재하는데, 이는 \(c = \sup (U \cap [a, b])\)에 모순이다.\\
+		한편 \(c \in V\)이면, \(a < c \le b\)이다. 앞에서와 마찬가지로 양수 \(\delta_2 > 0\)가 존재하여 \(N_{\delta_2}(c) \cap (a, b] \subseteq V \cap (a, b]\)이다. \(\sup\)의 정의에 의해 \(d_2 \in U \cap [a, b]\)이면서 \(N_{\delta_2}(c) \cap (a, b]\)인 \(d_2\)가 존재한다. 그러면 \(d_2 \in U \cap V\)이므로, \(U \cap V\)인 것에 모순이다. 따라서 (b)가 참이면 \(I\)는 separation을 가지지 않는다.
+		(c)$\Rightarrow$(b): \(a, b \in I, c \notin I\)인 \(a < c < b\)가 존재한다고 하면 \(U = I \cap (-\infty, c), V = I \cap (c, \infty)\)는 \(I\)의 separation이므로(왜 그런가?) \(I\) is not connected.
+	\end{proof}
+	
+	다음은 connectedness의 성질 몇 가지.
+	
+	\begin{lem} \label{conn lem}
+		\(U, V \subset X\)가 \(X\)의 separation이고, \(Y \subset X\)가 connected subset of \(X\)이면 \(Y \subseteq U\)이거나 \(Y \subseteq V\)이다.
+	\end{lem}
+	\begin{proof}
+		\(U \cap Y, V \cap Y\)는 모두 \(Y\)의 open set이고, \((U \cap Y) \cap (V \cap Y) = Y\)이다. 따라서 \(Y\)가 connected이기 위해서는 \(U \cap Y = \emptyset\)이거나 \(V \cap Y = \emptyset\)이어야 한다.
+	\end{proof}
+	
+	\begin{thm}
+		\(\mathcal{C}\)가 collection of connected subsets of \(X\)라고 하자. \(\bigcap_{C \in \mathcal{C}} C\)가 nonempty이면 \(\bigcup_{C \in \mathcal{C}} C\)도 connected이다.
+	\end{thm}
+	\begin{proof}
+		\(Y = \bigcup_{C \in \mathcal{C}} C\)의 separation \(U, V\)가 존재한다고 가정하자. 가정에 의해 \(p \in \bigcap_{C \in \mathcal{C}} C\)를 택할 수 있는데, \(p \in U\)이거나 \(p \in V\)이다. 일반성을 잃지 않고 \(p \in U\)라고 하자. \(\bigcap_{C \in \mathcal{C}} C\)는 connected이므로 Lemma \ref{conn lem}에 의해 \(\bigcap_{C \in \mathcal{C}} C \subseteq U\)이거나 \(\bigcap_{C \in \mathcal{C}} C \subseteq V\)인데, \(p \in U\)이므로 \(\bigcap_{C \in \mathcal{C}} C \subseteq U\)이다. 이는 \(V\)가 nonempty인 것에 모순이므로, \(Y\) is connected.
+	\end{proof}
+	
+	\begin{thm}
+		\(A \subseteq X\)가 connected이고 \(A \subseteq B \subseteq \overline{A}\)이면 \(B\)도 connected.
+	\end{thm}
+	\begin{proof}
+		\(B\)의 separation \(U, V\)가 존재한다고 가정하자. Lemma \ref{conn lem}에 의해 \(A \subseteq U\)이거나 \(A \subseteq V\)이다. 일반성을 잃지 않고 \(A \subseteq U\)라고 하자. 그러면 \(\overline{A} \subseteq \overline{U} \subseteq \overline{B} \subseteq \overline{A}\)이므로 \(B \subseteq \overline{U} = \overline{A}\). 그런데 Theorem \ref{conn def}에 의해 \(\overline{U} \cap V = \emptyset\)이다. 이는 \(V\)가 nonempty인 것에 모순이다.
+	\end{proof}
+
+Connectedness는 이후 연속함수의 성질에서 한번 더 언급됩니다.
+
+\newpage
+
+\section{Continuity} \label{sec cont}
+
+\subsection{Limit of Functions and Continuous Functions}
+
+이제 드디어 연속함수를 시작합니다. 친숙한 개념이니까 좀 더 재밌지 않을까요?
+
+역시 아무 말이 없으면 Section \ref{sec cont}에서 \(X, Y\)는 metric space.
+
+\begin{defn}
+	함수 \(f: E \subseteq X \rightarrow Y\)와 점 \(p \in E', q \in Y\)에 대하여
+	\begin{gather*}
+		\lim_{x \rightarrow p} f(x) = q
+	\end{gather*}
+	라는 것은 임의의 \(\eps > 0\)에 대하여 \(\delta > 0\)이 존재하여
+	\begin{gather*}
+		0 < d_X (x, p) < \delta \Longrightarrow d_Y (f(x), q) < \eps \quad (x \in E)
+	\end{gather*}
+	를 만족하는 것이다. 이때 \(q\)를 \textbf{limit of \(f\) as \(x \rightarrow p\)}라고 한다.
+\end{defn}
+\begin{rem}
+	\(p\)가 꼭 \(E\) 안에 있지 않아도 됩니다.
+\end{rem}
+
+\begin{ex}
+	\(\lim_{x \rightarrow 2} x^2 = 4\)임을 증명하려 합니다. 먼저 양수 \(\delta > 0\)에 대해 다음이 성립하는 것을 알 수 있습니다.
+	\begin{gather*}
+		0 < \abs{x-2} < \delta \Longrightarrow \abs{x^2 - 4} = \abs{x + 2}\abs{x - 2} < (4 + \delta)\delta
+	\end{gather*}
+	이제 양수 \(\eps > 0\)이 주어졌을 때, \((4 + \delta)\delta < \eps\)이도록 하는 \(\delta > 0\)을 찾으면 됩니다. 여러 가지 방법이 있는데, 생각나는 가장 쉬운 방법은 \(\delta = \min\{1, \frac{\eps}{5}\}\)로 잡는 것입니다. 그러면
+	\begin{gather*}
+		0 < \abs{x-2} < \delta \Longrightarrow \abs{x^2 - 4} < (4 + \delta)\delta \le 5 \times \eps / 5 = \eps
+	\end{gather*}
+	이므로 증명이 끝났습니다.
+\end{ex}
+
+함수의 극한을 sequence의 수렴으로도 설명할 수 있습니다.
+
+\begin{thm} \label{thm lim seq}
+	함수 \(f: E \subseteq X \rightarrow Y\)와 점 \(p \in E', q \in Y\)에 대하여 다음은 동치.
+	\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(\lim_{x \rightarrow p} f(x) = q\).
+		\item
+		Sequence \((p_n)\) in \(E\)가 \(p_n \neq p, \lim_n p_n = p\)를 만족하면 \(\lim_n f(p_n) = q\).
+	\end{enumerate}
+\end{thm}
+\begin{proof}
+	($\Rightarrow$): \(p_n \neq p, \lim_n p_n = p\)인 sequence \((p_n)\) in \(E\)를 잡는다. 임의의 \(\eps > 0\)에 대하여 \(\delta > 0\) s.t. [\(d_Y (f(x), q) < \eps\) if \(x \in E\) and \(0 < d_X (x, p) < \delta\)]인 \(\delta\)를 찾는다. 그리고 \(n \ge N\)이면 \(0 < d_X (p_n, p) < \delta\)인 \(N\)을 찾으면, \(n \ge N\)에 대하여 \(d_Y (f(p_n), q) < \eps\)이다. 따라서 \(\lim_n f(p_n) = q\).\\
+	($\Leftarrow$): 대우를 보이기 위해 결론을 부정하자. 그러면 for some \(\eps > 0\), for any \(n \in \NN\) there exists some \(p_n \in E\) s.t. \(0 < d_X (p_n, p) < 1/n\) but \(d_Y (f(p_n), q) \ge \eps\). 그러면 \(p_n \neq p, p_n \rightarrow p\)인데 \((f(p_n))\)은 \(q\)로 수렴하지 않는다.
+\end{proof}
+
+\begin{cor}
+	\(f\)의 \(p\)에서의 limit이 존재하면 유일하다.
+\end{cor}
+\begin{proof}
+	Metric space에서 limit의 유일성에 의해\ldots
+\end{proof}
+
+다음을 증명하는 것은 연습문제로 남깁니다.
+
+\begin{prop}
+	\(f, g : E \subseteq X \rightarrow \RR\)과 \(p \in E'\)에 대하여 \(\lim_{x \rightarrow p} f(x) = \alpha, \lim_{x \rightarrow p} g(x) = \beta\)일 때 다음이 성립한다.
+	\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(\lim_{x \rightarrow p} f(x)+g(x) = \alpha + \beta\).
+		\item
+		\(\lim_{x \rightarrow p} cf(x) = c\alpha\) for \(c \in \RR\).
+		\item
+		\(\lim_{x \rightarrow p} f(x)g(x) = \alpha\beta\).
+		\item
+		\(\lim_{x \rightarrow p} f(x)/g(x) = \alpha/\beta\), if \(g(x) \neq 0\) for all \(x \in E\) and \(\beta \neq 0\).
+	\end{enumerate}
+\end{prop}
+
+\begin{defn}
+	함수 \(f: E \subseteq X \rightarrow Y\) \textbf{continuous at \(p \in E\)}라는 것은 임의의 \(\eps > 0\)에 대하여 \(\delta > 0\)이 존재하여
+	\begin{gather*}
+		d_X (x, p) < \delta \Longrightarrow d_U (f(x), f(p)) < \eps \quad (x \in E)
+	\end{gather*}
+	라는 것이다. \(f\)가 \(E\)의 모든 점에서 연속이면 \(f\)는 \textbf{continuous on \(E\)}이다.
+\end{defn}
+
+Limit의 정의와 비교해 보면 다음을 얻습니다(이것이 고등학교에서 연속의 정의입니다).
+
+\begin{prop}
+	\(p \in E \cap E'\)에 대하여 \(f\) is continuous at \(p\) if and only if \(\lim_{x \rightarrow p} f(x) = f(p)\).
+\end{prop}
+
+만약 \(p \in E \backslash E'\)이면, 즉 \(p\)가 isolated point of \(E\)이면 \(p\)에서의 극한은 정의되지 않지만, 정의에 의해 \(f\)는 \(p\)에서 항상 연속입니다. 이 사실을 염두에 두면, Theorem \ref{thm lim seq}로부터 continuity와 sequence의 수렴의 관계를 얻습니다.
+
+\begin{thm} \label{conti seq}
+	함수 \(f: E \subseteq X \rightarrow Y\)와 점 \(p \in E\)에 대하여 다음은 동치.
+	\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(f\) is continuous at \(p\).
+		\item
+		Sequence \((p_n)\) in \(E\)가 \(\lim_n p_n = p\)를 만족하면 \(\lim_n f(p_n) = f(p)\).
+	\end{enumerate}
+\end{thm}
+
+\begin{prop}
+	\(f, g : E \subseteq X \rightarrow \RR\)가 \(p \in E\)에서 연속이면 \(f+g, cf, fg\)도 \(p\)에서 연속이고(\(c \in \RR\)), \(g(x) \neq 0\) for all \(x \in E\)이면 \(f/g\)도 \(p\)에서 연속.
+\end{prop}
+
+연속함수의 개념을 metric을 사용하지 않고 open set만을 이용하여 더 일반적인 상황에서 정의할 수 있는데, metric space에서의 정의와 동치입니다.
+
+\begin{defn}
+	\(f: X \rightarrow Y\) (여기서 \(X, Y\)는 그냥 집합)에 대하여, \(f(A) = \{f(x) \in Y: x \in A\}\)를 \textbf{image(상) of \(A \subseteq X\) under \(f\)}라고 하고, \(f^{-1}(B) = \{x \in X: f(x) \in B\}\)를 \textbf{preimage(역상) of \(B \subseteq Y\) under \(f\)}라고 한다.
+\end{defn}
+
+\begin{thm} \label{conti}
+	\(f: E \subseteq X \rightarrow Y\)에 대하여 다음은 동치.
+	\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(f\) is continuous on \(E\).
+		\item
+		\(B \subseteq Y\)가 open in \(Y\)이면 \(f^{-1}(B)\)도 open in \(E\).
+		\item
+		\(B \subseteq Y\)가 closed in \(Y\)이면 \(f^{-1}(B)\)도 closed in \(E\).
+	\end{enumerate}
+	즉 연속함수는 `open set의 preimage가 open set인 함수'이다.
+\end{thm}
+\begin{proof}
+	(a)$\Rightarrow$(b): \(B \subseteq Y\)가 open이라고 하자. 임의의 \(x \in f^{-1}(B)\)에 대해, \(\eps > 0\)이 존재하여 \(N_\eps (f(x)) \subseteq B\)이다. \(f\)가 continuous at \(x\)이므로 \(\delta > 0\)가 존재하여 \(f(N_\delta (x_0) \cap E) \subseteq N_\eps (f(x))\)이다. \(A \subseteq f^{-1}(f(A))\)인 사실을 이용하면(왜 그런가?),
+	\begin{gather*}
+		N_\delta (x_0) \cap E \subseteq f^{-1}(f(N_\delta (x_0) \cap E)) \cap f^{-1}(N_\eps (f(x))) \subseteq f^{-1}(B)
+	\end{gather*}
+	이다. 따라서 \(f^{-1}(B)\) is open in \(E\).\\
+	(b)$\Rightarrow$(a): \(x \in E\)라고 하고, 임의의 \(\eps > 0\)에 대해 \(N_\eps (f(x))\)는 open in \(Y\)이므로 \(f^{-1}(N_\eps (f(x)))\)도 open in \(E\)이다. 따라서 \(\delta > 0\)가 존재하여 \(N_\delta (x) \cap E \subseteq f^{-1}(N_\eps (f(x)))\)이고, \(f(N_\delta (x) \cap E) \subseteq f(f^{-1}(N_\eps (f(x)))) \subseteq N_\eps (f(x))\)이다. 따라서 \(f\) is continous at \(x\). \(x\)는 임의의 점이었으므로 \(f\) is continuous on \(E\).\\
+	(b)$\Leftrightarrow$(c): 연습문제로 남김.
+\end{proof}
+
+\begin{cor}
+	\(f: X \rightarrow Y, g: Y \rightarrow Z\)가 연속이면 \(g \circ f: X \rightarrow Z\)도 연속이다.
+\end{cor}
+\begin{proof}
+	Open set \(U \subseteq Z\)에 대하여, \(g\)가 연속이므로 \(g^{-1}(U) \subseteq Y\)도 open. \(f\)가 연속이므로 \((g \circ f)^{-1}(U) = f^{-1}(g^{-1}(U)) \subseteq X\)도 open.
+\end{proof}
+
+\subsection{Continuity and Compactness} \label{sec cont cpt}
+
+Section \ref{sec cont cpt}의 주요한 결과는 \textbf{최대최소정리}입니다.
+
+\begin{thm} \label{conticpt}
+	연속함수 \(f: X \rightarrow Y\)에 대하여 \(X\)가 compact이면 \(f(X)\)도 compact.
+\end{thm}
+\begin{proof}
+	\(\{U_i\}_{i \in I}\)가 \(f(X)\)의 open cover라고 하자. Theorem \ref{conti}에 의해 각 \(f^{-1}(U_i)\)는 open in \(X\)이고, 따라서 \(\{f^{-1}(U_i)\}_{i \in I}\)는 open cover of \(X\). \(X\)가 compact이므로 finite subcover \(\{f^{-1}(U_i)\}_{i = i_1, \ldots, i_n}\)이 존재한다. 따라서
+	\begin{gather*}
+		f(X) = f(\bigcup_{k = 1}^n f^{-1}(U_{i_k})) = \bigcup_{k = 1}^n f(f^{-1}(U_{i_k})) \subseteq \bigcup_{k = 1}^n U_{i_k}
+	\end{gather*}
+	이므로, \(\{U_i\}_{i \in I}\)의 finite subcover를 찾았다.
+\end{proof}
+
+이제 최대최소정리는 당연한 따름정리입니다.
+
+\begin{cor} [Maximum-Minimum Theorem: 최대최소정리]
+	\(f: [a, b] \rightarrow \RR\)가 연속이면 \(f\)는 \([a, b]\)에서 최댓값과 최솟값을 가진다.
+\end{cor}
+\begin{proof}
+	\([a, b] \subseteq \RR\)은 compact이므로, Theorem \ref{conticpt}에 의해 \(f([a, b]) \subseteq \RR\)도 compact이고 따라서 bounded and closed이다. \(\RR\)의 bounded and closed subset은 최댓값과 최솟값을 가지므로 증명 끝.
+\end{proof}
+
+뭔가 허무한 느낌입니다. 고등학교 때부터 증명을 미뤄온 최대최소정리의 증명 자체는 단 몇 줄로 끝났습니다. 하지만 여기에 이르기까지 무엇을 공부했는지\textemdash 실수의 완비성, 수열, open set, limit point, compactness, Heine-Borel \ldots \textemdash 를 생각해보면 실로 대단한 정리인 것입니다. 같은 느낌을 잠시 후에 사잇값정리를 증명할 때 받게 될 것입니다.
+
+연속함수의 역함수는 연속함수 일까요? `Yes'라고 대답하고 싶은 충동이 들겠지만\ldots
+
+\begin{ex}
+	\(\{0\} \cup (1, 2]\)에서 \(f\)를 다음과 같이 정의합니다.
+	\begin{gather*}
+		f(x) = 
+		\begin{cases}
+			x - 1, & \text{if } 1 < x \le 2\\
+			0, & \text{if } x = 0
+		\end{cases}
+	\end{gather*}
+	그러면 \(f\)는 연속이고(\(0\)은 정의역의 isolated point이므로 항상 연속), \(f\)는 injective\footnote{injection = 단사함수 = 일대일함수. surjection = 전사함수 = 치역과 공역이 같은 함수. bijection = injection and surjection = 전단사함수 = 일대일대응.}이므로 그 치역에서 역함수를 정의할 수 있습니다. 그런데
+	\begin{gather*}
+		f^{-1}(x) = 
+		\begin{cases}
+			x + 1, & \text{if } 0 < x \le 1\\
+			0, & \text{if } x = 0
+		\end{cases}
+	\end{gather*}
+	이므로 \(f^{-1}\)은 \([0, 1]\)에서 연속이 아닙니다.
+\end{ex}
+
+
+정의역이 compact인 전단사 연속함수는 그 역함수도 연속함수입니다.
+
+\begin{thm}
+	Bijection \(f: X \rightarrow Y\)가 \(X\)에서 연속이고 \(X\)이 compact이면 \(f^{-1}: Y \rightarrow X\)도 연속이다.
+\end{thm}
+\begin{proof}
+	Theorem \ref{conti}에 의하여, open set \(U \subseteq X\)에 대하여 \(f(U) \subseteq Y\)가 open인 것을 보이면 된다.\\
+	\begin{align*}
+		U \text{ is open in } X. &\iff X \backslash U \text{ is closed in } X.\\
+		&\iff X \backslash U \text{ is compact.}\\
+		&\iff f(X \backslash U)=Y \backslash f(U) \text{ is closed in } Y.\\
+		&\iff f(U) \text{ is open in } Y.			
+	\end{align*}
+\end{proof}
+
+\subsection{Continuity and Connectedness} \label{sec cont conn}
+
+Section \ref{sec cont conn}의 주요한 결과는 \textbf{사잇값정리}입니다.
+
+\begin{lem} \label{lem cont conn}
+	\(E \subseteq X\)에 대하여 다음은 동치.
+	\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(S\) is not connected.
+		\item
+		There exists a surjective continuous function \(f: S \rightarrow \{0, 1\} \subset \RR\).
+	\end{enumerate}
+\end{lem}
+\begin{proof}
+	\(U, V\)가 \(S\)의 separation이라고 하자.
+	\begin{gather*}
+		f(x)=
+		\begin{cases}
+			0, &\text{if } x \in U\\
+			1, &\text{if } x \in V
+		\end{cases}
+	\end{gather*}
+	로 정의하면, \(f\)는 전사 연속함수. 역으로 그러한 \(f\)가 존재한다고 하면,
+	\begin{gather*}
+		U = f^{-1}(\{0\}), \quad V = f^{-1}(\{1\})
+	\end{gather*}
+	로 정의하면 \(U, V\)는 \(S\)의 separation이다.
+\end{proof}
+
+\begin{thm} \label{conti conn}
+	연속함수 \(f: X \rightarrow Y\)에 대하여 \(X\)가 connected이면 \(f(X)\)도 connected.
+\end{thm}
+\begin{proof}
+	\(f(X)\)가 connected가 아니라고 가정하면, Lemma \ref{lem cont conn}에 의해 전사 연속함수 \(g: f(X) \rightarrow \{0, 1\} \subset \RR\)이 존재한다. 따라서 \(g \circ f: X \rightarrow \{0, 1\}\)도 전사 연속함수이므로 \(X\)는 not connected.
+\end{proof}
+
+\begin{cor} [Intermediate Value Theorem: 사잇값정리]
+	\(f: [a, b] \rightarrow \RR\)가 연속이고 \(f(a) \neq f(b)\)이면 \(f(a)\)와 \(f(b)\) 사이의 임의의 실수 \(k\)에 대하여 \(f(c) = k\)인 \(c \in (a, b)\)가 존재한다.
+\end{cor}
+\begin{proof}
+	\(f([a, b]) \subseteq \RR\)이 connected이고, \(\RR\)의 conencted set은 구간이므로\ldots
+\end{proof}
+
+사잇값정리를 (한 줄로!) 증명했습니다.
+
+Connectedness의 정의는 `separation이 존재하지 않는다'이므로, 정의만을 이용하여 어떤 집합이 connected임을 보이는 것은 어려울 때가 많습니다. Theorem \ref{conti conn}을 이용하면 어떤 집합 \(S\)에 대하여 다른 connected set(예: \(\RR\)의 구간에서 \(S\)로 가는 전사 연속함수만 찾으면 됩니다.
+
+\begin{ex}
+	\(\RR^N\)의 두 점 \(x, y\)에 대하여, \textbf{line segment(선분) \([x, y]\)}를
+	\begin{gather*}
+		[x, y] = \{(1-t)x + ty \in \RR^N: t \in [0, 1]\}
+	\end{gather*}
+	로 정의하면, \([0, 1]\)에서 정의된 전사 연속함수
+	\begin{align*}
+		f: [0, 1] &\rightarrow [x, y]\\
+		t &\mapsto (1-t)x + ty
+	\end{align*}
+	가 존재하므로 \([x, y]\)는 connected.
+\end{ex}
+
+Theorem \ref{conti conn}의 중요한 결과 하나를 언급하고 Section 1.3을 마무리하겠습니다. 함수 \(f: X \rightarrow X\)에 대하여 \(f(x) = x\)인 \(x \in X\)를 \textbf{fixed point(고정점) of \(f\)}라고 합니다. Fixed point의 존재성은 수학의 각 분야에서 자주 언급되는데, \(X=[a, b] \subset \RR\)이고 \(f\)가 연속일 때 fixed point의 존재성을 주장할 수 있습니다.
+
+\begin{cor}
+	\(f:[a, b] \subset \RR \rightarrow [a, b] \subset \RR\)이 연속일 때, \(f\)는 fixed point를 가진다.
+\end{cor}
+\begin{proof}
+	\(g(x) = x - f(x)\)로 정의하면,
+	\begin{gather*}
+		g(a) = a - f(a) \le 0 \le b - f(b) = g(b)
+	\end{gather*}
+	이므로 사잇값 정리에 의해 \(g(c) = c - f(c) = 0\)인 \(c \in [a, b]\)가 존재한다.
+\end{proof}
+
+\subsection{Uniform Continuity}
+
+이제 고등학교나 미적분학에서는 전혀 볼 수 없었던 새로운 개념인 uniform continuity를 정의하려고 합니다.
+
+\begin{defn}
+	\textbf{Metric space}\footnote{그냥 연속과 달리 거리의 개념이 꼭 필요합니다.} \(X, Y\)에 대하여 함수 \(f: X \rightarrow Y\)가 \textbf{uniformly continuous(고른연속) on \(X\)}라는 것은, 임의의 \(\eps > 0\)에 대하여 양수 \(\delta > 0\)이 존재하여\\
+	\begin{gather} \label{uniconti}
+		d_X(x, y) < \delta \Longrightarrow d_Y (f(x), f(y)) < \eps \quad (x, y \in X)
+	\end{gather}
+	를 만족하는 것이다.
+\end{defn}
+
+\begin{rem}
+	`어떤 함수가 continuous on \(X\)'의 정의는 \(f\)가 \textbf{각 \(x \in X\)에서 continuous}인 것입니다. 즉, continuity는 기본적으로 각 점의 근방에서의 local한 성질입니다. 그런데 uniform continuity는 정의역 전체를 control할 수 있는 \(\delta > 0\)을 요구하는, global한 성질입니다.\footnote{수학에서 uniform이라는 단어는 보통 어떤 집합 전체를 control할 수 있는 어떤 대상의 존재를 의미합니다.} 그래서 `\(f\)가 \(x \in X\)에서 uniform continuous하다'라는 말은 그 자체로 non-sense.
+\end{rem}
+
+\begin{prop}
+	\(f: X \rightarrow Y\)가 uniformly continuous on \(X\)이면 continuous on \(X\).
+\end{prop}
+\begin{proof}
+	\(\eps > 0\)에 대하여 (\ref{uniconti})을 만족하는 \(\delta > 0\)를 찾는다. 각 \(x \in X\)에 대하여,
+	\begin{gather*}
+		y \in X, d_X (x, y) < \delta \rightarrow d_Y (f(x), f(Y)) < \eps
+	\end{gather*}
+	이므로 \(f\)는 continuous at \(x\). \(x \in X\)는 임의의 점이므로, \(f\)는 continuous on \(X\).
+\end{proof}
+
+\begin{ex}
+	\quad
+	\begin{enumerate} [label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(f:\RR \rightarrow \RR\)을 \(f(x) = x^2\)로 정의하면, \(f\) is not uniformly continuous on \(\RR\).\\
+		\(f\)가 정의역에서 uniformly continuous라고 가정하면,
+		\begin{gather*}
+			x, y \in \RR, \abs{x - y} < \delta \Longrightarrow \abs{x^2 - y^2} < 1
+		\end{gather*}
+		인 \(\delta > 0\)이 존재합니다. 그런데
+		\begin{gather*}
+			x = \frac{1}{\delta}, \quad y = x + \frac{\delta}{2}
+		\end{gather*}
+		로 잡으면,
+		\begin{gather*}
+			\abs{x^2 - y^2} = \abs{x + y}\abs{x - y} \ge \frac{2}{\delta}\times \frac{\delta}{2} = 1
+		\end{gather*}
+		이므로 모순.
+		\item
+		그런데 (a)의 \(f\)의 정의역을 \([0, 1]\)로 제한시키면 \(f\) is uniformly continuous on \([0, 1]\).\\
+		\(\eps > 0\)에 대하여 \(\delta = \eps / 2\)\footnote{분모의 2의 정체는 Corollary \ref{diff} 참고.}로 정의하면
+		\begin{gather*}
+			x, y \in \RR, \abs{x - y} < \delta \Longrightarrow \abs{x^2 - y^2} = \abs{x + y}\abs{x - y} \le 2\delta = \eps.
+		\end{gather*}
+		즉 uniform continuity는 정의역에 의존한다.
+	\end{enumerate}
+\end{ex}
+
+\(f: X \rightarrow Y\)가 uniformly continuous on \(X\)일 충분조건 몇 개를 소개합니다.
+
+\begin{prop} \label{Lip}
+	\(f: X \rightarrow Y\)에 대하여
+	\begin{gather*}
+		d_Y (f(x), f(y)) \le M d_X (x, y) \quad (x, y \in X)
+	\end{gather*}
+	를 만족하는 \(M > 0\)이 존재하면 \(f\) is uniformly continuous on \(X\).
+\end{prop}
+\begin{proof}
+	\(\eps > 0\)에 대하여 \(\delta = \eps / M\)으로 정의하면 (\ref{uniconti})을 만족한다.
+\end{proof}
+
+\begin{cor} \label{diff}
+	\(f: \RR \rightarrow \RR\)이 미분가능하고,\footnote{미분을 아직 정의하지는 않았지만\ldots} \(\abs{f'} < M\)인 \(M > 0\)이 존재하면 \(f\) is uniformly continuous on \(\RR\). 
+\end{cor}
+\begin{proof}
+	평균값 정리에 의해
+	\begin{gather*}
+		\abs{f(x) - f(y)} \le M \abs{x - y} \quad (x, y \in X)
+	\end{gather*}
+	이므로, Proposition \ref{Lip}에 의해.
+\end{proof}
+
+다음 정리는 compact set이 어떤 의미에서 finite set의 일반화라고 하는 것인지를 알 수 있게 해 줍니다.
+
+\begin{thm}
+	\(f: X \rightarrow Y\)가 연속함수이고 \(X\)가 compact이면 \(f\) is uniformly continuous on \(X\).
+\end{thm}
+\begin{proof}
+	\(\eps > 0\)이 주어졌다고 하고, 각 \(x \in X\)에 대하여
+	\begin{gather*} \label{pf2}
+		d_X (x, y) < \delta (x) \Longrightarrow d_Y (f(x), f(y)) < \eps / 2, \quad (y \in X)
+	\end{gather*}
+	인 \(\delta(x) > 0\)을 찾는다(\(\delta(x)\)는 \(x\)에 의존한다는 뜻). 이제 \(\{N_{\delta(x) / 2} (x)\}_{x \in X}\)는 open cover of \(X\)이므로, finite subcover \(\{N_{\delta(x) / 2} (x)\}_{x = x_1, \ldots, x_n}\)이 존재한다. 이제 \(\delta = \min\{\delta(x_1) / 2, \ldots, \delta(x_n) / 2\}\)로 정의하고 (\ref{uniconti})이 성립함을 보이자.\\
+	\(x, y \in X\)에 대하여 \(d_X (x, y) < \delta\)라고 가정하자. 먼저 \(\delta = \min\{\delta(x_1) / 2, \ldots, \delta(x_n) / 2\}\)가 open cover이므로 \(x \in N_{\delta(x_i) / 2} (x_i)\)인 \(i = 1, \ldots, n\)이 존재한다. 따라서
+	\begin{gather*}
+		d_X (y, x_i) \le d_X (y, x) + d_X (x, x_i) < \delta + \frac{\delta(x_i)}{2} \le \delta(x_i)
+	\end{gather*}
+	이므로 (\ref{pf2})에 의해
+	\begin{gather*}
+		d_Y (f(x), f(y)) \le d_Y (f(x), f(x_i)) + d_Y (f(y), f(x_i)) < \frac{\eps}{2} + \frac{\eps}{2} = \eps.
+	\end{gather*}
+\end{proof}
+
+Uniform continuity의 좋은 점은 Cauchy sequence를 보존해준다는 것입니다. 일반적인 연속함수는 Cauchy sequence를 보존해준다고 보장할 수 없습니다.
+
+\begin{ex}
+	\(f: (0, 1] \rightarrow \RR\)을 \(f(x) = 1/x\)로 정의하고 \(p_n = 1/n\)이라 하면 \(p_n \rightarrow 0\)이므로 \((p_n)\)은 Cauchy이지만 \((f(p_n))\)은 발산하므로 not Cauchy.
+\end{ex}
+
+\begin{thm} \label{Cauchy}
+	\(f: X \rightarrow Y\)가 uniformly continuous on \(X\)이고 \((p_n)\)이 Cauchy sequence in \(X\)이면 \((f(p_n))\)도 Cauchy sequence.
+\end{thm}
+\begin{proof}
+	\(\eps > 0\)에 대하여 (\ref{uniconti})을 만족하는 \(\delta > 0\)을 잡고,
+	\begin{gather*}
+		m, n \ge N \Longrightarrow d_X (p_m, p_n) < \delta
+	\end{gather*}
+	인 \(N\)을 잡는다. 이제
+	\begin{gather*}
+		m, n \ge N \Longrightarrow d_X (f(p_m), f(p_n)) < \eps
+	\end{gather*}
+	이므로 \((f(p_n))\)은 Cauchy.
+\end{proof}
+
+연속함수 \(f: E \subseteq X \rightarrow Y\)에 대하여 \(g: X \rightarrow Y\)가 연속이고 \(g \vert_E = f\)이면 \(g\)는 \textbf{continuous extension of \(f\)}라고 합니다. 모든 연속함수가 continuous extension을 가지는 것은 아닙니다.
+
+\begin{ex}
+	\quad
+	\begin{enumerate} [label=(\alph*), leftmargin=2\parindent]
+		\item
+		\((0, 1]\)에서 정의된 함수 \(x \mapsto 1/x\)은 \([0, 1]\)에서의 continuous extension이 존재하지 않습니다(\(0\)에서의 값을 어떤 것으로 해도 불연속이므로).
+		\item
+		\((0, 1]\)에서 정의된 함수 \(x \mapsto \sin(1/x)\)은 \([0, 1]\)에서의 continuous extension이 존재하지 않습니다(\(0\)에서의 값을 어떤 것으로 해도 불연속이므로).
+	\end{enumerate}
+\end{ex}
+
+\begin{cor}
+	Complete metric space \(Y\)에 대하여 \(f: E \subseteq X \rightarrow Y\)이 uniformly continuous on \(E\)이면 continuous extension \(g: \overline{E} \subseteq X \rightarrow Y\)가 존재한다.
+\end{cor}
+\begin{proof}
+	\(E\)의 limit point에서의 \(g\)의 값을 지정해주면 된다. \(x_0 \in X\)가 \(E\)의 limit point이라고 하자. 그러면 \(x_0\)으로 수렴하는 sequence \((x_n)\) in \(E \backslash \{x_0\}\)이 존재한다. 그러면 \((x_n)\)은 Cauchy이고, \ref{Cauchy}에 의해 \((f(x_n))\)도 Cauchy이다. \(Y\)가 complete이므로 \(f(x_n) \rightarrow \alpha\) for some \(\alpha \in Y\)이다. 이제 \(g(x_0) = \alpha\)로 정의한다.\\
+	이 정의의 well-definedness를 확인하기 위해\footnote{여러 가지 가능성 중에서 대표 하나를 이용해서 새로운 것을 정의했을 경우, 대표를 다른 것으로 뽑았을 때도 정의가 같은지를 확인해야 합니다.}, \((x'_n)\)이 \(x_0\)로 수렴하는 sequence in \(E \ \{x_0\}\)라고 하자. 마찬가지 이유로 \(f(x'_n) \rightarrow \beta\) for some \(\beta \in Y\)이다. 이제 \(\alpha = \beta\)인 것을 보이면 된다.
+	\begin{gather*}
+		\limsup_n d_X (x_n, x'_n) \le \limsup_n (d_X (x_n, x_0) + d_X (x'_n, x_0)) = 0
+	\end{gather*}
+	이므로 \(d_X (x_n, x'_n) \rightarrow 0\)이다. 이제 \(\eps > 0\)에 대하여 (\ref{uniconti})을 만족하는 \(\delta > 0\)을 찾고,
+	\begin{gather*}
+		n \ge N_1 \Longrightarrow d_X(x_n, x'_n) < \delta \Longrightarrow d_Y (f(x_n), f(x'_n)) < \eps
+	\end{gather*}
+	인 \(N_1\)을 찾는다. \(N_2, N_3\)을
+	\begin{gather*}
+		n \ge N_2 \Longrightarrow d_Y (f(x_n), \alpha) < \eps\\
+		n \ge N_3 \Longrightarrow d_Y (f(x'_n), \beta) < \eps
+	\end{gather*}
+	을 만족하도록 잡고 \(N = \max\{N_1, N_2, N_3\}\)으로 하면
+	\begin{gather*}
+		d_Y (\alpha, \beta) \le d_Y (\alpha, f(x_N)) + d_Y (f(x_N), f(x'_N)) + d_Y (f'(x_N), \beta) < \eps + \eps + \eps = 3\eps
+	\end{gather*}
+	이다. \(\eps>0\)은 임의의 양수이므로 \(d_Y (\alpha, \beta) = 0\)이고 \(\alpha = \beta\)이다.\\
+	이제 \(g: \overline{E} \subseteq X \rightarrow Y\)의 연속성을 보이는데, \(E\)의 limit point에 대해서만 보이면 된다(왜 그런가?). 위에서와 마찬가지로 \(x_0\)이 \(E\)의 limit point라고 하고, \(g(x_0) = \alpha\)라고 하자. 양수 \(\eps > 0\)에 대하여
+	\begin{gather*}
+		d_X(x, y) < \delta' \Longrightarrow d_Y (f(x), f(y)) < \frac{\eps}{3} \quad (x, y \in X)
+	\end{gather*}
+	을 만족하는 \(\delta' > 0\)을 찾는다. 우리의 주장: for \(x \in \overline{E}\), \(d_X (x, x_0) < \delta' / 2 \Longrightarrow d_Y (g(x), \alpha) < \eps\).\\
+	\(x_0, x \in \overline{E}\)이므로 \(x_0, x\)으로 수렴하는 \(E\) 안의 수열 \((p_n), (q_n)\)이 존재한다. 또 정의에 의해 \(f(p_n) \rightarrow \alpha\)이다. 만약 \(x \in E'\)이면 정의에 의해 \(f(q_n) \rightarrow g(x)\)이고, \(x \in E \backslash E'\)이면 \(x\)는 isolated point이므로 \(q_n = x\) for sufficiently largle \(n\)이다. 따라서 어느 경우든 \(f(q_n) \rightarrow g(x)\)이다.
+	\begin{align*}
+		n \ge M_1 &\Longrightarrow d_X (p_n, x_0) < \frac{\delta'}{2}\\
+		n \ge M_2 &\Longrightarrow d_Y (f(p_n), \alpha) < \frac{\eps}{3}\\
+		n \ge M_3 &\Longrightarrow d_X (q_n, x) < \frac{\delta'}{2} - d_X (x, x_0)\\
+		n \ge M_4 &\Longrightarrow d_Y (f(q_n), g(x)) < \frac{\eps}{3}
+	\end{align*}
+	인 \(M_1, M_2, M_3, M_4\)를 찾을 수 있다. 이중 최댓값을 \(M\)이라 하면,
+	\begin{align*}
+		d_Y (g(x), \alpha) &\le d_Y (g(x), f(q_M)) + d_Y (f(q_M), f(p_M)) + d_Y (f(p_M), \alpha)\\
+		&< \frac{\eps}{3} + \frac{\eps}{3} + \frac{\eps}{3} = \eps.
+	\end{align*}
+\end{proof}
+
+\subsection{Monotonic Functions} \label{sec mono}
+
+Section \ref{sec mono}\이 끝날 때까지 \(X = Y = \RR\)인 경우만 생각합니다.
+
+\begin{defn}
+	\(f: (a, b) \rightarrow \RR\)와 \(a \le x_0 < b, \alpha \in \RR \cup \{\pm \infty\}\)에 대하여
+	\begin{gather*}
+		\lim_{x \rightarrow x_0+} f(x) = \lim_{x \searrow x_0} f(x) = f(x_0+) = \alpha
+	\end{gather*}
+	라는 것은 \(x_0\)로 수렴하는 \((x_0, b)\) 안의 임의의 수열 \((x_n)\)에 대하여 \(f(x_n) \rightarrow \alpha\)라는 것이다. 이때 \(q\)를 \textbf{right-handed limit(우극한) of \(f\) as \(x \rightarrow x_0+\)}라고 한다.\\
+	\(a < x_0 \le b\)에 대하여 \textbf{left-handed limit(좌극한)} \(\lim_{x \rightarrow x_0-} f(x) = \lim_{x \nearrow x_0} f(x) = f(x_0-) = q\)도 마찬가지로 정의한다.
+\end{defn}
+
+\begin{ex} 좌극한이나 우극한이 존재하지 않는 함수의 예시입니다. \([0, 1]\)에서
+	\begin{gather*}
+		f(x)=
+		\begin{cases}
+			1, &\text{if } x \in \mathbb{Q}\\
+			0, &\text{otherwise}
+		\end{cases}
+	\end{gather*}
+	로 정의하면 \(f\)는 \(x_0 \in [0, 1]\)에서 좌극한이나 우극한을 가지지 않습니다.
+\end{ex}
+
+다음 사실은 쉽게 보일 수 있습니다(증명 생략).
+
+\begin{prop}
+	\(f: (a, b) \rightarrow \RR\)와 \(a \le x_0 < b, \alpha \in \RR\)에 대하여 다음은 동치.
+	\begin{enumerate} [label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(f(x_0+) = \alpha\).
+		\item
+		임의의 \(\eps > 0\)에 대하여 \(\delta > 0\)이 존재하여
+		\begin{gather*}
+			x_0 < x < x_0 + \delta \Longrightarrow \abs{f(x) - \alpha} < \eps \quad (x \in (a, b))
+		\end{gather*}
+		을 만족한다.
+	\end{enumerate}
+	좌극한에 대해서도 비슷한 말을 할 수 있다.
+\end{prop}
+
+\begin{cor}
+	\(f: (a, b) \rightarrow \RR\)와 \(a < x_0 < b, \alpha \in \RR\)에 대하여
+	\begin{gather*}
+		f(x_0+) = f(x_0-) = \alpha \iff \lim_{x \rightarrow x_0} f(x) = \alpha.
+	\end{gather*}
+\end{cor}
+
+\begin{defn}
+	\(f: (a, b) \rightarrow \RR\)이 \textbf{monotonically increasing(단조증가) on \((a, b)\)}라는 것은 \(a < x < y < b \Longrightarrow f(x) \le f(y)\)라는 것이다. 마지막 부등호의 방향을 바꾸어 \textbf{monotonically decreasing(단조감소) on \((a, b)\)}도 정의한다. 정의역에서 montonically increasing이거나 monotonic decreasing인 함수를 \textbf{monotonic function(단조함수)}라고 한다.
+\end{defn}
+
+단조함수는 좌극한과 우극한을 항상 가집니다.
+
+\begin{thm}
+	\(f: (a, b) \rightarrow \RR\)이 \((a, b)\)에서 단조증가하면 다음이 성립한다.
+	\begin{gather*}
+		f(x+) = \inf\{f(t): t \in (x, b)\}, \quad a \le x < b\\
+		f(x-) = \sup\{f(t): t \in (a, x)\}, \quad a < x \le b
+	\end{gather*}
+\end{thm}
+\begin{proof}
+	\(a \le x < b\)에 대하여 \(\alpha = \inf\{f(t): t \in (x, b)\}\)라고 하자.
+	\begin{enumerate} [label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(a < x < b\)인 경우: 이 경우에는 \(\alpha > -\infty\)이므로, 임의의 \(\eps > 0\)에 대해 \(f(t_0) < \alpha + \eps\)인 \(t_0 \in (x, b)\)가 존재한다. 이제 \(x < t < t_0 \Longrightarrow \alpha \le f(t) \le f(t_0) < \alpha + \eps\)이므로 \(f(x+) = \alpha\)이다. 
+		\item
+		\(x = a\)인 경우: 만약 \(\alpha > -\infty\)이면, (a)와 마찬가지로 생각할 수 있다. 만약 \(\alpha = -\infty\)이면 임의의 \(M < 0\)에 대해 \(f(t_0) < M\)인 \(t_0 \in (a, b)\)가 존재한다. 이제 \(a < x < t_0 \Longrightarrow f(x) \le f(t_0) < M\)이므로 \(f(a+) = -\infty\)이다.
+	\end{enumerate}
+	\(f(x-)\)의 경우도 마찬가지로 증명한다.
+\end{proof}
+
+\begin{cor} \label{limit}
+	\(f: (a, b) \rightarrow \RR\)이 \((a, b)\)에서 단조증가하면 \(a < x < y < b\)에 대해 다음이 성립한다. 
+	\begin{gather*}
+		f(a+) \le f(x-) \le f(x) \le f(x+) \le f(y-) \le f(y) \le f(y+) \le f(b-)
+	\end{gather*}
+\end{cor}
+
+위 정리를 이용하면 단조함수의 불연속점의 개수를 한정할 수 있습니다. \([0, 1]\)에서 정의된 함수
+\begin{gather*}
+	f(x)=
+	\begin{cases}
+		1, &\text{if } x \in \mathbb{Q}\\
+		0, &\text{otherwise}
+	\end{cases}
+\end{gather*}
+는 정의역의 모든 점에서 불연속이므로 불연속점의 집합이 uncountable입니다. 그런데 단조함수의 경우 불연속점의 집합은 countable임을 다음 따름정리를 통해 알 수 있습니다.
+
+\begin{cor}
+	단조함수 \(f: (a, b) \rightarrow \RR\)의 불연속점의 집합은 at most countable.
+\end{cor}
+\begin{proof}
+	\(f\)가 단조증가함수라고 하자. \(x \in (a, b)\)에 대하여 \(f\) is continuous at \(x\) if and only if \(f(x-) = f(x+)\)이므로, \(f\)의 불연속점의 집합을 \(D\)라고 하면 \(D = \{x \in (a, b): f(x-) < f(x+)\}\)이다. 이제 각 \(x \in D\)에 대하여 구간 \((f(x-), f(x+)) \cap \mathbb{Q}\)의 원소 \(r_x\)을 택할 수 있다. 따라서 \(x \mapsto r_x\)로 정의된 함수 \(r:D \rightarrow \mathbb{Q}\)는 injective인데(왜 그런가?) \(\mathbb{Q}\)가 countable이므로 \(D\)는 at most countable.
+\end{proof}
+
+단조증가의 정의에서, \(x < y \Longrightarrow f(x) \le f(y)\)를 \(x < y \Longrightarrow f(x) < f(y)\)로 바꾸면 \textbf{(strictly) increasing function(증가함수)}의 정의가 됩니다. \textbf{(Strictly) decreasing function(감소함수)}도 마찬가지로 정의합니다.
+
+앞에서 정의역이 compact인 continuous bijection은 그 역함수도 연속임을 증명했는데, 정의역이 구간인 증가 연속함수 또는 감소 연속함수도 역함수가 연속입니다.
+
+\begin{thm}
+	구간 \(I\)에서 정의된 \(f: I \rightarrow \RR\)에 대하여 다음은 동치.
+	\begin{enumerate} [label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(f\) is injective.
+		\item
+		\(f\) is strictly increasing on \(I\) or strictly decreasing on \(I\).
+	\end{enumerate}
+	위 조건들이 참일 때 \(f^{-1}: f(I) \rightarrow I\)는 연속이다.
+\end{thm}
+\begin{proof}
+	(b)$\Rightarrow$(a)는 당연하다. (b)를 부정하면,
+	\begin{gather*}
+		x < y, \quad f(x) > f(y), \quad z < w, \quad f(z) < f(w)
+	\end{gather*}
+	인 \(x, y, z, w \in I\)가 존재한다. \(f(y) < f(z), f(y) = f(z), f(y) > f(z)\) 세 가지 경우 모두를 검토해 보면 어느 경우에도 사잇값 정리에 의해 \(f\)가 injective가 될 수 없다.\\
+	이제 \(f\)가 증가함수라고 하고, \(f^{-1}: f(I) \rightarrow I\)가 연속임을 보인다. \(y_0 \in f(I)\)에 대하여 \(x_0 = f^{-1}(y_0)\)라고 하자. 임의의 \(\eps > 0\)에 대해 \(\eps' = \min\{\eps, x_0-a, b-x_0\}\)로 놓고,
+	\begin{gather*}
+		\delta = \min \{f(x_0 + \eps') - y_0, y_0 - f(x_0 - \eps)\} > 0
+	\end{gather*}
+	라고 하면
+	\begin{align*}
+		y_0 - \delta < y < y_0 + \delta &\Longrightarrow f(x_0 - \eps') \le y_0 - \delta < y < y_0 - \delta \le f(x_0 + \eps)\\
+		&\Longrightarrow x_0 - \eps' < f^{-1}(y) < x_0 + \eps'\\
+		&\Longrightarrow x_0 - \eps < f^{-1}(y) < x_0 + \eps
+	\end{align*}
+	이므로 \(f^{-1}\)은 \(y_0\)에서 연속이다.
+\end{proof}
+
+\newpage
 
 \section{Differentiation}
 
+\subsection{Derivative}
+
+실수에서 정의된 실함수의 미분가능성의 정의는 고등학교 때와 (일단은) 동일합니다.
+
+\begin{defn}
+	함수 \(f: [a, b] \rightarrow \RR\)와 \(x \in [a, b]\)에 대하여, 
+	\begin{gather*}
+		\phi(t) = \frac{f(t) - f(x)}{t - x} \quad (t \in [a, b] \backslash \{x\})
+	\end{gather*}
+	로 정의하자. 이때 \(\lim_{t \rightarrow x} \phi(t)\)가 존재하면
+	\begin{gather*}
+		f'(x) = \lim_{t \rightarrow x} \phi(t)
+	\end{gather*}
+	로 정의하고, \(f\)는 \textbf{differentiable(미분가능) at \(x\)}라고 한다. 만약 \(f\)가 정의역 \([a, b]\)의 모든 점에서 미분가능하면 \(f\)는 \textbf{differentiable on \([a, b]\)}라고 한다. 이때 \([a, b]\)에서 정의된 함수 \(f': x \mapsto f'(x)\)를 \textbf{derivative(도함수) of \(f\)}라고 한다.
+\end{defn}
+
+미분가능하면 연속이다, 덧셈, 상수배, 곱셈, 나눗셈 등에 관한 성질들 모두 고등학교 때의 증명과 똑같이 증명할 수 있으니 생략하겠습니다.
+
+\(\RR\)에서 정의된 함수에 대해서는 위의 정의로 충분하지만, 다변수함수의 경우에 \(\phi\)를 정의할 마땅한 방법이 없습니다. 그래서 위의 정의를 포함하는 새로운 정의를 만드려고 하는데, 어떤 점 \(x_0\)에서 \(f'(x_0)\)의 의미는 함수 \(x \mapsto f(x) - f'(x_0)\)를 \(x_0\) 근처에서 가장 잘 근사하는 선형 함수\footnote{함수 \(g\)가 선형이라는 것은 \(g(x+y) = g(x) + g(y), g(cx) = cg(x)\)라는 것.}임에 주목합니다. \textbf{가장 잘 근사}한다는 것을 수학적으로 엄밀하게 쓰면 다음과 같습니다.
+
+\begin{thm}
+	\(\RR\)의 open set \(U\)에서 정의된 함수 \(f: U \rightarrow \RR\)과 \(x \in (U, L \in \RR\)에 대하여 다음은 동치.
+	\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(f\)는 \(x\)에서 미분가능하고 \(f'(x) = L\).
+		\item
+		적당한 \(\eps > 0\)에 대하여 함수 \(\eta: (-\eps, \eps) \rightarrow \RR\)가 존재하여
+		\begin{gather} \label{diff}
+			f(x+h) = f(x) + Lh + \eta(h) \quad (h \in (-\eps, \eps)), \quad \quad \lim_{h \rightarrow 0} \frac{\eta(h)}{\abs{h}} = 0
+		\end{gather}
+		을 만족한다.
+	\end{enumerate}
+\end{thm}
+\begin{proof}
+	(a)를 가정하고 \(\eta(h) = f(x + h) - f(x) - Lh\)로 정의하면 (b)를 만족하는 것은 당연하다. 이제 (b)를 가정하면,
+	\begin{align*}
+		f'(x) = \lim_{t \rightarrow x} \frac{f(t) - f(x)}{t - x} &= \lim_{h \rightarrow 0} \frac{f(x + h) - f(x)}{h}\\
+		&= \lim_{h \rightarrow 0} \frac{Lh + \eta(h)}{h} = L + \lim_{h \rightarrow 0} \frac{\eta(h)}{h} = L.
+	\end{align*}
+\end{proof}
+
+해석개론 수준에서 (b)의 일반적인 정의를 쓸 일은 거의 없는데, 다음을 증명할 때는 유용합니다(아마 마지막?).
+
+\begin{thm} [Chain Rule]
+	\(\RR\)의 open set \(U, V\)에서 정의된 두 함수 \(f: U \rightarrow \RR, g: V \subseteq \RR \rightarrow \RR\) (단, \(f(U) \subseteq V\))에 대하여 \(f\)가 \(x \in U\)에서 미분가능하고 \(g\)가 \(y = f(x) \in V\)에서 미분가능하면 함수 \(g \circ f: U \subseteq \RR \rightarrow \RR\)도 \(x\)에서 미분가능하고 \((g \circ f)'(x) = g'(y)f'(x)\).
+\end{thm}
+\begin{proof} [Wrong Proof]
+	\begin{gather*}
+		(g \circ f)'(x) = \lim_{t \rightarrow x} \frac{g(f(t)) - g(f(x))}{t - x} = \lim_{t \rightarrow x} \frac{g(f(t)) - g(f(x))}{f(t) - f(x)}\frac{f(t) - f(x)}{t - x} = g'(f(x))f'(x).
+	\end{gather*}
+	\(f(t) - f(x)\)가 무한히 0이 되면\ldots?
+\end{proof}
+\begin{proof}
+	\(f'(x) = M, g'(y) = L\)이라 하고 \(f, g\)에 해당하는 (\ref{diff})의 함수를 각각 \(\eta, \zeta\)라 하자. 그러면
+	\begin{align*}
+		(g \circ f)(x + h) &= (g \circ f)(x) + L(f(x+h) - f(x)) + \zeta(f(x+h)-f(x))\\
+		&= (g \circ f)(x) + L(Mh + \eta(h)) + \zeta(f(x+h)-f(x))\\
+		&= (g \circ f)(x) + LMh + L\eta(h) + \zeta(f(x+h)-f(x))
+	\end{align*}
+	이제 \(LMh\) 뒤의 항을 \(\abs{h}\)로 나눈 것이 0으로 가는 것만 보이면 된다. 표기의 간단함을 위해 \(\tilde{\zeta}(h) = \zeta(h) / \abs{h}\) for \(h \neq 0\), \(\tilde{\zeta}(0) = 0\)으로 쓰면 \(\lim_{h \rightarrow 0}\tilde{\zeta}(h) = 0\)이므로
+	\begin{align*}
+		\lim_{h \rightarrow 0} \frac{\abs{L\eta(h) + \zeta(f(x+h)-f(x))}}{\abs{h}} &\le \lim_{h \rightarrow 0} \left (\abs{L}\frac{\abs{\eta(h)}}{\abs{h}} + \frac{\abs{f(x+h) - f(x)}}{\abs{h}}\abs{\tilde{\zeta}(f(x+h)-f(x))} \right )\\
+		&\le \lim_{h \rightarrow 0} \left(0 + \abs{M}(0) \right) = 0.
+	\end{align*}
+\end{proof}
+
+\subsection{Mean Value Theorem} \label{sec mvt}
+
+고등학교에서 배운 평균값 정리를 복습하고 L'H\^opital의 법칙을 증명합니다.
+
+
+
+\begin{prop} [Rolle's Theorem]
+	\(f: [a, b] \rightarrow \RR\)이 \([a, b]\)에서 연속이고 \((a, b)\)에서 미분가능할 때, \(f(a) = f(b)\)이면 \(f'(c) = 0\)인 \(c \in (a, b)\)가 존재한다.
+\end{prop}
+\begin{proof}
+	\(f\)가 상수함수이면 자명하므로 \(f\)가 상수함수가 아니라고 가정하자. 최대최소 정리에 의해 \(f\)는 \([a, b]\)에서 최댓값과 최솟값을 가진다. 만약 최댓값과 최솟값이 모두 \(f(a) = f(b)\)의 값과 같으면 \(f\)는 상수함수이므로, 가정에 모순이다. 따라서 최댓값과 최솟값 중 적어도 하나는 \(f(a) = f(b)\)의 값과 다르다. 일반성을 잃지 않고 최댓값이 \(f(a) = f(b)\)보다 크다고 하고, \(x = c \in (a, b)\)에서 \(f\)가 최댓값을 가진다고 하자. 그러면 \([a, b] \backslash \{c\}\)에서 정의된 함수
+	\begin{gather*}
+		t \mapsto \frac{f(t) - f(c)}{t - c}
+	\end{gather*}
+	는 \(t > c\)일 때 0보다 작거나 같고 \(t < c\)일 때 0보다 크거나 같다. \(f\)는 \(c\)에서 미분가능하므로 \(f'(c) = 0\)이다.
+\end{proof}
+
+\begin{rem}
+	\([a, b]\)에서 연속이고 \((a, b)\)에서 미분가능하다는 것이 \([a, b]\)에서 미분가능함을 함축하지 않습니다(역은 당연히 참). \([0, 1]\)에서 정의된 함수
+	\begin{gather*}
+		f(x)=
+		\begin{cases}
+			0 &\text{if } x = 0\\
+			x\sin\frac{1}{x} &\text{if } 0 < x \le 1
+		\end{cases}
+	\end{gather*}
+	는 \([0, 1]\)에서 연속이고 \((0, 1)\)에서 미분가능하지만 \(f'(0)\)의 값은 존재하지 않습니다.
+\end{rem}
+
+\begin{thm} [Cauchy's Mean Value Theorem]
+	\(f, g: [a, b] \rightarrow \RR\)가 \([a, b]\)에서 연속이고 \((a, b)\)에서 미분가능하면
+	\begin{gather*}
+		f'(c)(g(b) - g(a)) = g'(c)(f(b) - f(a))
+	\end{gather*}
+	를 만족하는 \(c \in (a, b)\)가 존재한다.
+\end{thm}
+\begin{proof}
+	\([a, b]\)에서 \(h(x) = (f(b) - f(a))g(x) - (g(b) - g(a))f(x)\)로 정의하고 Rolle의 정리를 적용하면 끝.
+\end{proof}
+
+\begin{cor} [Mean Value Theorem: 평균값정리]
+	\(f: [a, b] \rightarrow \RR\)가 \([a, b]\)에서 연속이고 \((a, b)\)에서 미분가능하면 \(f(b) - f(a) = f'(c)(b - a)\)를 만족하는 \(c \in (a, b)\)가 존재한다.
+\end{cor}
+\begin{proof}
+	Cauchy의 평균값정리에서 \(g(x) = x\)로 두면 끝.
+\end{proof}
+
+드디어 우리의 오랜 숙원(!)인 L'H\^opital의 법칙을 증명할 수 있습니다.
+
+\begin{thm} [L'H\^opital's Rule] \label{lopthm}
+	적당한 양수 \(r > 0\)에 대하여 \((x_0 - r, x_0 + r) \backslash \{x_0\}\)에서 정의된 실함수 \(f, g\)가 다음 조건을 만족한다고 하자.
+	\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(\lim_{x \rightarrow x_0} f(x) = \lim_{x \rightarrow x_0} g(x) = 0\)
+		\item
+		\(f, g\)는 \((x_0 - r, x_0 + r) \backslash \{x_0\}\)에서 미분가능
+		\item
+		\(g'(x) \neq 0\) for \(x \in (x_0 - r, x_0 + r) \backslash \{x_0\}\)
+		\item
+		\(\lim_{x \rightarrow x_0} f'(x) / g'(x) = L \in \RR \cup \{\pm \infty\}\)
+	\end{enumerate}
+	그러면 \(\lim_{x \rightarrow x_0} f(x) / g(x) = L\)이다.
+\end{thm}
+
+\begin{proof}
+	\(f(x_0) = g(x_0) = 0\)으로 정의하면 \(f, g\)는 \((x_0 - r, x_0 + r)\)에서 연속이다.\\
+	먼저 \(L \in \RR\)인 경우를 보이기 위해, 임의의 양수 \(\eps > 0\)에 대하여
+	\begin{gather} \label{lhopital}
+		0 < \abs{x - x_0} < \delta \Longrightarrow \abs{\frac{f'(x)}{g'(x)} - L} < \eps
+	\end{gather}
+	를 만족하는 \(\delta > 0\)을 잡는다. 우리의 주장:
+	\begin{gather*}
+		0 < \abs{x - x_0} < \delta \Longrightarrow \abs{\frac{f(x)}{g(x)} - L} < \eps
+	\end{gather*}
+	가 성립한다. \(x \in (x_0 - \delta, x_0 + \delta)\backslash\{x_0\}\)를 고정하고 구간 \([x_0, x]\)나 \([x, x_0]\)에서 Cauchy의 평균값 정리를 적용하면
+	\begin{gather*}
+		\frac{f(x)}{g(x)} = \frac{f(x) - f(x_0)}{g(x) - g(x_0)} = \frac{f'(c_x)}{g'(c_x)}
+	\end{gather*}
+	을 만족하는 \(c_x \in (x_0, x)\) 또는 \(c_x \in (x, x_0)\)를 찾을 수 있다. 그러면 \(0 < \abs{c_x - x_0} < \delta\)이므로 (\ref{lhopital})에 의해
+	\begin{gather*}
+		\abs{\frac{f(x)}{g(x)} - L} = \abs{\frac{f'(c_x)}{g'(c_x)} - L} < \eps
+	\end{gather*}
+	이다. \(x \in (x_0 - \delta, x_0 + \delta)\backslash\{x_0\}\)은 임의의 점이었으므로 주장이 증명되었다.\\
+	다음으로 \(L = \infty\)인 경우를 보이기 위해(\(-\infty\)인 경우는 마찬가지로 증명), 임의의 양수 \(M > 0\)에 대하여
+	\begin{gather*}
+		0 < \abs{x - x_0} < \delta \Longrightarrow \frac{f'(x)}{g'(x)} > M
+	\end{gather*}
+	를 만족하는 \(\delta > 0\)을 잡는다. 우리의 주장:
+	\begin{gather*}
+		0 < \abs{x - x_0} < \delta \Longrightarrow \frac{f(x)}{g(x)} > M
+	\end{gather*}
+	이 성립한다. 이 이후의 증명은 \(L \in \RR\)인 경우와 거의 같으므로 생략한다.
+\end{proof}
+
+\begin{cor} \label{cor lpt}
+	Theorem \ref{lopthm}의 \(x_0\)를 \(\pm \infty\)로 바꾸거나 (a)를 \(\lim_{x \rightarrow x_0} \abs{f(x)} = \lim_{x \rightarrow x_0} \abs{g(x)} = \infty\)로 바꾸어도 된다.
+\end{cor}
+\begin{proof}
+	\(f(1/x), g(1/x)\)이나 \(1/f(x), 1/g(x)\)에 Theorem \ref{lopthm}을 적용.
+\end{proof}
+
+\begin{rem}
+	L'H\^opital의 법칙을 적용하는 사례는 고등학교 때부터 너무 많이 봤을 거니까 적용이 안 되는 사례 몇 개를 봅시다.\footnote{사실 적용이 안 되는게 아니라 애초에 정리의 조건을 만족하지 못하는 사례입니다.}
+	\begin{enumerate} [label=(\alph*), leftmargin=2\parindent]
+		\item
+		(c)에 위배되는 경우입니다. \(f(x) = x + \sin x \cos x, g(x) = f(x) e^{\sin x}\)로 정의하면, [\(g'(x) \neq 0\) for some \(x > r\)]인 \(r\)을 찾을 수 없습니다. 그래서 애초에 \(\lim_{x \rightarrow \infty} \frac{f'(x)}{g'(x)}\)라는 식이 정의되지 않습니다. 그럼에도 불구하고 억지로 계산을 하면 
+		\begin{align*}
+			\lim_{x \rightarrow \infty} \frac{f'(x)}{g'(x)} &= \lim_{x \rightarrow \infty} \frac{2\cos^2 x}{((2 \cos^2 x) + (x + \sin x \cos x)\cos x) e^{\sin x}}\\
+			&= \lim_{x \rightarrow \infty} \frac{2\cos x}{2 \cos x + x + \sin x \cos x}e^{-\sin x} = 0
+		\end{align*}
+		인데 \(\lim_{x \rightarrow \infty} f(x)/g(x) = \lim_{x \rightarrow \infty} e^{-\sin x}\)로 극한이 존재하지 않습니다.
+		\item
+		(d)에 위배되는 경우입니다.
+		\begin{gather*}
+			f(x) =
+			\begin{cases}
+				0 &\text{if } x = 0\\
+				x^2 \sin \frac{1}{x} &\text{if } x \neq 0
+			\end{cases}
+			, \quad g(x) = x
+		\end{gather*}
+		로 정의하면 \(\lim_{x \rightarrow 0} f'(x)/g'(x)\)가 \(\RR \cup \{\pm \infty\}\)로 존재하지 않지만 \(\lim_{x \rightarrow 0} f(x)/g(x) = 0\)입니다. 즉 L'H\^opital의 법칙의 역은 성립하지 않습니다.
+	\end{enumerate}
+\end{rem}
+
+다음도 고등학교 수학에서 던졌던 의문을 회수하는 정리입니다.
+
+\begin{thm}
+	\(f: [a, b] \rightarrow \RR\)이 미분가능하고 \(f'(a) < \lambda < f'(b)\)이면 \(f'(c) = \lambda\)인 \(c \in (a, b)\)가 존재한다.
+\end{thm}
+\begin{proof}
+	\(g(x) = f(x) - \lambda x\)로 정의하면 \(g\)는 \([a, b]\)에서 최솟값을 가진다. 그런데 \(g'(a) < 0, g'(b) > 0\)이므로 \(g(a), g(b)\)는 \(g\)의 최솟값이 아니다. 따라서 \(g\)가 \([a, b]\)에서 최솟값을 가지는 점은 \(c \in (a, b)\)이다. \(g'(c) = 0\)이므로 \(f'(c) = \lambda\).
+\end{proof}
+
+\begin{cor}
+	\(f: (a, b) \rightarrow \RR\)이 미분가능할 때, 다음을 만족하는 \(c \in (a, b)\)는 존재하지 않는다.
+	\begin{gather*}
+		f'(c-) = \alpha \in \RR, \quad f'(c+) = \beta \in \RR, \quad \alpha \neq \beta
+	\end{gather*}
+\end{cor}
+
+\subsection{Taylor's Theorem}
+
+테일러 정리를 엄밀하게 증명합니다.
+
+\begin{defn}
+	\(f: E \subseteq \RR \rightarrow \RR\)에 대하여
+	\begin{enumerate} [label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(f\)가 \(C^0\)-함수(\(f\) is of \(C^0\))라는 것은 \(f\)가 \(I\)에서 연속이라는 것이다.
+		\item
+		\(k = 0, 1, \ldots\)에 대하여 \(f\)가 \(C^{k+1}\)-함수(\(f\) is of \(C^{k+1}\))라는 것은 \(f\)가 \(E\)에서 미분가능하고 \(f'\)가 \(C^k\)-함수라는 것이다.
+		\item
+		\(f\)가 \(C^\infty\)-함수(\(f\) is of \(C^\infty\)) 또는 smooth라는 것은 모든 \(k = 0, 1, \ldots\)에 대하여 \(f\)가 \(C^k\)-함수라는 것이다.
+	\end{enumerate}
+\end{defn}
+
+\begin{thm} \label{thm taylor}
+	\(f, g: [a, b] \rightarrow \RR\)이 어떤 \(n = 0, 1, \ldots\)에 대하여 \(C^n\) 함수이고, \(f^{(n)}, g^{(n)}\)이 \((a, b)\)에서 미분가능하다고 하자. 그러면 각 \(x \in (a, b)\)에 대하여 다음을 만족하는 \(c_x \in (a, x)\)가 존재한다.
+	\begin{align*}
+		\left[ f(x) - \sum_{k=0}^n \frac{f^{(k)}(a)}{k!} (x - a)^k \right] g^{(n+1)} (c_x) = \left[ g(x) - \sum_{k=0}^n \frac{g^{(k)}(a)}{k!} (x - a)^k \right] f^{(n+1)} (c_x)
+	\end{align*}
+\end{thm}
+
+\begin{proof}
+	\(x \in (a, b)\)를 고정하고 함수 \(F, G\)를 다음과 같이 정의한다.
+	\begin{gather*}
+		F(t) = \sum_{k=0}^n \frac{f^{(k)}(t)}{k!} (x - t)^k, \quad G(t) = \sum_{k=0}^n \frac{g^{(k)}(t)}{k!} (x - t)^k
+	\end{gather*}
+	\(F, G\)는 \([a, x]\)에서 연속이고 \((a, x)\)에서 미분가능하다. 따라서 Cauchy의 평균값 정리에 의해
+	\begin{gather*}
+		[F(x) - F(a)]G'(c_x) = [G(x) - G(a)]F'(c_x)
+	\end{gather*}
+	를 만족하는 \(c_x \in (a, x)\)가 존재한다. 그런데
+	\begin{gather*}
+		F(x) = f(x), \quad F(a) =  \sum_{k=0}^n \frac{f^{(k)}(a)}{k!} (x - a)^k\\
+		F'(t) = f'(t) + \sum_{k=1}^n {\frac{f^{(k+1)}(t)}{k!}(x-t)^k - \frac{f^{(k)}(t)}{(k-1)!}(x-t)^{k-1}} = \frac{f^{(n+1)}(t)}{n!} (x-t)^n\\
+	\end{gather*}
+	이고 \(G\)에 대해서도 비슷한 계산을 하면, 원하는 등식을 얻는다.
+\end{proof}
+
+\begin{cor}
+	\(f: [a, b] \rightarrow \RR\)가 어떤 \(n = 0, 1, \ldots\)에 대하여 \(C^n\) 함수이고, \(f^{(n)}, g^{(n)}\)이 \((a, b)\)에서 미분가능하다고 하자. 그러면 각 \(x \in (a, b)\)에 대하여 다음을 만족하는 \(c_x \in (a, x)\)가 존재한다.
+	\begin{equation} \label{eq taylor}
+		f(x) = \sum_{k=0}^n \frac{f^{(k)}(a)}{k!} (x - a)^k + \frac{f^{(n+1)}(c_x)}{(n+1)!} (x-a)^{n+1}
+	\end{equation}
+	((\ref{eq taylor})에서 \((n+1)\)-차항을 \(R_{n}(x)\)라 쓰고 \textbf{나머지항(\(n\)-th remainder term)}이라고 한다.)
+\end{cor}
+\begin{proof}
+	Theorem \ref{thm taylor}에서 \(g(x) = (x-a)^{n+1}\)로 두면 끝.
+\end{proof}
+
+\begin{cor}
+	양수 \(r > 0\)에 대하여 \(f: (a-r, a+r) \rightarrow \RR\)가 어떤 \(n = 0, 1, \ldots\)에 대하여 \(C^n\) 함수이고, \(f^{(n)}, g^{(n)}\)이 \((a-r, a+r)\)에서 미분가능하다고 하자. 그러면  각 \(x \in (a-r, a+r)\)에 대하여 (\ref{eq taylor})\을 만족하는 \(c_x \in (a, x)\)가 존재한다.
+\end{cor}
+
+\begin{defn}
+	\(C^\infty\)-함수 \(f: E \subseteq \RR \rightarrow \RR\)과 \(a \in \text{int}E\) 대하여 다음 급수
+	\begin{gather*}
+		\sum_{k=0}^\infty \frac{f^{(k)}(a)}{k!} (x-a)^k = f(a) + f'(a)(x-a) + \frac{f''(a)}{2} (x-a)^2 + \ldots + \frac{f^{(n)}(a)}{n!} (x-a)^n + \ldots
+	\end{gather*}
+	를 \textbf{Taylor series(테일러급수) of \(f\) at \(x=a\)}라고 한다.\\
+	\(f\)가 \(x=a\)에서 \textbf{analytic(해석적)}이라는 것은 적당한 양수 \(r > 0\)에 대하여
+	\begin{gather*}
+		x \in (a - r, a + r) \Longrightarrow \sum_{k=0}^\infty \frac{f^{(k)}(a)}{k!} (x-a)^k = f(x)
+	\end{gather*}
+	라는 것이다. 정의역의 모든 점에서 analytic인 함수를 \textbf{analytic function(해석함수)}라고 한다.
+\end{defn}
+
+모든 \(C^\infty\)-함수가 analytic인 것은 아닙니다.
+
+\begin{ex}
+	\begin{equation}
+		f(x) = 
+		\begin{cases}
+			0, &\text{if } x \le 0\\
+			\exp\left(-\frac{1}{x^2}\right), &\text{if } x > 0
+		\end{cases}
+	\end{equation}
+	로 정의하면 \(f\)는 \(\RR\)에서 \(C^\infty\)이고(이를 증명하는 것은 연습문제로 남김), 특히 \(f^{(n)}(0) = 0\) for \(n = 0, 1, \ldots\)입니다. 따라서 \(f\)의 0에서의 Taylor series는 항등적으로 0이므로 0의 근방에서 Taylor series가 \(f(x)\)로 수렴하지 않습니다. 따라서 \(f\) is not analytic at \(x=0\).
+\end{ex}
+
+급수 (\ref{eq taylor})\이 \(x \in (a-r, a+r)\)에서 \(f(x)\)로 수렴할 충분조건 하나.
+
+\begin{obs} \label{obs factorial}
+	양수 \(\alpha > 0\)에 대하여 \(\lim_n \alpha^n / n! = 0\).
+\end{obs}
+\begin{proof}
+	\(\alpha < N\)인 자연수 \(N\)을 잡으면, \(n! > N^{n - N + 1}\) for \(n > N\)인 것을 이용.
+\end{proof}
+
+\begin{thm}
+	\(C^\infty\)-함수 \(f: (a-r, a+r) \rightarrow \RR\)와 \(x \in (a - r, a + r) \backslash \{a\}\)에 대하여 \(I = [a, x]\) 또는 \(I = [x, a]\)라고 하자. 이때
+	\begin{gather*}
+		\abs{f^{(n)}(t)} \le M \quad (t \in I, n = 0, 1, \ldots)
+	\end{gather*}
+	를 만족하는 \(M > 0\)이 존재하면 (\ref{eq taylor})\은 \(f(x)\)로 수렴한다.
+\end{thm}
+
+\begin{proof}
+	\(R_n(x)\)가 0으로 수렴하는 것을 보이면 되는데,
+	\begin{gather*}
+		\abs{\frac{f^{(n+1)}(c_x)}{(n+1)!} (x-a)^{n+1}} \le M\frac{\abs{x-a}^{n+1}}{(n+1)!} \longrightarrow 0
+	\end{gather*}
+	이므로 Observation \ref{obs factorial}에 의해 증명 끝.
+\end{proof}
+
+\begin{ex}
+	대표적인 함수들의 \(x=0\)에서의 Taylor series와 그것이 수렴하는 \(x\)의 범위입니다.
+	\begin{align*}
+		\sin x &= \sum_{n=0}^\infty \frac{(-1)^n}{(2n+1)!} x^{2n+1} = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \ldots \quad &(x \in \RR)\\
+		\cos x &= \sum_{n=0}^\infty \frac{(-1)^n}{(2n)!} x^{2n} = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \ldots \quad &(x \in \RR)\\
+		e^x &= \sum_{n=0}^\infty \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \ldots \quad &(x \in \RR)\\
+		\arctan x &= \sum_{n=0}^\infty \frac{(-1)^n}{2n+1} x^{2n+1} = x - \frac{x^3}{3} + \frac{x^5}{5} - \frac{x^7}{7!} + \ldots \quad &(-1 \le x \le 1)\\
+		\log (x+1) &= \sum_{n=1}^\infty \frac{(-1)^{n-1}}{n} x^n = x - \frac{x^2}{2} + \frac{x^3}{3} - \frac{x^4}{4} + \ldots \quad &(-1 < x \le 1)
+	\end{align*}
+\end{ex}
+
+Taylor series에 대한 공부는 Section \ref{sec seq of ftn}에서 계속됩니다.
+
+\newpage
+
 \section{Riemann-Stieltjes Integral}
 
-\section{Sequence of Functions}
+\section{Sequence of Functions} \label{sec seq of ftn}
 
 \section{Function Space}
 
@@ -1767,6 +2869,9 @@ Ratio test에 의해 \(\sum_{n=0}^\infty 1/n!\)이 수렴합니다.
 	\bibitem{Cd94}\label{ref2} W. Rudin. \emph{Principles of Mathematical Analysis}. McGraw-Hill. 1976.
 	\bibitem{Cd94} 이인석. \emph{선형대수와 군}. 서울대학교출판문화원. 2015.
 	\bibitem{Cd94} J. R. Munkres, \emph{Topology}. Prentice Hall. 2000.
+	
+	다음은 이 글의 한 부분에서만 인용한 경우.
+	\bibitem{Cd94} \url{https://en.wikipedia.org/wiki/L%27H%C3%B4pital%27s_rule}. Corollary \ref{cor lpt} 아래의 Example에서 인용.
 		
 \end{thebibliography}
 \end{document}
