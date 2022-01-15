@@ -2,7 +2,7 @@
 
 \usepackage[a4paper,left=20mm,right=20mm,top=40mm,bottom=40mm]{geometry}
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath, amsthm, amsfonts, kotex, enumitem, setspace, hyperref}
+\usepackage{amsmath, amsthm, amsfonts, kotex, enumitem, setspace, hyperref, lipsum}
 \setstretch{1.4}
 
 
@@ -23,6 +23,7 @@
 \def\RR{\mathbb{R}}
 \def\CC{\mathbb{C}}
 \def\eps{\epsilon}
+\def\calR{\mathcal{R}}
 
 \newcommand{\abs}[1]{\left\vert#1\right\vert}
 \newcommand{\norm}[1]{\left\vert\left\vert#1\right\vert\right\vert}
@@ -1016,6 +1017,7 @@ Cauchy sequence는 다음 성질들을 가집니다.
 
 \section{Series} \label{sec series}
 
+
 Section \ref{sec series}에서는 해석학의 또 다른 중요한 주제인 series(급수)의 수렴판정을 공부하려고 합니다. 이 글이 끝날 때까지 모든 sequence는 아무 말이 없으면 (usual한 metric이 주어진) \(\CC\) 안에 있는 것으로 생각합니다. \(\CC = \RR^2\)로 `자연스럽게' identify할 수 있기 때문에, \(\CC\)는 complete metric space.
 
 \subsection{Cauchy Criterion}
@@ -1663,7 +1665,9 @@ Ratio test에 의해 \(\sum_{n=0}^\infty 1/n!\)이 수렴합니다.
 	는 정수이므로 모순이다. 따라서 \(e\)는 무리수이다.
 \end{proof}
 
+
 \newpage
+
 
 \section{Compactness} \label{sec cpt}
 
@@ -1738,7 +1742,7 @@ Compact set의 좋은 점은, open / closed와 달리 어느 공간을 기준으
 		\(K \subseteq X\)가 compact이고 \(F \subseteq K\)가 closed relative to \(K\)라고 하자. 임의의 open cover \(\{U_i\}_{i \in I}\) of \(F\) relative to \(K\)에 대하여, \(\{U_i\}_{i \in I} \cup (K \backslash F)\)는 open cover of \(K\) relative to \(K\)이다. \(K\)는 compact이므로 finite subcover \(\{U_i\}_{i=i_1, \ldots, i_n} \cup (K \backslash F)\)가 존재한다(일반성을 잃지 않고 \(K \backslash F\)가 이 안에 들어 있다고 말해도 된다). 그런데 \(F \cap (K \backslash F) = \emptyset \)이므로 \(F \subseteq \bigcup_{k=1}^n U_{i_k}\)이어야 한다. 따라서 \(\{U_i\}_{i=i_1, \ldots, i_n}\)는 finite subcover of \(\{U_i\}_{i \in I}\)이므로 \(F\) is compact.
 	\end{proof}
 
-4편의 nested intervals theorem과 같은 이야기를 compact set에 대해서도 할 수 있는데, 이는 compactness의 정의에 의해 당연합니다.
+Nested intervals theorem과 같은 이야기를 compact set에 대해서도 할 수 있는데, 이는 compactness의 정의에 의해 당연합니다.
 
 	\begin{defn}
 		집합 \(X\)의 subset들의 collection \(\mathcal{C}\)가 \textbf{finite intersection property}를 가진다는 것은, 임의의 finite subcollection \(\{C_1, \ldots, C_n\}\) of \(\mathcal{C}\)에 대하여 \(\bigcap_{k=1}^n C_k\)가 nonempty라는 것이다.
@@ -1797,7 +1801,7 @@ Section \ref{sec open}에서 공부했던 개념들과 비슷한 것들이 재�
 이제 Section \ref{sec lpc}의 highlight입니다.
 
 	\begin{thm} \label{1.11}
-		\textbf{Metric space} \(X\)에 대하여 다음은 동치.
+		Metric space \(X\)에 대하여 다음은 동치.
 		\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
 			\item
 			\(X\) is compact.
@@ -2477,7 +2481,7 @@ Section \ref{sec mono}\이 끝날 때까지 \(X = Y = \RR\)인 경우만 생각�
 \end{gather*}
 는 정의역의 모든 점에서 불연속이므로 불연속점의 집합이 uncountable입니다. 그런데 단조함수의 경우 불연속점의 집합은 countable임을 다음 따름정리를 통해 알 수 있습니다.
 
-\begin{cor}
+\begin{cor} \label{cor mono disconti}
 	단조함수 \(f: (a, b) \rightarrow \RR\)의 불연속점의 집합은 at most countable.
 \end{cor}
 \begin{proof}
@@ -2849,7 +2853,474 @@ Taylor series에 대한 공부는 Section \ref{sec seq of ftn}에서 계속됩�
 
 \newpage
 
+
 \section{Riemann-Stieltjes Integral}
+\subsection{Definition of the Integral (1)} \label{sec def int}
+
+이번 Section의 목표는 고등학교 때의 적분을 일반화한 Riemann-Stieltjes 적분을 정의하는 것입니다. 적분의 대상이 되는 함수는 유계닫힌구간에서 정의된 유계함수입니다.
+
+고등학교 때와 마찬가지로, 이야기의 시작은 정의역인 구간을 나누는 것입니다.
+
+\begin{defn}
+	유계닫힌구간 \([a, b]\) 안의 유한 개의 점 \(x_0, \ldots, x_n\)이
+	\begin{gather*}
+		x_0 = a < x_1 < \ldots < x_{n-1} < x_n = b
+	\end{gather*}
+	를 만족할 때, \([a, b]\)의 유한 부분집합 \(P = \{x_0, \ldots, x_n\}\)을 \textbf{partition(분할) of \([a, b]\)}라고 한다. 각 \(i = 1, \ldots, n\)에 대하여, \(\Delta x_i = x_i - x_{i-1}\)로 쓴다.\\
+	\([a, b]\)의 모든 partition의 집합을 \(\mathcal{P}[a, b]\)로 쓴다.
+\end{defn}
+
+\begin{defn} \label{def stieltjes}
+	유계함수 \(f: [a, b] \rightarrow \RR\)와 단조증가함수 \(\alpha: [a, b] \rightarrow \RR\)가 주어졌다고 하자.\\
+	구간 \([a, b]\)의 partition \(P = \{x_0, \ldots, x_n\}\)에 대하여,\footnote{\([a, b]\)의 partition을 \(\{x_0, \ldots, x_n\}\)로 나타낼 때, 아무 말이 없으면 \(x_0 = a < x_1 < \ldots < x_{n-1} < x_n = b\)인 것으로 생각.} 
+	\begin{align} \label{eq def Mi}
+		\begin{split}
+			\alpha_i = \alpha(x_i) \quad &(0 \le i \le n)\\
+			M_i = \sup \{f(x): x_{i-1} \le x \le x_i\}, \quad m_i = \inf \{f(x): x_{i-1} \le x \le x_i\} \quad &(1 \le i \le n)\\
+			\Delta\alpha_i = \alpha_i - \alpha_{i-1} \quad &(1 \le i \le n)
+		\end{split}		
+	\end{align}
+	로 쓰자. \(f\)가 bounded이므로 \(M_i, m_i\)는 유한한 실수로 존재한다. 이때 \textbf{upper sum(상합)}과 \textbf{lower sum(하합)}을 각각 다음과 같이 정의한다.
+	\begin{gather*}
+		U_a^b (f, P, \alpha) = \sum_{i=1}^n M_i \Delta\alpha_i, \quad 	L_a^b (f, P, \alpha) = \sum_{i=1}^n m_i \Delta\alpha_i
+	\end{gather*}
+	정의역이 명확할 경우에는 \(U(f, P, \alpha), L(f, P, \alpha)\)와 같이 쓰기로 한다.\\
+	이제 \textbf{upper integral(상적분)}과 \textbf{lower integral(하적분)}을 각각 다음과 같이 정의한다.\footnote{잠시 후에 이 둘의 값이 유한한 실수로 존재하며 upper integral은 항상 lower integral보다 크거나 같음을 증명할 것이다. Corollary \ref{cor int welldef} 참조.}
+	\begin{gather*}
+		\overline{\int_a^b} f d\alpha = \inf \{U(f, P, \alpha): P \in \mathcal{P}[a, b]\}, \quad \underline{\int_a^b} f d\alpha = \sup \{L(f, P, \alpha): P \in \mathcal{P}[a, b]\}
+	\end{gather*}
+	Upper integral의 값과 lower integral의 값이 같으면, 즉
+	\begin{gather*}
+		\overline{\int_a^b} f d\alpha = \underline{\int_a^b} f d\alpha
+	\end{gather*}
+	이면 \(f\)가 \textbf{Riemann-Stieltjes integrable(리만-스틸체스적분가능) with respect to \(\alpha\)}라고 하고, 위 등식의 값을
+	\begin{gather*}
+		\int_a^b f d\alpha
+	\end{gather*}
+	또는
+	\begin{gather*}
+		\int_a^b f(x) d\alpha(x)
+	\end{gather*}
+	로 쓴다.\footnote{치환적분할 때의 표기와 유사하다. 혹시\ldots?} 마지막으로, \(\alpha: [a, b] \rightarrow \RR\)에 관해 Riemann-Stieltjes integrable인 모든 함수의 집합을 \(\calR(\alpha)\)라고 쓴다. 즉 \(f: [a, b] \rightarrow \RR\)가 Riemann-Stieltjes integrable with respect to \(\alpha\)이면 \(f \in \calR(\alpha)\).
+\end{defn}
+
+\begin{defn}
+	\(f, \alpha, P\)는 Definition \ref{def stieltjes}에서와 같다. 이때 특히 \(\alpha\)가 \([a, b]\)에서 정의된 항등함수인 경우에, upper sum과 lower sum을 각각
+	\begin{gather*}
+		U_a^b (f, P) = \sum_{i=1}^n M_i \Delta x_i, \quad 	L_a^b (f, P) = \sum_{i=1}^n m_i \Delta x_i
+	\end{gather*}
+	로 쓰고, 정의역이 명확하면 \(U(f, P), L(f, P)\)로 쓴다. 또 upper integral과 lower integral을 각각
+	\begin{gather*}
+		\overline{\int_a^b} f = \inf \{U(f, P): P \in \mathcal{P}[a, b]\}, \quad \underline{\int_a^b} f = \sup \{L(f, P): P \in \mathcal{P}[a, b]\}
+	\end{gather*}
+	로 쓴다. 만약 \(f\)가 Riemann-Stieltjes integrable with respecto to \(\alpha\)이면, 즉
+	\begin{gather*}
+		\overline{\int_a^b} f = \underline{\int_a^b} f
+	\end{gather*}
+	이면 \(f\)가 \textbf{Riemann integrable(리만적분가능)}이라고 하고 위 등식의 값을
+	\begin{gather*}
+		\int_a^b f
+	\end{gather*}
+	또는
+	\begin{gather*}
+		\int_a^b f(x) dx
+	\end{gather*}
+	로 쓴다. 마지막으로, \([a, b]\)에서 Riemann integrable인 모든 함수의 집합을 \(\calR([a, b])\)라고 쓴다. 즉 \(f: [a, b] \rightarrow \RR\)가 Riemann integrable이면 \(f \in \calR([a, b])\).
+\end{defn}
+
+Section \ref{sec def int}\가 끝날 때까지 아무 말이 없으면 \(f: [a, b] \rightarrow \RR\)는 유계, \(\alpha: [a, b] \rightarrow \RR\)는 단조증가함수. \(f \in \calR(\alpha)\)일 필요충분조건을 찾으려 하는데, 이를 위해서 조금의 준비가 필요합니다. 
+
+\begin{defn}
+	\([a, b]\)의 두 partition \(P, Q\)에 대하여 \(Q\)가 \(P\)의 \textbf{refinement}라는 것은 \(P \subseteq Q\)라는 것이다.
+\end{defn}
+
+\begin{prop} \label{prop refinement}
+	\([a, b]\)의 두 partition \(P, Q\)에 대하여 \(Q\)가 \(P\)의 refinement이면 다음이 성립한다.
+	\begin{gather*}
+		L(f, P, \alpha) \le L(f, Q, \alpha) \le U(f, Q, \alpha) \le U(f, P, \alpha)
+	\end{gather*}
+\end{prop}
+\begin{proof}
+	두 번째 부등호는 정의에 의해 당연하고, 세 번째 부등호가 성립하는 것을 보이면 첫 번째 부등호가 성립하는 것은 비슷하게 보일 수 있다.\\
+	\(Q\)가 \(P\)보다 원소가 1개 더 많은 경우만 보이면 된다. 
+	\begin{gather*}
+		P = \{x_0, \ldots, x_n\}, \quad Q = P \cup \{x'_k\}, \quad x_{k-1} < x'_k < x_k
+	\end{gather*}
+	로 놓고,
+	\begin{gather*}
+		M = \sup_{x \in [x_{k-1}, x_k]} f(x), \quad M_1 = \sup_{x \in [x_{k-1}, x'_k]} f(x), \quad M_2 = \sup_{x \in [x'_k, x_k]} f(x)
+	\end{gather*}
+	로 정의하면 \(M_1, M_2 \le M\)인 것은 쉽게 알 수 있다. 따라서
+	\begin{gather*}
+		U(f, P, \alpha) - U(f, Q, \alpha) = M(\alpha_k - \alpha_{k-1}) - [M_1(\alpha(x'_k) - \alpha_{k-1}) + M_2 (\alpha_k - \alpha(x'_k))] \ge 0.
+	\end{gather*}
+\end{proof}
+
+\begin{cor} \label{cor int welldef}
+	\([a, b]\)의 임의의 두 partition \(P, Q\)에 대하여 \(L(f, P, \alpha) \le U(f, Q, \alpha)\)이다. 따라서 다음이 성립한다.
+	\begin{gather*}
+		-\infty < \underline{\int_a^b} f d\alpha \le \overline{\int_a^b} f d\alpha < \infty.
+	\end{gather*}
+\end{cor}
+\begin{proof}
+	\(P \cup Q\)는 \(P, Q\)의 common refinement이므로
+	\begin{gather*}
+		L(f, P, \alpha) \le L(f, P \cup Q, \alpha) \le U(f, P \cup Q, \alpha) \le U(f, Q, \alpha).
+	\end{gather*}
+	두 번째 부등식이 성립하는 것은 이제 자명하다.
+\end{proof}
+
+\(f \in \calR(\alpha)\)일 첫 번째 필요충분조건.
+
+\begin{thm} \label{thm integrable 1}
+	\(f \in \calR(\alpha)\)일 필요충분조건은 임의의 양수 \(\eps > 0\)에 대하여, 적당한 partition \(P\)가 존재하여 다음을 만족하는 것이다.
+	\begin{equation} \label{eq integrable 1}
+		U(f, P, \alpha) - L(f, P, \alpha) < \eps
+	\end{equation}
+\end{thm}
+\begin{proof}
+	($\Rightarrow$): \(f \in \calR(\alpha)\)라고 하고 \(\eps > 0\)이 주어졌다고 하자. 정의에 의해 다음을 만족하는 두 partition \(P_1, P_2\)를 찾을 수 있다.
+	\begin{gather*}
+		U(f, P_1, \alpha) < \overline{\int_a^b} f d\alpha + \frac{\eps}{2}, \quad L(f, P_2, \alpha) > \underline{\int_a^b} f d\alpha - \frac{\eps}{2}
+	\end{gather*}
+	이제 \(P = P_1 \cup P_2\)로 두면 (\ref{eq integrable 1})\을 만족한다.\\
+	($\Leftarrow$): 임의의 양수 \(\eps > 0\)에 대해 (\ref{eq integrable 1})\을 만족하는 partition \(P\)가 존재하여
+	\begin{gather*}
+		0 \le \overline{\int_a^b} f d\alpha - \le \underline{\int_a^b} f d\alpha \le U(f, P, \alpha) - L(f, P, \alpha) < \eps
+	\end{gather*}
+	인데, \(\eps > 0\)이 임의의 양수였으므로 \(\overline{\int_a^b} f d\alpha = \underline{\int_a^b} f d\alpha\)이다.
+\end{proof}
+
+\begin{ex}
+	\quad
+	\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(f: [0, 1] \rightarrow \RR\)를
+		\begin{gather*}
+			f(x) =
+			\begin{cases}
+				1, &\text{if } x \in \QQ\\
+				0, &\text{otherwise}
+			\end{cases}
+		\end{gather*}
+		로 정의하면, 임의의 partition \(P\)에 대해 \(U(f, P) = 1, L(f, P) = 0\)이므로 Theorem \ref{thm integrable 1}의 (b)를 만족하지 않는다. 따라서 \(f\) is not Riemann integrable on \([0, 1]\).
+		\item
+		\(g: [-1, 1] \rightarrow \RR\)를
+		\begin{gather*}
+			g(x) =
+			\begin{cases}
+				1, &\text{if } x = 0\\
+				0, &\text{otherwise}
+			\end{cases}
+		\end{gather*}
+		로 정의하자. 임의의 양수 \(\eps > 0\)에 대하여 partition \(P\)를 다음과 같이 잡는다.
+		\begin{gather*}
+			P = \{-1, -\frac{\eps}{3}, \frac{\eps}{3}, 1\}
+		\end{gather*}
+		그러면 \(U(f, P) - L(f, P) = 2\eps/3 - 0 < \eps\)이므로, \(g\) is Riemann integrable on \([-1, 1]\).
+		\item
+		점 \(c \in (a, b)\)에 대하여, \(\alpha: [a, b] \rightarrow \RR\)를
+		\begin{gather*}
+			\alpha(x) =
+			\begin{cases}
+				0, &\text{if } x \le c\\
+				1, &\text{otherwise}
+			\end{cases}
+		\end{gather*}
+		로 정의하면 \(\alpha\)는 단조증가함수이다. 이때 유계함수 \(h: [a, b] \rightarrow \RR\)가 \(\lim_{x \rightarrow c+} f(x) = f(c)\)를 만족하면 \(f \in \calR(\alpha)\)이다. 임의의 양수 \(\eps > 0\)에 대하여 다음을 만족하는 양수 \(\delta > 0\)가 존재한다.
+		\begin{gather*}
+			c < x < c+\delta \Longrightarrow \abs{f(x) - f(c)} < \eps
+		\end{gather*}
+		이제 partition \(P = \{a, c, c+\delta/2, b\}\)로 잡으면,
+		\begin{gather*}
+			U(f, P, \alpha) = \sup\{f(x): c\le x \le c+ \delta/2 \} \le f(c) + \eps\\
+			L(f, P, \alpha) = \inf\{f(x): c\le x \le c+ \delta/2 \} \le f(c) - \eps
+		\end{gather*}
+		이므로, \(U(f, P, \alpha) - L(f, P, \alpha) \le 2\eps\). 따라서 \(f \in \calR(\alpha)\)이다.
+	\end{enumerate}
+\end{ex}
+
+\begin{obs} \label{obs refinement}
+	양수 \(\eps > 0\)과 partition \(P\)가 (\ref{eq integrable 1})\을 만족하면, \(P\)의 refinement \(Q\)에 대해서도 \(U(f, Q, \alpha) - L(f, Q, \alpha) < \eps\)이 성립한다.
+\end{obs}
+\begin{proof}
+	Proposition \ref{prop refinement}에 의해.
+\end{proof}
+
+\begin{defn}
+	\([a, b]\)의 partition \(P = \{x_0, \ldots, x_n\}\)이 주어졌을 때 각 \(i = 1, \ldots, n\)에 대하여 \(t_i \in [x_{i-1}, x_i]\)를 택한다. 이때 \textbf{Riemann-Stieltjes sum(리만-스틸체스합)} \(S(f, P, \alpha)\)를 다음과 같이 정의한다.
+	\begin{gather*}
+		S(f, P, \alpha) = \sum_{i=1}^n f(t_i)\Delta\alpha_i
+	\end{gather*}
+	\(\alpha\)가 항등함수일 때의 Riemann-Stieltjes sum을 \textbf{Riemann sum(리만합)}이라고 하고 \(R(f, P)\)로 쓴다. 즉,
+	\begin{gather*}
+		R(f, P) = \sum_{i=1}^n f(t_i)\Delta x_i
+	\end{gather*}
+	이다.
+\end{defn}
+
+\begin{obs} \label{obs st sum}
+	Partition \(P\)에 대해 \(L(f, P, \alpha) \le S(f, P, \alpha) \le U(f, P, \alpha)\)이다.
+\end{obs}
+\begin{proof}
+	정의에 의해 당연하다.
+\end{proof}
+
+\(f \in \calR(\alpha)\)일 두 번째 필요충분조건. 이때는 적분의 값까지 알 수 있습니다.
+
+\begin{thm} \label{thm st int}
+	유계함수 \(f: [a, b] \rightarrow \RR\)와 단조증가함수 \(\alpha: [a, b] \rightarrow \RR\), 실수 \(A \in \RR\)에 대하여 다음은 동치.
+	\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(f \in \calR(\alpha)\)이고 \(\int_a^b f d\alpha = A\).
+		\item
+		임의의 양수 \(\eps > 0\)에 대하여 적당한 partition \(P_0\)가 존재하여 다음을 만족한다.
+		\begin{gather*}
+			P \in \mathcal{P}[a, b], P \supseteq P_0 \Longrightarrow \abs{S(f, P, \alpha) - A} < \eps
+		\end{gather*}
+	\end{enumerate}
+\end{thm}
+\begin{proof}
+	($\Rightarrow$): (a)를 가정하면 임의의 양수 \(\eps > 0\)에 대해 partition \(P_0\)가 존재하여
+	\begin{gather*}
+		A - \eps < L(f, P_0, \alpha) \le U(f, P_0, \alpha) < A + \eps
+	\end{gather*}
+	을 만족한다. 이제 Observation \ref{obs refinement}\와 Observation \ref{obs st sum}에 의해 (b)가 성립한다.\\
+	($\Leftarrow$): 양수 \(\eps > 0\)이 주어졌다고 하고, (b)에 의해 \(\abs{S(f, P, \alpha) - A} < \eps\)인 \(P\)를 찾는다. 그런데
+	\begin{gather*}
+		A - \eps < S(f, P, \alpha) < A + \eps\\
+		\Longrightarrow \quad A - \eps \le L(f, P, \alpha) \le U(f, P, \alpha) \le A + \eps
+	\end{gather*}
+	이므로, Theorem \ref{thm integrable 1}에 의해 \(f \in \calR(\alpha)\)이다. 이제 \(\int_a^b f d\alpha = A\)인 것은 쉽게 알 수 있다.
+\end{proof}
+
+Riemann integral의 경우에 조건 하나를 더 추가할 수 있습니다.
+
+\begin{defn}
+	\([a, b]\)의 partition \(P = \{x_0, \ldots, x_n\}\)에 대하여 \(P\)의 \textbf{norm}을 \(\max\{\Delta x_i: i = 1, \ldots, n\}\)로 정의하고 \(\norm{P}\)로 쓴다.
+\end{defn}
+
+
+\begin{thm} \label{thm rm int}
+	유계함수 \(f: [a, b] \rightarrow \RR\)와 실수 \(A \in \RR\)에 대하여 다음은 동치.
+	\begin{enumerate}[label=(\alph*), leftmargin=2\parindent]
+		\item
+		\(f \in \calR([a, b])\)이고 \(\int_a^b f = A\).
+		\item
+		임의의 양수 \(\eps > 0\)에 대하여 적당한 partition \(P_0\)가 존재하여 다음을 만족한다.
+		\begin{gather*}
+			P \in \mathcal{P}[a, b], P \supseteq P_0 \Longrightarrow \abs{R(f, P) - A} < \eps
+		\end{gather*}
+		\item
+		임의의 양수 \(\eps > 0\)에 대하여 적당한 양수 \(\delta > 0\)가 존재하여 다음을 만족한다.
+		\begin{equation} \label{eq norm}
+			P \in \mathcal{P}[a, b], \norm{P} < \delta \Longrightarrow \abs{R(f, P) - A} < \eps
+		\end{equation}
+		즉, \(\lim_{\norm{P} \rightarrow 0} R(f, P) = A\)이다.
+	\end{enumerate}
+\end{thm}
+\begin{proof}
+	(a)$\Leftrightarrow$(b)는 증명하였으므로, (c)$\Rightarrow$(b)와 (a)$\Rightarrow$(c)를 보인다.\\
+	(c)$\Rightarrow$(b): 양수 \(\eps > 0\)이 주어졌다고 하고 (\ref{eq norm})\을 만족하는 \(\delta > 0\)를 찾는다. \(\norm{P_0} < \delta\)인 partition \(P_0\)는 항상 존재하는데(왜 그런가?), \(P\)가 \(P_0\)의 refinement이면 \(\norm{P} \le \norm{P_0} < \delta\)이므로 (c)에 의해 \(\abs{R(f, P) - A} < \eps\)이다.\\
+	(a)$\Rightarrow$(c):양수 \(\eps > 0\)이 주어졌다고 하고 다음을 만족하는 분할 \(P_0 = \{x_0, \ldots, x_n\}\)을 잡는다.
+	\begin{gather*}
+		U(f, P_0) < A + \eps
+	\end{gather*}
+	\(f\)는 bounded이므로 \(\abs{f} < M\)인 \(M > 0\)이 존재한다. \(\delta_1 = \eps / (nM)\)으로 두자.\\
+	Claim 1: \(f > 0\)일 때, \(\norm{P} < \delta_1\)이면 \(U(f, P) < A + 2\eps\)이다.
+	\begin{list}{}{\leftmargin=\parindent\rightmargin=0pt}
+		\item
+		\begin{proof}[Proof of Claim 1]
+			Partition \(P = \{y_0, \ldots, y_m\}\)이 \(\norm{P} < \delta_1\)을 만족한다고 하고,
+			\begin{gather*}
+				I = \{i = 1, \ldots, m : (y_{i-1}, y_i) \cap P_0 \neq P_0\}\\
+				J = \{i = 1, \ldots, m : (y_{i-1}, y_i) \cap P_0 = P_0\}
+			\end{gather*}
+			라고 정의하자. 이때 \(\abs{I} < n\)인 것에 유의하면(왜 그런가?)
+			\begin{align*}
+				U(f, P) &= \sum_{i=1}^m M_i \Delta y_i\\
+				&= \sum_{i \in I} M_i \Delta y_i + \sum_{i \in J} M_i \Delta y_i\\
+				&< nM \norm{P} + U(f, P_0) < \eps + A + \eps = A + 2\eps.
+			\end{align*}
+		\end{proof}
+	\end{list}
+	Claim 2: 임의의 유계함수 \(f\)에 대하여 \(\norm{P} < \delta_1\)이면 \(U(f, P) < A + 2\eps\)이다.
+	\begin{list}{}{\leftmargin=\parindent\rightmargin=0pt}
+		\item
+		\begin{proof}[Proof of Claim 2]
+			적당한 상수 \(c > 0\)에 대하여 \(\tilde{f} = f + c > 0\)이게 할 수 있다.
+			\begin{gather*}
+				U(\tilde{f}, P) = U(f, P) + c(b-a), \quad \int_a^b \tilde{f} = A + c(b-a)
+			\end{gather*}
+			이므로(아직 적분의 덧셈에 관한 성질을 증명하지는 않았지만 상수 덧셈은 쉽게 확인할 수 있다) Claim 1에 의해 \(\norm{P} < \delta_1\)이면 \(U(f, P) = U(\tilde{f}, P) - c(b-a) < A + 2\eps\).
+		\end{proof}
+	\end{list}
+	Claim 3: 임의의 유계함수 \(f\)에 대하여 다음을 만족하는 \(\delta_2 > 0\)가 존재한다.
+	\begin{gather*}
+		\norm{P} < \delta_2 \Longrightarrow L(f, P) > A - 2\eps
+	\end{gather*}
+	\begin{list}{}{\leftmargin=\parindent\rightmargin=0pt}
+		\item
+		\begin{proof}[Proof of Claim 3]
+			\(L(f, P) = U(-f, P)\)이고 \(\int_a^b (-f) = -A\)인 것만 확인하면 Claim 2에 의해 증명된다.
+		\end{proof}
+	\end{list}
+	이제 \(\delta = \min\{\delta_1, \delta_2\}\)로 두자. \(\norm{P} < \delta\)이면 Claim 2, Claim 3에 의해 \(\abs{R(f, P) - A} < 2\eps\)이다.
+\end{proof}
+
+\begin{rem}
+	\(\alpha\)가 일반적인 단조증가함수일 경우에는 Theorem \ref{thm rm int}의 (c)와 같은 조건을 추가할 수 없다. 더 정확히 말해서,
+	\begin{gather*}
+		\lim_{\norm{P} \rightarrow 0} S(f, P, \alpha) = A \Longrightarrow \int_a^b f d\alpha = A
+	\end{gather*}
+	이지만 그 역은 성립하지 않는다. 위 명제의 증명은 Theorem \ref{thm rm int}의 (c)$\Rightarrow$(b)의 증명과 완전히 같다. 그 역에 대한 반례로, \(c \in (a, b)\)에 대하여 \(\alpha, f:[a, b] \rightarrow \RR\)를
+	\begin{gather*}
+		\alpha(x) =
+		\begin{cases}
+			0, &\text{if } x \le c\\
+			1, &\text{otherwise}
+		\end{cases}, \quad
+		f(x) = 
+		\begin{cases}
+			0, &\text{if } x < c\\
+			1, &\text{otherwise}
+		\end{cases}
+	\end{gather*}
+	로 정의하자. 그러면 Theorem \ref{thm integrable 1} 아래 Example (c)에 의해 \(f \in \calR(\alpha)\)이고 특히 \(\int_a^b f d\alpha = 1\)이다. 이제 다음을 만족하는 \(\delta > 0\)가 존재한다고 가정하자.
+	\begin{gather*}
+		\norm{P} < \delta \Longrightarrow \abs{S(f, P, \alpha) - 1} < \frac{1}{2}
+	\end{gather*}
+	그러면 \(\norm{P} < \delta\)인 partition \(P\)를 다음과 같이 잡을 수 있다.
+	\begin{gather*}
+		P = \{x_0 = a, x_1, \ldots, x_{k-1} = c - \frac{\delta}{3}, x_{k} = c + \frac{\delta}{3}, \ldots, x_{n-1}, x_n = b\}
+	\end{gather*}
+	이때 각 \(t_i \in [x_{i-1}, x_i]\)를 택하면 \(S(f, P, \alpha) = f(t_k)\)인데, \(t_k \in [x_{k-1}, c)\)이면 \(S(f, P, \alpha) = 0\)이므로 모순이다.
+\end{rem}
+
+\subsection{Integrable Functions} \label{sec int ftn}
+
+매번 Theorem \ref{thm st int}나 Theorem \ref{thm rm int} 같은 것을 써서 함수의 적분가능성을 논하기는 불편합니다. 다행히 우리가 아는 좋은 함수들은 적분가능한 것이 알려져 있습니다. Section \ref{sec int ftn}\가 끝날 때까지 아무 말이 없으면 \(f: [a, b] \rightarrow \RR\)는 유계, \(\alpha: [a, b] \rightarrow \RR\)는 단조증가함수.
+
+\begin{thm}
+	\(f\)가 \([a, b]\)에서 연속이면 \(f \in \calR(\alpha)\)이다.
+\end{thm}
+\begin{proof}
+	\(\eps > 0\)이 주어졌다고 하고, 다음을 만족하는 \(\eta > 0\)를 잡는다.
+	\begin{gather*}
+		\eta[\alpha(b) - \alpha(a)] < \eps
+	\end{gather*}
+	\(f\)는 \([a, b]\)에서 uniformly continuous이므로 다음을 만족하는 \(\delta > 0\)가 존재한다.
+	\begin{gather*}
+		\abs{x - y} < \delta \Longrightarrow \abs{f(x) - f(y)} < \eta \quad (x, y \in [a, b])
+	\end{gather*}
+	이제 partition \(P = \{x_0, \ldots, x_n\}\)을 \(\norm{P} < \delta\)이 되도록 잡으면,
+	\begin{align*}
+		U(f, P, \alpha) - L(f, P, \alpha) &= \sum_{i=1}^n (M_i - m_i)\Delta\alpha_i\\
+		&\le \sum_{i=1}^n \eta\Delta\alpha_i = \eta \sum_{i=1}^n \alpha_i = \eta[\alpha(b) - \alpha(a)] < \eps.
+	\end{align*}
+\end{proof}
+
+고등학교 때 연속함수에 대해서만 적분할 때 적분가능성이라는 말을 쓰지 않은 이유는 모든 연속함수는 (리만)적분가능했기 때문입니다.
+
+그런데 모든 리만적분가능한 함수가 연속인 것은 아닙니다. 리만적분의 정의를 생각해 보면, 정의역의 한 점에서 point discontinuous(극한이 존재하고 함숫값과 다른 경우)이거나 jump discontinuous(좌극한과 우극한이 각각 존재하고 그 값이 다른 경우)여도 리만적분가능성에 영향을 주지 않을 거라는 추측을 할 수 있습니다. 나아가 이런 point discontinuity나 jump discontinuity가 유한 개 있어도 리만적분가능성에 영향을 주지 않을 것입니다. 이를 더욱 확장하여, discontinuity가 \textbf{countable} 개만큼 있어도 리만적분가능하다는 것을 증명할 것입니다. 또 이를 일반적인 리만-스틸체스 적분으로 확장할 수 있는데, 이때는 \(f\)가 불연속인 점에서 \(\alpha\)가 연속이라는 조건이 필요합니다.
+
+\begin{thm} \label{thm disconti int}
+	\(f\)의 불연속점 전체의 집합을 \(D\)라고 하자. 만약 \(D\)가 at most countable이고 \(\alpha\)가 \(D\)의 각 점에서 연속이면 \(f \in \calR(\alpha)\)이다.
+\end{thm}
+\begin{proof}
+	\(\alpha(a) = \alpha(b)\)이면 (\(\alpha\)가 상수함수이므로) 증명할 것이 없으므로 \(\alpha(a) < \alpha(b)\)라고 가정할 수 있다. \(\abs{f} < M\)인 \(M > 0\)을 고정하고, 양수 \(\eps > 0\)이 주어졌다고 하자. 먼저 다음을 만족하는 모든 점 \(x \in [a, b]\)의 집합을 \(U\)라고 정의하자.
+	\begin{equation} \label{eq Ux}
+		\sup_{t \in U_x}f(t) - \inf_{t \in U_x}f(t) < \frac{\eps}{\alpha(b) - \alpha(a)} \text{ for some } U_x = (x - r_x, x + r_x) \cap [a, b], r_x > 0
+	\end{equation}
+	\(U\)는 open in \([a, b]\)이다(왜 그런가?). 또, \(f\)가 \(x\)에서 연속이면 \(x \in U\)이므로 \([a, b] = U \cup D\)이다.\\
+	한편 가정에 의해 \(D = \{d_i\}_{i \in \NN}\)으로 쓸 수 있다. 각 \(i = 1, 2,\ldots\)에 대하여 \(\alpha\)는 점 \(d_i\)에서 연속이므로 다음을 만족하는 \(\delta_i > 0\)가 존재한다.
+	\begin{gather*}
+		x \in (d_i - \delta_i, d_i + \delta_i) \cap [a, b] \Longrightarrow \abs{\alpha(x) - \alpha(d_i)} < \frac{\eps}{2^{i}M}
+	\end{gather*}
+	각 \(i\)에 대하여 \(D_i = (d_i - \delta_i/2, d_i + \delta_i/2) \cap [a, b]\)로 정의하자. 그러면 \(\{U\} \cup \{D_i\}_{i \in \NN}\)은 \([a, b]\)의 open cover이고 \([a, b]\)는 compact이므로 적당한 \(N \in \NN\)에 대해 다음이 성립한다.
+	\begin{gather*}
+		[a, b] = U \cup \bigcup_{i=1}^N D_i
+	\end{gather*}
+	\(C = [a, b] \backslash \bigcup_{i=1}^N D_i\)라고 두자. \(C\)는 finite union of disjoint closed intervals이므로(왜 그런가?) 다음과 같이 쓸 수 있다.
+	\begin{gather*}
+		C = \bigcup_{i=1}^{L} [a_i, b_i], \quad a_i < b_i < a_{i+1}
+	\end{gather*}
+	또 \(C \subseteq U\)이므로, 각 \(x \in C\)에 대해 (\ref{eq Ux})\를 만족하는 양수 \(r_x > 0\)가 존재하여 \(C \subseteq \bigcup_{x \in C} (x - r_x, x + r_x)\)이다. 그런데 \(C\)는 compact이므로, \(x_1, \ldots, x_K \in C\)가 존재하여
+	\begin{gather*}
+		C \subseteq \bigcup_{k=1}^K (x_k - r_{x_k}, x_k + r_{x_k})
+	\end{gather*}
+	이다. 이제 각 interval \([a_i, b_i]\)의 partition \(P_i = \{x_{i0}=a_i, x_{i1}, \ldots, x_{ij_i} = b_i\}\)이 존재하여 subinterval \([x_{ij}, x_{i(j+1)}] \subseteq (x_k - r_{x_k}, x_k + r_{x_k})\) for some \(k\)이도록 할 수 있다. 이때 다음이 성립함을 관찰하자.
+	\begin{align*}
+		\sum_{i=1}^L [U_{a_i}^{b_i}(f, P_i, \alpha) - L_{a_i}^{b_i}(f, P_i, \alpha)] &\le \sum_{i=1}^L \sum_{j=1}^{j_i} \frac{\eps}{\alpha(b) - \alpha(a)} [\alpha(x_{ij}) - \alpha(x_{i(j-1)})]\\
+		&= \sum_{i=1}^L \frac{\eps}{\alpha(b) - \alpha(a)} [\alpha(b_i) - \alpha(a_i)] \le \eps
+	\end{align*}
+	다음으로 각 \(i = 1, \ldots, N\)에 대하여 \((d_i - \delta_i, d_i + \delta_i) \cap [a, b]\)의 closure를 \([d_{i1}, d_{i2}]\)라고 하자. 이 구간의 분할 \(P'_i = \{d_{i1}, d_{i2}\}\)에 대하여 다음이 성립한다.
+	\begin{align*}
+		\sum_{i=1}^N [U_{d_{i1}}^{d_{i2}} (f, P'_i, \alpha) - L_{d_{i1}}^{d_{i2}} (f, P'_i, \alpha)] &\le \sum_{i=1}^N 2M [\alpha(d_{i2}) - \alpha(d_{i1})]\\
+		&\le \sum_{i=1}^N 2M \frac{\eps}{2^{i-1} M} < 4\eps
+	\end{align*}
+	마지막으로, \(P = P_U \cup P_D = \{y_0, \ldots, y_n\}\)로 두면 \(P\)는 \([a, b]\)의 partition이고,
+	\begin{align*}
+		U_a^b (f, P, \alpha) - L_a^b (f, P, \alpha) &\le \sum_{i=1}^L [U_{a_i}^{b_i}(f, P_i, \alpha) - L_{a_i}^{b_i}(f, P_i, \alpha)] + \sum_{i=1}^N [U_{d_{i1}}^{d_{i2}} (f, P'_i, \alpha) - L_{d_{i1}}^{d_{i2}} (f, P'_i, \alpha)]\\
+		&< 5\eps
+	\end{align*}
+	이다. 따라서 \(f \in \calR(\alpha)\)이다.
+\end{proof}
+
+\begin{cor}
+	\(f: [a, b] \rightarrow \RR\)가 \([a, b]\)에서 단조함수이고, \(f\)가 불연속인 점에서 \(\alpha\)가 연속이면 \(f \in \calR(\alpha)\)이다.
+\end{cor}
+\begin{proof}
+	\(f\)의 불연속점이 at most countable인 것만 보이면 되는데, 이미 Corollary \ref{cor mono disconti}에서 증명하였다.
+\end{proof}
+
+적분가능한 함수에 연속함수를 합성해도 적분가능함수입니다.
+
+\begin{thm}
+	\(f \in \calR(\alpha)\)이고 \(m \le f \le M\)이라고 하자. 연속함수 \(\phi: [m, M] \rightarrow \RR\)에 대하여 \(\phi \circ f \in \calR(\alpha)\)이다.
+\end{thm}
+\begin{proof}
+	\(\phi\)는 bounded이므로 \(h = \phi \circ f\)도 bounded이다. 따라서 \(h\)의 적분가능성을 논할 수 있다.\\
+	양수 \(\eps > 0\)이 주어졌다고 하자. \(\phi\)는 uniformly continuous on \([m, M]\)이므로 다음을 만족하는 \(\delta \in (0, \eps)\)가 존재한다.
+	\begin{gather*}
+		\abs{s - t} \le \delta \Rightarrow \abs{\phi(s) - \phi(t)} < \eps \quad (s, t \in [m, M])
+	\end{gather*}
+	\(f \in \calR(\alpha)\)이므로 다음을 만족하는 partition \(P = \{x_0, \ldots, x_n\}\)을 잡을 수 있다.
+	\begin{gather*}
+		U(f, P, \alpha) - L(f, P, \alpha) < \delta^2
+	\end{gather*}
+	(\ref{eq def Mi})\와 같이 \(M_i, m_i\)를 정의하고, 마찬가지 방법으로 \(h = \phi \circ f\)에 대해 \(M'_i, m'_i\)를 정의한다. 다음과 같이 index set을 분할한다.
+	\begin{gather*}
+		I = \{i = 1, \ldots, n: M_i - m_i < \delta\}\\
+		J = \{i = 1, \ldots, n: M_i - m_i \ge \delta\}
+	\end{gather*}
+	\(\i \in I\)이면 \(\delta\)의 정의에 의해 \(M'_i - m'_i < \eps\)이다. 한편
+	\begin{gather*}
+		\delta\sum_{i \in J} \Delta\alpha_i \le \sum_{i \in J} (M_i - m_i) \Delta\alpha_i \le  \sum_{i=1}^n (M_i - m_i) \Delta\alpha_i < \delta^2
+	\end{gather*}
+	이므로
+	\begin{gather*}
+		\sum_{i \in J} \Delta\alpha_i < \delta
+	\end{gather*}
+	이다. \(\phi\)는 bounded이므로 \(\abs{\phi} < K\)인 \(K > 0\)를 잡으면, 각 \(i\)에 대해 \(M'_i - m'_i \le 2K\)이고
+	\begin{align*}
+		U(h, P, \alpha) - L(h, P, \alpha) &= \sum_{i \in I} (M'_i - m'_i) \Delta\alpha_i + \sum_{i \in J} (M'_i - m'_i) \Delta\alpha_i\\
+		&\le \eps \sum_{i \in I} \Delta\alpha_i + 2K \sum_{i \in J} \Delta\alpha_i \\
+		&< \eps[\alpha(b) - \alpha(a)] + 2K\delta <\eps[\alpha(b) - \alpha(a) + 2K]
+	\end{align*}
+	이다. \(\alpha(a), \alpha(b), K\)는 고정된 값이므로, \(h \in \calR(\alpha)\)가 증명되었다.
+\end{proof}
+
+\subsection{Properties of the Integral}
+
+\subsection{Fundamental Theorem of Calculus}
+
+\subsection{Function of Bounded Variation}
+
+\subsection{Definition of the Integral (2)}
+
+
+\newpage
 
 \section{Sequence of Functions} \label{sec seq of ftn}
 
@@ -2858,8 +3329,6 @@ Taylor series에 대한 공부는 Section \ref{sec seq of ftn}에서 계속됩�
 \section{Functions Defined by Integral}
 
 \section{Fourier Series}
-
-\section{Multivariable Calculus (미정)}
 
 
 \begin{thebibliography}{99}
@@ -2871,6 +3340,7 @@ Taylor series에 대한 공부는 Section \ref{sec seq of ftn}에서 계속됩�
 	
 	다음은 이 글의 한 부분에서만 인용한 경우.
 	\bibitem{Cd94} \url{https://en.wikipedia.org/wiki/L%27H%C3%B4pital%27s_rule}. Corollary \ref{cor lpt} 아래의 Example에서 인용.
+	\bibitem{Cd94} \url{https://math.stackexchange.com/questions/263189/proof-that-a-function-with-a-countable-set-of-discontinuities-is-riemann-integra}. Theorem \ref{thm disconti int}의 증명에서 인용.
 		
 \end{thebibliography}
 \end{document}
